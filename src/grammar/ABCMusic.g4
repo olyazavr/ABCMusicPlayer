@@ -43,10 +43,9 @@ package grammar;
 /*
  * These are the lexical rules. They define the tokens used by the lexer.
  */
-LETTER: [a-zA-Z];
 TEXT: [a-zA-Z]+;
 DIGIT: [0-9];
-WHITESPACE : [ \t\r\n]+ -> skip ;
+NEWLINE: [\n];
 
 
 /*
@@ -60,70 +59,61 @@ WHITESPACE : [ \t\r\n]+ -> skip ;
  * For more information, see
  * http://www.antlr.org/wiki/display/ANTLR4/Parser+Rules#ParserRules-StartRulesandEOF
  */
-abc-tune : abc-header abc-music EOF
-abc-header : field-number comment* field-title other-fields* field-key
+abc_tune : abc_header abc_music EOF;
 
-field-number : 'X:' DIGIT+ end-of-line
-field-title : 'T:' text end-of-line
-other-fields : field-composer | field-default-length | field-meter | field-tempo | field-voice | comment
-field-composer : 'C:' text end-of-line
-field-default-length : 'L:' note-length-strict end-of-line
-field-meter : 'M:' meter end-of-line
-field-tempo : 'Q:' tempo end-of-line
-field-voice : 'V:' text end-of-line
-field-key ::= "K:" key end-of-line
+abc_header : field_number comment* field_title other_fields* field_key;
 
-key ::= keynote [mode-minor]
-keynote ::= basenote [key-accidental]
-key-accidental ::= "#" | "b"
-mode-minor ::= "m"
+field_number : 'X' COLON DIGIT+ end_of_line;
+field_title : 'T' COLON TEXT end_of_line;
+other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | comment;
+field_composer : 'C' COLON TEXT end_of_line;
+field_default_length : 'L' COLON note_length_strict end_of_line;
+field_meter : 'M' COLON meter end_of_line;
+field_tempo : 'Q' COLON tempo end_of_line;
+field_voice : 'V' COLON TEXT end_of_line;
+field_key : 'K' COLON key end_of_line;
 
-meter ::= "C" | "C|" | meter-fraction
-meter-fraction ::= DIGIT+ "/" DIGIT+
+key : keynote mode_minor;
+keynote : basenote key_accidental;
+key_accidental : '#' | 'b';
+mode_minor : 'm';
 
-tempo ::= meter-fraction "=" DIGIT+
+meter : 'C' | 'C|' | meter_fraction;
+meter_fraction : DIGIT+ '/' DIGIT+;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+tempo : meter_fraction '=' DIGIT+;
 
-abc-music ::= abc-line+
-abc-line ::= element+ linefeed [lyric linefeed] | mid-tune-field | comment
-element ::= note-element | tuplet-element | barline | nth-repeat | space 
+abc_music : abc_line+;
+abc_line : element+ NEWLINE lyric NEWLINE | mid_tune_field | comment;
+element : note_element | tuplet_element | barline | nth_repeat | ' ' ;
 
-note-element ::= note | multi-note
+note_element : note | multi_note;
 
-// note is either a pitch or a rest
-note ::= note-or-rest [note-length]
-note-or-rest ::= pitch | rest
-pitch ::= [accidental] basenote [octave]
-octave ::= "'"+ | ","+
-note-length ::= [DIGIT+] ["/" [DIGIT+]]
-note-length-strict ::= DIGIT+ "/" DIGIT+
+note : note_or_rest note_length;
+note_or_rest : pitch | rest;
+pitch : accidental basenote octave;
+octave : '\''+ | ','+;
+note_length : DIGIT+ '/' DIGIT+;
+note_length_strict : DIGIT+ '/' DIGIT+;
 
-; "^" is sharp, "_" is flat, and "=" is neutral
-accidental ::= "^" | "^^" | "_" | "__" | "="
+accidental : '^' | '^^' | '_' | '__' | '=';
 
-basenote ::= "C" | "D" | "E" | "F" | "G" | "A" | "B"
-        | "c" | "d" | "e" | "f" | "g" | "a" | "b"
+basenote : 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B'| 'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'b';
 
-rest ::= "z"
+rest : 'z';
 
-// tuplets
-tuplet-element ::= tuplet-spec note-element+
-tuplet-spec ::= "(" DIGIT 
+tuplet_element : tuplet_spec note_element+;
+tuplet_spec : '(' DIGIT ;
 
-// chords
-multi-note ::= "[" note+ "]"
+multi_note : '[' note+ ']';
 
-barline ::= "|" | "||" | "[|" | "|]" | ":|" | "|:"
-nth-repeat ::= "[1" | "[2"
+barline : '|' | '||' | '[|' | '|]' | COLON '|' | '|' COLON;
+nth_repeat : '[1' | '[2';
 
-; A voice field might reappear in the middle of a piece
-; to indicate the change of a voice
-mid-tune-field ::= field-voice
+mid_tune_field : field_voice;
 
-comment ::= "%" text linefeed
-end-of-line ::= comment | linefeed
+comment : '%' TEXT NEWLINE;
+end_of_line : comment | NEWLINE;
 
-lyric ::= "w:" lyrical_element*
-lyrical_element ::= " "+ | "-" | "_" | "*" | "~" | "\-" | "|" | lyric_text
-
+lyric : 'w' COLON lyrical_element*;
+lyrical_element : ' '+ | '-' | '_' | '*' | '~' | '\-' | '|' | TEXT;
