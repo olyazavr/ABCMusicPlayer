@@ -11,16 +11,16 @@ public class WarmUpTest {
 
     @Test
     public void playPiece1Test() {
-        Main.play("piece1.abc");
+        Main.play("sample_abc/piece1.abc");
     }
 
     @Test
     public void playPiece2Test() {
-        Main.play("piece2.abc");
+        Main.play("sample_abc/piece2.abc");
     }
 
     @Test
     public void playPiece3Test() {
-        Main.play("piece3.abc");
+        Main.play("sample_abc/piece3.abc");
     }
 }
