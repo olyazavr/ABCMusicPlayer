@@ -27,11 +27,11 @@ public interface ABCMusicListener extends ParseTreeListener {
 	void enterNote_element(ABCMusicParser.Note_elementContext ctx);
 	void exitNote_element(ABCMusicParser.Note_elementContext ctx);
 
-	void enterBasenote(ABCMusicParser.BasenoteContext ctx);
-	void exitBasenote(ABCMusicParser.BasenoteContext ctx);
-
 	void enterNote_length(ABCMusicParser.Note_lengthContext ctx);
 	void exitNote_length(ABCMusicParser.Note_lengthContext ctx);
+
+	void enterBasenote(ABCMusicParser.BasenoteContext ctx);
+	void exitBasenote(ABCMusicParser.BasenoteContext ctx);
 
 	void enterAbc_tune(ABCMusicParser.Abc_tuneContext ctx);
 	void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx);
@@ -42,20 +42,20 @@ public interface ABCMusicListener extends ParseTreeListener {
 	void enterMeter(ABCMusicParser.MeterContext ctx);
 	void exitMeter(ABCMusicParser.MeterContext ctx);
 
+	void enterText_with_numbers(ABCMusicParser.Text_with_numbersContext ctx);
+	void exitText_with_numbers(ABCMusicParser.Text_with_numbersContext ctx);
+
 	void enterMeter_fraction(ABCMusicParser.Meter_fractionContext ctx);
 	void exitMeter_fraction(ABCMusicParser.Meter_fractionContext ctx);
-
-	void enterAccidental(ABCMusicParser.AccidentalContext ctx);
-	void exitAccidental(ABCMusicParser.AccidentalContext ctx);
 
 	void enterTuplet_element(ABCMusicParser.Tuplet_elementContext ctx);
 	void exitTuplet_element(ABCMusicParser.Tuplet_elementContext ctx);
 
-	void enterKey(ABCMusicParser.KeyContext ctx);
-	void exitKey(ABCMusicParser.KeyContext ctx);
-
 	void enterNote(ABCMusicParser.NoteContext ctx);
 	void exitNote(ABCMusicParser.NoteContext ctx);
+
+	void enterKey(ABCMusicParser.KeyContext ctx);
+	void exitKey(ABCMusicParser.KeyContext ctx);
 
 	void enterKeynote(ABCMusicParser.KeynoteContext ctx);
 	void exitKeynote(ABCMusicParser.KeynoteContext ctx);

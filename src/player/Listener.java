@@ -37,10 +37,6 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitBasenote(ABCMusicParser.BasenoteContext ctx) {
-    }
-
-    @Override
     public void exitNote_length(ABCMusicParser.Note_lengthContext ctx) {
     }
 
@@ -58,10 +54,6 @@ public class Listener extends ABCMusicBaseListener {
 
     @Override
     public void exitMeter_fraction(ABCMusicParser.Meter_fractionContext ctx) {
-    }
-
-    @Override
-    public void exitAccidental(ABCMusicParser.AccidentalContext ctx) {
     }
 
     @Override

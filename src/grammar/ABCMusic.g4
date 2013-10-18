@@ -43,10 +43,12 @@ package grammar;
 /*
  * These are the lexical rules. They define the tokens used by the lexer.
  */
-TEXT: [a-zA-Z]+;
 DIGIT: [0-9];
 NEWLINE: [\n];
-
+COLON : ':';
+ACCIDENTAL : '^' | '^^' | '_' | '__' | '=';
+TEXT: [a-zA-Z'.''!''#''&''('')''?'];
+WHITESPACE : [ \t\r]+ -> skip ;
 
 /*
  * These are the parser rules. They define the structures used by the parser.
@@ -64,17 +66,20 @@ abc_tune : abc_header abc_music EOF;
 abc_header : field_number comment* field_title other_fields* field_key;
 
 field_number : 'X' COLON DIGIT+ end_of_line;
-field_title : 'T' COLON TEXT end_of_line;
+field_title : 'T' COLON text_with_numbers end_of_line;
 other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | comment;
-field_composer : 'C' COLON TEXT end_of_line;
+field_composer : 'C' COLON text_with_numbers end_of_line;
 field_default_length : 'L' COLON note_length_strict end_of_line;
 field_meter : 'M' COLON meter end_of_line;
 field_tempo : 'Q' COLON tempo end_of_line;
-field_voice : 'V' COLON TEXT end_of_line;
+field_voice : 'V' COLON text_with_numbers end_of_line;
 field_key : 'K' COLON key end_of_line;
 
-key : keynote mode_minor;
-keynote : basenote key_accidental;
+text_with_numbers: DIGIT* TEXT+ DIGIT* text_with_numbers*;
+basenote : 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B'| 'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'b';
+
+key : keynote mode_minor?;
+keynote : basenote key_accidental?;
 key_accidental : '#' | 'b';
 mode_minor : 'm';
 
@@ -84,21 +89,17 @@ meter_fraction : DIGIT+ '/' DIGIT+;
 tempo : meter_fraction '=' DIGIT+;
 
 abc_music : abc_line+;
-abc_line : element+ NEWLINE lyric NEWLINE | mid_tune_field | comment;
-element : note_element | tuplet_element | barline | nth_repeat | ' ' ;
+abc_line : element+ NEWLINE (lyric NEWLINE)? | mid_tune_field | comment;
+element : note_element | tuplet_element | barline | nth_repeat ;
 
 note_element : note | multi_note;
 
-note : note_or_rest note_length;
+note : note_or_rest note_length?;
 note_or_rest : pitch | rest;
-pitch : accidental basenote octave;
+pitch : ACCIDENTAL? basenote octave?;
 octave : '\''+ | ','+;
-note_length : DIGIT+ '/' DIGIT+;
+note_length : DIGIT+ '/'? | '/' |  DIGIT* '/' DIGIT+;
 note_length_strict : DIGIT+ '/' DIGIT+;
-
-accidental : '^' | '^^' | '_' | '__' | '=';
-
-basenote : 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B'| 'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'b';
 
 rest : 'z';
 
@@ -112,8 +113,8 @@ nth_repeat : '[1' | '[2';
 
 mid_tune_field : field_voice;
 
-comment : '%' TEXT NEWLINE;
+comment : '%' text_with_numbers NEWLINE;
 end_of_line : comment | NEWLINE;
 
 lyric : 'w' COLON lyrical_element*;
-lyrical_element : ' '+ | '-' | '_' | '*' | '~' | '\-' | '|' | TEXT;
+lyrical_element : '-' | '_' | '*' | '~' | '\-' | '|' | text_with_numbers;

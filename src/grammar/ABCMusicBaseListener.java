@@ -30,11 +30,11 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterNote_element(ABCMusicParser.Note_elementContext ctx) { }
 	@Override public void exitNote_element(ABCMusicParser.Note_elementContext ctx) { }
 
-	@Override public void enterBasenote(ABCMusicParser.BasenoteContext ctx) { }
-	@Override public void exitBasenote(ABCMusicParser.BasenoteContext ctx) { }
-
 	@Override public void enterNote_length(ABCMusicParser.Note_lengthContext ctx) { }
 	@Override public void exitNote_length(ABCMusicParser.Note_lengthContext ctx) { }
+
+	@Override public void enterBasenote(ABCMusicParser.BasenoteContext ctx) { }
+	@Override public void exitBasenote(ABCMusicParser.BasenoteContext ctx) { }
 
 	@Override public void enterAbc_tune(ABCMusicParser.Abc_tuneContext ctx) { }
 	@Override public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) { }
@@ -45,20 +45,20 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterMeter(ABCMusicParser.MeterContext ctx) { }
 	@Override public void exitMeter(ABCMusicParser.MeterContext ctx) { }
 
+	@Override public void enterText_with_numbers(ABCMusicParser.Text_with_numbersContext ctx) { }
+	@Override public void exitText_with_numbers(ABCMusicParser.Text_with_numbersContext ctx) { }
+
 	@Override public void enterMeter_fraction(ABCMusicParser.Meter_fractionContext ctx) { }
 	@Override public void exitMeter_fraction(ABCMusicParser.Meter_fractionContext ctx) { }
-
-	@Override public void enterAccidental(ABCMusicParser.AccidentalContext ctx) { }
-	@Override public void exitAccidental(ABCMusicParser.AccidentalContext ctx) { }
 
 	@Override public void enterTuplet_element(ABCMusicParser.Tuplet_elementContext ctx) { }
 	@Override public void exitTuplet_element(ABCMusicParser.Tuplet_elementContext ctx) { }
 
-	@Override public void enterKey(ABCMusicParser.KeyContext ctx) { }
-	@Override public void exitKey(ABCMusicParser.KeyContext ctx) { }
-
 	@Override public void enterNote(ABCMusicParser.NoteContext ctx) { }
 	@Override public void exitNote(ABCMusicParser.NoteContext ctx) { }
+
+	@Override public void enterKey(ABCMusicParser.KeyContext ctx) { }
+	@Override public void exitKey(ABCMusicParser.KeyContext ctx) { }
 
 	@Override public void enterKeynote(ABCMusicParser.KeynoteContext ctx) { }
 	@Override public void exitKeynote(ABCMusicParser.KeynoteContext ctx) { }

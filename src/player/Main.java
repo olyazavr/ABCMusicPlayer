@@ -3,6 +3,9 @@ package player;
 import grammar.ABCMusicLexer;
 import grammar.ABCMusicParser;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -26,8 +29,35 @@ public class Main {
      * @param file the name of input abc file
      */
     public static void play(String file) {
+        MusicPiece music = stringToMusicPiece(readFileToString(file));
+        // TODO: actually do something with this
+
+    }
+
+    private static String readFileToString(String file) {
+        StringBuilder output = new StringBuilder("");
+
+        // try with resources, resources always closed after
+        try (BufferedReader bufferReader = new BufferedReader(new FileReader(file))) {
+            String line;
+
+            // Read file line by line and save to output
+            while ((line = bufferReader.readLine()) != null) {
+                output.append(line);
+                output.append(System.getProperty("line.separator"));
+            }
+            bufferReader.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return output.toString();
+    }
+
+    private static MusicPiece stringToMusicPiece(String input) {
         // Create a stream of tokens using the lexer.
-        CharStream stream = new ANTLRInputStream(file);
+        CharStream stream = new ANTLRInputStream(input);
         ABCMusicLexer lexer = new ABCMusicLexer(stream);
         lexer.reportErrorsAsExceptions();
         TokenStream tokens = new CommonTokenStream(lexer);
@@ -45,8 +75,7 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
         Listener listener = new Listener();
         walker.walk(listener, tree);
-        MusicPiece music = listener.getMusic();
-
+        return listener.getMusic();
     }
 
     public static void main(String[] args) {
