@@ -202,7 +202,7 @@ public class SequencePlayer {
                     System.out.println(text);
                 }
             };
-            player = new SequencePlayer(120, 2, listener);
+            player = new SequencePlayer(200, 2, listener);
 
             player.addLyricEvent("Up!", 0);
             player.addNote(new Pitch('C').toMidiNote(), 0, 1);
