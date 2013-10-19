@@ -43,12 +43,31 @@ package grammar;
 /*
  * These are the lexical rules. They define the tokens used by the lexer.
  */
+ 
+WHITESPACE : [ \t]+ -> skip ;
+BASENOTE : [a-gA-G];
 DIGIT: [0-9]+;
-NEWLINE: [\n];
+NEWLINE: [\n\r];
 COLON : ':';
 ACCIDENTAL : '^' | '^^' | '_' | '__' | '=';
-TEXT: [a-zA-Z'.''!''#''&''('')''?']+;
-WHITESPACE : [ \t\r]+ -> skip;
+INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r];
+TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' ''!''#''&''('')''?']+ ' '* [\n\r];
+COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r];
+LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r];
+METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r];
+TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r];
+VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r];
+KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r];
+LYRIC : 'w' ' '* ':' ' '*  (['-''_''*''~''\-''|'' ']+ | [' ''-''_''*''~''\-''|']* [a-zA-Z'.''!''?'' ']+) ' '* [\n\r];
+COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']+ ' '* [\n\r];
+PAREN: '(';
+PIPE: '|';
+LBRAC: '[';
+RBRAC: ']';
+NTH_REPEAT : '[1' | '[2';
+OCTAVE : '\''+ | ','+ ;
+NOTE_LENGTH : [0-9]+ '/' | '/' |  [0-9]* '/' [0-9]+;
+
 
 /*
  * These are the parser rules. They define the structures used by the parser.
@@ -63,59 +82,33 @@ WHITESPACE : [ \t\r]+ -> skip;
  */
 abc_tune : abc_header abc_music EOF;
 
-abc_header : field_number comment* field_title other_fields* field_key;
+abc_header : field_number COMMENT* field_title other_fields* field_key;
 
-field_number : 'X' COLON DIGIT end_of_line;
-field_title : 'T' COLON TEXT+ NEWLINE;
-other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | comment;
-field_composer : 'C' COLON TEXT NEWLINE;
-field_default_length : 'L' COLON note_length_strict end_of_line;
-field_meter : 'M' COLON meter end_of_line;
-field_tempo : 'Q' COLON tempo end_of_line;
-field_voice : 'V' COLON TEXT+ NEWLINE;
-field_key : 'K' COLON key end_of_line;
-
-basenote : 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B'| 'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'b';
-
-key : keynote mode_minor?;
-keynote : basenote key_accidental?;
-key_accidental : '#' | 'b';
-mode_minor : 'm';
-
-meter : 'C' | 'C|' | meter_fraction;
-
-meter_fraction : DIGIT '/' DIGIT;
-
-tempo : meter_fraction '=' DIGIT;
+field_number : INDEX;
+field_title : TITLE;
+other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | COMMENT;
+field_composer : COMPOSER;
+field_default_length : LENGTH;
+field_meter : METER;
+field_tempo : TEMPO;
+field_voice : VOICE;
+field_key : KEY;
 
 abc_music : abc_line+;
-abc_line : element+ NEWLINE (lyric NEWLINE)? | mid_tune_field | comment;
-element : note_element | tuplet_element | barline | nth_repeat ;
+abc_line : element+ NEWLINE LYRIC? | field_voice | COMMENT;
+element : note_element | tuplet_element | barline | NTH_REPEAT ;
 
 note_element : note+ | multi_note;
 
-note : note_or_rest note_length?;
+note : note_or_rest NOTE_LENGTH?;
 note_or_rest : pitch | rest;
-pitch : ACCIDENTAL? basenote octave?;
-octave : '\''+ | ','+;
-
-note_length : DIGIT '/'? | '/' |  DIGIT? '/' DIGIT;
-note_length_strict : DIGIT '/' DIGIT;
+pitch : ACCIDENTAL? BASENOTE OCTAVE?;
 
 rest : 'z';
 
 tuplet_element : tuplet_spec note_element+;
-tuplet_spec : '(' DIGIT ;
+tuplet_spec : PAREN DIGIT ;
 
-multi_note : '[' note+ ']';
+multi_note : LBRAC note+ RBRAC;
 
-barline : '|' | '||' | '[|' | '|]' | COLON '|' | '|' COLON;
-nth_repeat : '[1' | '[2';
-
-mid_tune_field : field_voice;
-
-comment : '%' TEXT+ NEWLINE;
-end_of_line : comment | NEWLINE;
-
-lyric : 'w' COLON lyrical_element*;
-lyrical_element :  '-' | '_' | '*' | '~' | '\-' | '|' | TEXT+;
+barline : PIPE | PIPE PIPE | LBRAC PIPE | PIPE RBRAC | COLON PIPE | PIPE COLON;

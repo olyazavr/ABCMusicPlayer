@@ -9,10 +9,6 @@ public class Listener extends ABCMusicBaseListener {
     private Stack<MusicPiece> stack = new Stack<MusicPiece>();
 
     @Override
-    public void exitNote_length_strict(ABCMusicParser.Note_length_strictContext ctx) {
-    }
-
-    @Override
     public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) {
     }
 
@@ -29,15 +25,7 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitTempo(ABCMusicParser.TempoContext ctx) {
-    }
-
-    @Override
     public void exitNote_element(ABCMusicParser.Note_elementContext ctx) {
-    }
-
-    @Override
-    public void exitNote_length(ABCMusicParser.Note_lengthContext ctx) {
     }
 
     @Override
@@ -49,27 +37,11 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitMeter(ABCMusicParser.MeterContext ctx) {
-    }
-
-    @Override
-    public void exitMeter_fraction(ABCMusicParser.Meter_fractionContext ctx) {
-    }
-
-    @Override
     public void exitTuplet_element(ABCMusicParser.Tuplet_elementContext ctx) {
     }
 
     @Override
-    public void exitKey(ABCMusicParser.KeyContext ctx) {
-    }
-
-    @Override
     public void exitNote(ABCMusicParser.NoteContext ctx) {
-    }
-
-    @Override
-    public void exitKeynote(ABCMusicParser.KeynoteContext ctx) {
     }
 
     @Override
@@ -78,18 +50,6 @@ public class Listener extends ABCMusicBaseListener {
 
     @Override
     public void exitElement(ABCMusicParser.ElementContext ctx) {
-    }
-
-    @Override
-    public void exitLyrical_element(ABCMusicParser.Lyrical_elementContext ctx) {
-    }
-
-    @Override
-    public void exitMid_tune_field(ABCMusicParser.Mid_tune_fieldContext ctx) {
-    }
-
-    @Override
-    public void exitEnd_of_line(ABCMusicParser.End_of_lineContext ctx) {
     }
 
     @Override
@@ -105,10 +65,6 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitOctave(ABCMusicParser.OctaveContext ctx) {
-    }
-
-    @Override
     public void exitNote_or_rest(ABCMusicParser.Note_or_restContext ctx) {
     }
 
@@ -117,19 +73,7 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitLyric(ABCMusicParser.LyricContext ctx) {
-    }
-
-    @Override
     public void exitField_default_length(ABCMusicParser.Field_default_lengthContext ctx) {
-    }
-
-    @Override
-    public void exitKey_accidental(ABCMusicParser.Key_accidentalContext ctx) {
-    }
-
-    @Override
-    public void exitMode_minor(ABCMusicParser.Mode_minorContext ctx) {
     }
 
     @Override
@@ -145,19 +89,11 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitComment(ABCMusicParser.CommentContext ctx) {
-    }
-
-    @Override
     public void exitField_title(ABCMusicParser.Field_titleContext ctx) {
     }
 
     @Override
     public void exitPitch(ABCMusicParser.PitchContext ctx) {
-    }
-
-    @Override
-    public void exitNth_repeat(ABCMusicParser.Nth_repeatContext ctx) {
     }
 
     @Override
