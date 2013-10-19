@@ -1,8 +1,13 @@
-package sound;
+package tests;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
+
 import org.junit.Test;
+
+import sound.LyricListener;
+import sound.Pitch;
+import sound.SequencePlayer;
 import static org.junit.Assert.*;
 
 public class SequencePlayerTest {

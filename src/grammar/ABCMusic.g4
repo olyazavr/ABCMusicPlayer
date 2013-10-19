@@ -66,7 +66,7 @@ LBRAC: '[';
 RBRAC: ']';
 NTH_REPEAT : '[1' | '[2';
 OCTAVE : '\''+ | ','+ ;
-NOTE_LENGTH : ([1-9]* '/' [1-9]+) | ([1-9]+ '/'?) | ('/');
+NOTE_LENGTH : [1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/';
 
 
 /*
@@ -100,7 +100,7 @@ element : note_element | tuplet_element | barline | NTH_REPEAT ;
 
 note_element : note+ | multi_note;
 
-note : note_or_rest NOTE_LENGTH?;
+note : note_or_rest (NOTE_LENGTH | DIGIT)?;
 note_or_rest : pitch | rest;
 pitch : ACCIDENTAL? BASENOTE OCTAVE?;
 
