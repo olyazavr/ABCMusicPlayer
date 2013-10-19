@@ -5,11 +5,24 @@ package player;
  * eighth note...)
  * 
  */
-public class Rest implements MusicSymbol {
-    private final float weight;
+public class Rest implements Note {
+    private final int length;
 
-    public Rest(float weight) {
-        this.weight = weight;
+    public Rest(int length) {
+        this.length = length;
+      
+    }   
+    
+    public int getLength(){
+    	return length;
+    }
+    
+    public boolean isRest(){
+    	return true;
+    }
+    
+    public int endTime(int startTime){
+    	return startTime+length;
     }
 
 }
