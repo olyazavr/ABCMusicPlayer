@@ -56,9 +56,9 @@ COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r]+;
 LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r]+;
 METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r]+;
 TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
-VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
+VOICE : [Vv] ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
 KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
-LYRIC : 'w' ' '* ':' ' '*  (['-''_''*''~''\-''|'' ']+ | [' ''-''_''*''~''\-''|']* [a-zA-Z'.''!''?'' ']+) ' '* [\n\r]+;
+LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '_' | '*' | '~' | '\-' | [a-zA-Z] | '.' | '!' | '?')+ ' '* [\n\r];
 COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']+ ' '* [\n\r]+;
 PAREN: '(';
 PIPE: '|';
@@ -67,7 +67,6 @@ RBRAC: ']';
 NTH_REPEAT : '[1' | '[2';
 OCTAVE : '\''+ | ','+ ;
 NOTE_LENGTH : [1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/';
-
 
 /*
  * These are the parser rules. They define the structures used by the parser.
@@ -80,7 +79,7 @@ NOTE_LENGTH : [1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/';
  * For more information, see
  * http://www.antlr.org/wiki/display/ANTLR4/Parser+Rules#ParserRules-StartRulesandEOF
  */
-abc_tune : abc_header abc_music NEWLINE? EOF;
+abc_tune : abc_header abc_music NEWLINE* EOF;
 
 abc_header : field_number COMMENT* field_title other_fields* field_key;
 
@@ -94,21 +93,14 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : abc_line+;
-abc_line : element+ NEWLINE LYRIC? | field_voice | COMMENT;
-element : note_element | tuplet_element | barline | NTH_REPEAT ;
+abc_music : (measure+ NEWLINE* LYRIC | field_voice | COMMENT)+;
+measure : NTH_REPEAT? note_element+ (barline|NEWLINE);
 
-note_element : note+ | multi_note;
-
-note : note_or_rest (NOTE_LENGTH | DIGIT)?;
-note_or_rest : pitch | rest;
+note_element : note+ | chord | tuplet;
+note : (pitch|rest) (NOTE_LENGTH | DIGIT)?;
 pitch : ACCIDENTAL? BASENOTE OCTAVE?;
-
 rest : 'z';
-
-tuplet_element : tuplet_spec note_element+;
-tuplet_spec : PAREN DIGIT ;
-
-multi_note : LBRAC note+ RBRAC;
+tuplet : PAREN DIGIT note_element+;
+chord : LBRAC note+ RBRAC;
 
 barline : PIPE | PIPE PIPE | LBRAC PIPE | PIPE RBRAC | COLON PIPE | PIPE COLON;

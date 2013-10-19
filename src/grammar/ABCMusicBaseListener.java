@@ -12,8 +12,8 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterField_tempo(ABCMusicParser.Field_tempoContext ctx) { }
 	@Override public void exitField_tempo(ABCMusicParser.Field_tempoContext ctx) { }
 
-	@Override public void enterElement(ABCMusicParser.ElementContext ctx) { }
-	@Override public void exitElement(ABCMusicParser.ElementContext ctx) { }
+	@Override public void enterMeasure(ABCMusicParser.MeasureContext ctx) { }
+	@Override public void exitMeasure(ABCMusicParser.MeasureContext ctx) { }
 
 	@Override public void enterAbc_music(ABCMusicParser.Abc_musicContext ctx) { }
 	@Override public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) { }
@@ -24,26 +24,17 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterAbc_header(ABCMusicParser.Abc_headerContext ctx) { }
 	@Override public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) { }
 
-	@Override public void enterMulti_note(ABCMusicParser.Multi_noteContext ctx) { }
-	@Override public void exitMulti_note(ABCMusicParser.Multi_noteContext ctx) { }
-
 	@Override public void enterNote_element(ABCMusicParser.Note_elementContext ctx) { }
 	@Override public void exitNote_element(ABCMusicParser.Note_elementContext ctx) { }
-
-	@Override public void enterAbc_line(ABCMusicParser.Abc_lineContext ctx) { }
-	@Override public void exitAbc_line(ABCMusicParser.Abc_lineContext ctx) { }
-
-	@Override public void enterTuplet_spec(ABCMusicParser.Tuplet_specContext ctx) { }
-	@Override public void exitTuplet_spec(ABCMusicParser.Tuplet_specContext ctx) { }
 
 	@Override public void enterField_composer(ABCMusicParser.Field_composerContext ctx) { }
 	@Override public void exitField_composer(ABCMusicParser.Field_composerContext ctx) { }
 
+	@Override public void enterChord(ABCMusicParser.ChordContext ctx) { }
+	@Override public void exitChord(ABCMusicParser.ChordContext ctx) { }
+
 	@Override public void enterAbc_tune(ABCMusicParser.Abc_tuneContext ctx) { }
 	@Override public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) { }
-
-	@Override public void enterNote_or_rest(ABCMusicParser.Note_or_restContext ctx) { }
-	@Override public void exitNote_or_rest(ABCMusicParser.Note_or_restContext ctx) { }
 
 	@Override public void enterField_key(ABCMusicParser.Field_keyContext ctx) { }
 	@Override public void exitField_key(ABCMusicParser.Field_keyContext ctx) { }
@@ -60,11 +51,11 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterField_number(ABCMusicParser.Field_numberContext ctx) { }
 	@Override public void exitField_number(ABCMusicParser.Field_numberContext ctx) { }
 
+	@Override public void enterTuplet(ABCMusicParser.TupletContext ctx) { }
+	@Override public void exitTuplet(ABCMusicParser.TupletContext ctx) { }
+
 	@Override public void enterRest(ABCMusicParser.RestContext ctx) { }
 	@Override public void exitRest(ABCMusicParser.RestContext ctx) { }
-
-	@Override public void enterTuplet_element(ABCMusicParser.Tuplet_elementContext ctx) { }
-	@Override public void exitTuplet_element(ABCMusicParser.Tuplet_elementContext ctx) { }
 
 	@Override public void enterField_title(ABCMusicParser.Field_titleContext ctx) { }
 	@Override public void exitField_title(ABCMusicParser.Field_titleContext ctx) { }

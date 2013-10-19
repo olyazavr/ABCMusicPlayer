@@ -61,6 +61,7 @@ public class Main {
         ABCMusicLexer lexer = new ABCMusicLexer(stream);
         lexer.reportErrorsAsExceptions();
         TokenStream tokens = new CommonTokenStream(lexer);
+        // List<? extends Token> actualTokens = lexer.getAllTokens();
 
         // Feed the tokens into the parser.
         ABCMusicParser parser = new ABCMusicParser(tokens);

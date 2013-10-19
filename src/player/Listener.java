@@ -21,14 +21,6 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitMulti_note(ABCMusicParser.Multi_noteContext ctx) {
-    }
-
-    @Override
-    public void exitNote_element(ABCMusicParser.Note_elementContext ctx) {
-    }
-
-    @Override
     public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) {
     }
 
@@ -36,40 +28,13 @@ public class Listener extends ABCMusicBaseListener {
     public void exitField_key(ABCMusicParser.Field_keyContext ctx) {
     }
 
-    @Override
-    public void exitTuplet_element(ABCMusicParser.Tuplet_elementContext ctx) {
-    }
-
-    @Override
-    public void exitNote(ABCMusicParser.NoteContext ctx) {
-    }
 
     @Override
     public void exitField_tempo(ABCMusicParser.Field_tempoContext ctx) {
     }
 
     @Override
-    public void exitElement(ABCMusicParser.ElementContext ctx) {
-    }
-
-    @Override
-    public void exitAbc_line(ABCMusicParser.Abc_lineContext ctx) {
-    }
-
-    @Override
-    public void exitTuplet_spec(ABCMusicParser.Tuplet_specContext ctx) {
-    }
-
-    @Override
     public void exitField_composer(ABCMusicParser.Field_composerContext ctx) {
-    }
-
-    @Override
-    public void exitNote_or_rest(ABCMusicParser.Note_or_restContext ctx) {
-    }
-
-    @Override
-    public void exitBarline(ABCMusicParser.BarlineContext ctx) {
     }
 
     @Override
@@ -85,15 +50,7 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitRest(ABCMusicParser.RestContext ctx) {
-    }
-
-    @Override
     public void exitField_title(ABCMusicParser.Field_titleContext ctx) {
-    }
-
-    @Override
-    public void exitPitch(ABCMusicParser.PitchContext ctx) {
     }
 
     @Override
