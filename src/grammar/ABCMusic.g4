@@ -50,23 +50,23 @@ DIGIT: [0-9]+;
 NEWLINE: [\n\r];
 COLON : ':';
 ACCIDENTAL : '^' | '^^' | '_' | '__' | '=';
-INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r];
-TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' ''!''#''&''('')''?']+ ' '* [\n\r];
-COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r];
-LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r];
-METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r];
-TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r];
-VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r];
-KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r];
-LYRIC : 'w' ' '* ':' ' '*  (['-''_''*''~''\-''|'' ']+ | [' ''-''_''*''~''\-''|']* [a-zA-Z'.''!''?'' ']+) ' '* [\n\r];
-COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']+ ' '* [\n\r];
+INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
+TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' ''!''#''&''('')''?']+ ' '* [\n\r]+;
+COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r]+;
+LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r]+;
+METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r]+;
+TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
+VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
+KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
+LYRIC : 'w' ' '* ':' ' '*  (['-''_''*''~''\-''|'' ']+ | [' ''-''_''*''~''\-''|']* [a-zA-Z'.''!''?'' ']+) ' '* [\n\r]+;
+COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']+ ' '* [\n\r]+;
 PAREN: '(';
 PIPE: '|';
 LBRAC: '[';
 RBRAC: ']';
 NTH_REPEAT : '[1' | '[2';
 OCTAVE : '\''+ | ','+ ;
-NOTE_LENGTH : [0-9]+ '/' | '/' |  [0-9]* '/' [0-9]+;
+NOTE_LENGTH : ([1-9]* '/' [1-9]+) | ([1-9]+ '/'?) | ('/');
 
 
 /*
@@ -80,7 +80,7 @@ NOTE_LENGTH : [0-9]+ '/' | '/' |  [0-9]* '/' [0-9]+;
  * For more information, see
  * http://www.antlr.org/wiki/display/ANTLR4/Parser+Rules#ParserRules-StartRulesandEOF
  */
-abc_tune : abc_header abc_music EOF;
+abc_tune : abc_header abc_music NEWLINE? EOF;
 
 abc_header : field_number COMMENT* field_title other_fields* field_key;
 
