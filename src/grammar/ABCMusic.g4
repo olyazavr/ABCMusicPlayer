@@ -42,13 +42,17 @@ package grammar;
 
 /*
  * These are the lexical rules. They define the tokens used by the lexer.
+ *
+ * All of the header lines and comments are individual tokens, then the notes and rests are 
+ * lexed together with their modifiers. Tuplet and chord (, [, and ] symbols are lexed 
+ * separately from their notes.
+ * Repeats and pipes are lexed on their own.
+ *
  */
  
 WHITESPACE : [ \t]+ -> skip ;
 DIGIT: [0-9]+;
 NEWLINE: [\n\r];
-LREPEAT: '|:';
-RREPEAT: ':|';
 INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
 TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ ' '* [\n\r]+;
 COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r]+;
@@ -59,30 +63,28 @@ VOICE : ('V' | 'v') ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
 KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
 LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z] | '.' | '!' | '?')+ ' '* [\n\r];
 COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']* ' '* [\n\r]+;
+NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
+REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 PAREN: '(';
 PIPE: '|';
 LBRAC: '[';
 RBRAC: ']';
+LREPEAT: '|:';
+RREPEAT: ':|';
 ONE_REPEAT : '[1';
 TWO_REPEAT: '[2';
-NOTE_LENGTH : [1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/';
 END_NOTES: '|]' | '||';
-NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
-REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 
 /*
  * These are the parser rules. They define the structures used by the parser.
  *
- * You should make sure you have one rule that describes the entire input.
- * This is the "start rule". The start rule should end with the special
- * predefined token EOF so that it describes the entire input. Below, we've made
- * "line" the start rule.
+ * Each header field has its own rule. Notes, rests, tuplets, chords, and measures have 
+ * their own respective rules. Repeats have their own rules as well, but to get the 
+ * entire repeated measure, extract the token from measure.
+ * Lyrics also have their own rule.
  *
- * For more information, see
- * http://www.antlr.org/wiki/display/ANTLR4/Parser+Rules#ParserRules-StartRulesandEOF
  */
 abc_tune : abc_header abc_music NEWLINE* EOF;
-
 abc_header : field_number COMMENT* field_title other_fields* field_key;
 
 field_number : INDEX;
@@ -95,7 +97,7 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : (NEWLINE* measure+ NEWLINE* LYRIC? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
+abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
 measure : (l_repeat|PIPE)? note_element+ (END_NOTES|NEWLINE|r_repeat);
 
 note_element : note | rest | chord | tuplet;
@@ -103,6 +105,7 @@ note: NOTE;
 rest: REST;
 tuplet : PAREN DIGIT (note|chord)+;
 chord : LBRAC note+ RBRAC;
+lyric: LYRIC;
 
 l_repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
 r_repeat: RREPEAT;
