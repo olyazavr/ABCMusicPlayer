@@ -5,7 +5,9 @@ import org.junit.Test;
 import player.Main;
 
 /**
- * Test some super complicated stuff.
+ * Tests all the sample_abc files by playing them in the Main method, only makes
+ * sure they don't crash. These files have all kinds of crazy stuff (chords,
+ * repeats, comments, lyrics, etc)
  * 
  * @category no_didit
  */

@@ -10,6 +10,12 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
 import org.junit.Test;
 
+/**
+ * Tests the Lexer, ensures tokens are what they should be. Tests headers,
+ * headers and body, and all kinds of strange notes (chords, repeats, tuplets,
+ * etc).
+ * 
+ */
 public class LexerTest {
 
     @Test
