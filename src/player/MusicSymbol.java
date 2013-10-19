@@ -1,5 +1,7 @@
 package player;
 
+import java.util.List;
+
 /**
  * Interface that represents the basic symbols of music. Everything will be
  * immutable.
@@ -11,5 +13,11 @@ package player;
  * 
  */
 public interface MusicSymbol {
-    // FIXME: add methods lol
+	
+	/**
+	 * Transform a Music Symbol into a list of simple notes: either pitch or rest
+	 * @return
+	 */
+	public List<Note> getNotes();
+	
 }
