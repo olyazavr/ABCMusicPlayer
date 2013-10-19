@@ -29,10 +29,6 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
-    public void exitNote_length(ABCMusicParser.Note_lengthContext ctx) {
-    }
-
-    @Override
     public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) {
     }
 

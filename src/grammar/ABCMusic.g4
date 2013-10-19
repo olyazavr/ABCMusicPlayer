@@ -44,29 +44,29 @@ package grammar;
  * These are the lexical rules. They define the tokens used by the lexer.
  */
  
-BASENOTE : 'C' | 'D' | 'E' | 'F' | 'G' | 'A' | 'B'| 'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'b';
+WHITESPACE : [ \t]+ -> skip ;
+BASENOTE : [a-gA-G];
 DIGIT: [0-9]+;
-NEWLINE: [\n];
+NEWLINE: [\n\r];
 COLON : ':';
 ACCIDENTAL : '^' | '^^' | '_' | '__' | '=';
-WHITESPACE : [ \t\r]+ -> skip;
-INDEX : 'X' ':' [0-9]+ [\n];
-TITLE : 'T' ':' [a-zA-Z'.''!''#''&''('')''?']+ [\n];
-COMPOSER : 'C' ':' [a-zA-Z0-9'.']+ [\n];
-LENGTH : 'L' ':' [0-9]+'/'[0-9]+ [\n];
-METER : 'M' ':' 'C' | 'C|' | [0-9]+'/'[0-9]+ [\n];
-TEMPO : 'Q' ':' [0-9]+'/'[0-9]+ '=' [0-9]+ [\n];
-VOICE : 'V' ':' [a-zA-Z0-9] [\n];
-KEY : 'K' ':' [A-Ga-g]['#''b']?'m'? [\n];
-LYRIC : 'w' ':'  ['-''_''*''~''\-''|']+ | ['-''_''*''~''\-''|']* [a-zA-Z'.''!''?']+;
-COMMENT : '%' [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|']+ [\n];
+INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r];
+TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' ''!''#''&''('')''?']+ ' '* [\n\r];
+COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r];
+LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r];
+METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r];
+TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r];
+VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r];
+KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r];
+LYRIC : 'w' ' '* ':' ' '*  (['-''_''*''~''\-''|'' ']+ | [' ''-''_''*''~''\-''|']* [a-zA-Z'.''!''?'' ']+) ' '* [\n\r];
+COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']+ ' '* [\n\r];
 PAREN: '(';
 PIPE: '|';
 LBRAC: '[';
 RBRAC: ']';
 NTH_REPEAT : '[1' | '[2';
 OCTAVE : '\''+ | ','+ ;
-SLASH: '/';
+NOTE_LENGTH : [0-9]+ '/' | '/' |  [0-9]* '/' [0-9]+;
 
 
 /*
@@ -95,15 +95,14 @@ field_voice : VOICE;
 field_key : KEY;
 
 abc_music : abc_line+;
-abc_line : element+ NEWLINE (LYRIC NEWLINE)? | field_voice | COMMENT;
+abc_line : element+ NEWLINE LYRIC? | field_voice | COMMENT;
 element : note_element | tuplet_element | barline | NTH_REPEAT ;
 
 note_element : note+ | multi_note;
 
-note : note_or_rest note_length?;
+note : note_or_rest NOTE_LENGTH?;
 note_or_rest : pitch | rest;
 pitch : ACCIDENTAL? BASENOTE OCTAVE?;
-note_length : DIGIT SLASH? | SLASH |  DIGIT? SLASH DIGIT;
 
 rest : 'z';
 

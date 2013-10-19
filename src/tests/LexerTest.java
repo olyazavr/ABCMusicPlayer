@@ -14,23 +14,22 @@ public class LexerTest {
 
     @Test
     public void basicHeaderOnlyTest() {
-        String input = "X: 1 \n T:Piece No. One \n K:C";
-        verifyLexer(input, new String[] { "X", ":", "1", "\n", "T", ":", "Piece", "No.", "One", "\n", "K", ":", "C" });
+        String input = "X: 1 \n T:Piece No.1 \n K:C \n";
+        verifyLexer(input, new String[] { "X: 1 \n", "T:Piece No.1 \n", "K:C \n" });
     }
 
     @Test
     public void extendedHeaderOnlyTest() {
-        String input = "X: 1 \n T:Piece No. One \n M:4/4 \n L:1/4 \n Q:1/4=140 \n K:C";
-        verifyLexer(input, new String[] { "X", ":", "1", "\n", "T", ":", "Piece", "No.", "One", "\n", "M", ":", "4",
-                "/",
-                "4", "\n", "L", ":", "1", "/", "4", "\n", "Q", ":", "1", "/", "4", "=", "140", "\n", "K", ":", "C" });
+        String input = "X: 1 \n T:Piece No.1 \n M:4/4 \n L:1/4 \n Q:1/4=140 \n K:C \n";
+        verifyLexer(input, new String[] { "X: 1 \n", "T:Piece No.1 \n", "M:4/4 \n", "L:1/4 \n", "Q:1/4=140 \n",
+                "K:C \n" });
     }
 
     @Test
     public void HeaderAndOneMeasureTest() {
-        String input = "X: 1 \n T:Piece No. One \n K:C \n C C C3/4 D/4 E";
-        verifyLexer(input, new String[] { "X", ":", "1", "\n", "T", ":", "Piece", "No.", "One", "\n", "K", ":", "C",
-                "\n", "C", "C", "C", "3", "/", "4", "D", "/", "4", "E" });
+        String input = "X: 1 \n T:Piece No.1 \n K:C \n C C C3/4 D/4 E";
+        verifyLexer(input,
+                new String[] { "X: 1 \n", "T:Piece No.1 \n", "K:C \n", "C", "C", "C", "3/4", "D", "/4", "E" });
     }
 
     
