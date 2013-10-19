@@ -27,6 +27,9 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterNote_element(ABCMusicParser.Note_elementContext ctx) { }
 	@Override public void exitNote_element(ABCMusicParser.Note_elementContext ctx) { }
 
+	@Override public void enterRepeat(ABCMusicParser.RepeatContext ctx) { }
+	@Override public void exitRepeat(ABCMusicParser.RepeatContext ctx) { }
+
 	@Override public void enterField_composer(ABCMusicParser.Field_composerContext ctx) { }
 	@Override public void exitField_composer(ABCMusicParser.Field_composerContext ctx) { }
 

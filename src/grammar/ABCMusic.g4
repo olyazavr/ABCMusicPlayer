@@ -48,23 +48,25 @@ WHITESPACE : [ \t]+ -> skip ;
 BASENOTE : [a-gA-G];
 DIGIT: [0-9]+;
 NEWLINE: [\n\r];
-COLON : ':';
+LREPEAT: '|:';
+RREPEAT: ':|';
 ACCIDENTAL : '^' | '^^' | '_' | '__' | '=';
 INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
-TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' ''!''#''&''('')''?']+ ' '* [\n\r]+;
+TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ ' '* [\n\r]+;
 COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r]+;
 LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r]+;
 METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r]+;
 TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
-VOICE : [Vv] ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
+VOICE : ('V' | 'v') ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
 KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
-LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '_' | '*' | '~' | '\-' | [a-zA-Z] | '.' | '!' | '?')+ ' '* [\n\r];
-COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']+ ' '* [\n\r]+;
+LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z] | '.' | '!' | '?')+ ' '* [\n\r];
+COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']* ' '* [\n\r]+;
 PAREN: '(';
 PIPE: '|';
 LBRAC: '[';
 RBRAC: ']';
-NTH_REPEAT : '[1' | '[2';
+ONE_REPEAT : '[1';
+TWO_REPEAT: '[2';
 OCTAVE : '\''+ | ','+ ;
 NOTE_LENGTH : [1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/';
 
@@ -93,8 +95,8 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : (measure+ NEWLINE* LYRIC | field_voice | COMMENT)+;
-measure : NTH_REPEAT? note_element+ (barline|NEWLINE);
+abc_music : (NEWLINE* measure+ NEWLINE* LYRIC? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
+measure : (repeat|barline)? note_element+ (barline|NEWLINE|RREPEAT);
 
 note_element : note+ | chord | tuplet;
 note : (pitch|rest) (NOTE_LENGTH | DIGIT)?;
@@ -103,4 +105,6 @@ rest : 'z';
 tuplet : PAREN DIGIT note_element+;
 chord : LBRAC note+ RBRAC;
 
-barline : PIPE | PIPE PIPE | LBRAC PIPE | PIPE RBRAC | COLON PIPE | PIPE COLON;
+repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
+
+barline : PIPE | PIPE PIPE | LBRAC PIPE | PIPE RBRAC;
