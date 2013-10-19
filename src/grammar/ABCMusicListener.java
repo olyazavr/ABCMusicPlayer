@@ -42,20 +42,17 @@ public interface ABCMusicListener extends ParseTreeListener {
 	void enterMeter(ABCMusicParser.MeterContext ctx);
 	void exitMeter(ABCMusicParser.MeterContext ctx);
 
-	void enterText_with_numbers(ABCMusicParser.Text_with_numbersContext ctx);
-	void exitText_with_numbers(ABCMusicParser.Text_with_numbersContext ctx);
-
 	void enterMeter_fraction(ABCMusicParser.Meter_fractionContext ctx);
 	void exitMeter_fraction(ABCMusicParser.Meter_fractionContext ctx);
 
 	void enterTuplet_element(ABCMusicParser.Tuplet_elementContext ctx);
 	void exitTuplet_element(ABCMusicParser.Tuplet_elementContext ctx);
 
-	void enterNote(ABCMusicParser.NoteContext ctx);
-	void exitNote(ABCMusicParser.NoteContext ctx);
-
 	void enterKey(ABCMusicParser.KeyContext ctx);
 	void exitKey(ABCMusicParser.KeyContext ctx);
+
+	void enterNote(ABCMusicParser.NoteContext ctx);
+	void exitNote(ABCMusicParser.NoteContext ctx);
 
 	void enterKeynote(ABCMusicParser.KeynoteContext ctx);
 	void exitKeynote(ABCMusicParser.KeynoteContext ctx);
