@@ -2,6 +2,7 @@ package player;
 
 /**
  * Interface that represents a note, which can be either a pitch or a rest. 
+ * The objects are immutable.
  * 
  **/
 
@@ -10,14 +11,6 @@ package player;
         Rest(length: int) 
 */ 
 
-/**
- * Basic ADT that represents a single note: either a Pitch or a Rest. 
- * It has a value (A, B, C...) for a Pitch, and z for a Rest.
- * octave, and a weight (quarter note, eighth note...)
- * 
- * Accidentals modify the value.
- * 
- */
 public interface Note {
    
 	/**

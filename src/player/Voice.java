@@ -10,13 +10,13 @@ import java.util.List;
  * have several melodies play at once.
  * 
  */
-public class Voice implements MusicPiece {
+public class Voice {
     private final String name;
-    private final List<Measure> measures;
+    private final List<Note> notes;
 
-    public Voice(String name, List<Measure> measures) {
+    public Voice(String name, List<Note> notes) {
         this.name = name;
-        this.measures = new ArrayList<Measure>(measures);
+        this.notes = new ArrayList<Note>(notes);
     }
 
 }

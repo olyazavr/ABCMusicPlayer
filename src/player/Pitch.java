@@ -2,6 +2,7 @@ package player;
 
 
 
+
 /**
  * Basic ADT that represents a single pitch. It has a value (A, B, C...), an
  * octave, and a length (quarter note, eighth note...)
@@ -11,11 +12,11 @@ package player;
  */
 public class Pitch implements Note {
 	private final char value;
-    private final int length;
+    private final Fraction length;
     private final int octave;
     private final int accidental; 
     
-    public Pitch(int length, char value, int octave, int accidental) {
+    public Pitch(Fraction length, char value, int octave, int accidental) {
         this.length = length;
         this.value=value;
         this.octave=octave;
