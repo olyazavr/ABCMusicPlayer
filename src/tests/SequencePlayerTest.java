@@ -9,7 +9,11 @@ import sound.LyricListener;
 import sound.Pitch;
 import sound.SequencePlayer;
 import static org.junit.Assert.*;
-
+/**
+ * Tests for warm-up questions
+ * @category no_didit
+ *
+ */
 public class SequencePlayerTest {
 	
 	@Test
