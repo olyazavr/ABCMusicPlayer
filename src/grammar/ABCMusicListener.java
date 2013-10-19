@@ -24,9 +24,6 @@ public interface ABCMusicListener extends ParseTreeListener {
 	void enterNote_element(ABCMusicParser.Note_elementContext ctx);
 	void exitNote_element(ABCMusicParser.Note_elementContext ctx);
 
-	void enterRepeat(ABCMusicParser.RepeatContext ctx);
-	void exitRepeat(ABCMusicParser.RepeatContext ctx);
-
 	void enterField_composer(ABCMusicParser.Field_composerContext ctx);
 	void exitField_composer(ABCMusicParser.Field_composerContext ctx);
 
@@ -38,9 +35,6 @@ public interface ABCMusicListener extends ParseTreeListener {
 
 	void enterField_key(ABCMusicParser.Field_keyContext ctx);
 	void exitField_key(ABCMusicParser.Field_keyContext ctx);
-
-	void enterBarline(ABCMusicParser.BarlineContext ctx);
-	void exitBarline(ABCMusicParser.BarlineContext ctx);
 
 	void enterField_default_length(ABCMusicParser.Field_default_lengthContext ctx);
 	void exitField_default_length(ABCMusicParser.Field_default_lengthContext ctx);
@@ -60,8 +54,11 @@ public interface ABCMusicListener extends ParseTreeListener {
 	void enterField_title(ABCMusicParser.Field_titleContext ctx);
 	void exitField_title(ABCMusicParser.Field_titleContext ctx);
 
-	void enterPitch(ABCMusicParser.PitchContext ctx);
-	void exitPitch(ABCMusicParser.PitchContext ctx);
+	void enterR_repeat(ABCMusicParser.R_repeatContext ctx);
+	void exitR_repeat(ABCMusicParser.R_repeatContext ctx);
+
+	void enterL_repeat(ABCMusicParser.L_repeatContext ctx);
+	void exitL_repeat(ABCMusicParser.L_repeatContext ctx);
 
 	void enterNote(ABCMusicParser.NoteContext ctx);
 	void exitNote(ABCMusicParser.NoteContext ctx);

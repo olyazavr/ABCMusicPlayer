@@ -45,12 +45,10 @@ package grammar;
  */
  
 WHITESPACE : [ \t]+ -> skip ;
-BASENOTE : [a-gA-G];
 DIGIT: [0-9]+;
 NEWLINE: [\n\r];
 LREPEAT: '|:';
 RREPEAT: ':|';
-ACCIDENTAL : '^' | '^^' | '_' | '__' | '=';
 INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
 TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ ' '* [\n\r]+;
 COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r]+;
@@ -67,8 +65,10 @@ LBRAC: '[';
 RBRAC: ']';
 ONE_REPEAT : '[1';
 TWO_REPEAT: '[2';
-OCTAVE : '\''+ | ','+ ;
 NOTE_LENGTH : [1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/';
+END_NOTES: '|]' | '||';
+NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
+REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 
 /*
  * These are the parser rules. They define the structures used by the parser.
@@ -96,15 +96,13 @@ field_voice : VOICE;
 field_key : KEY;
 
 abc_music : (NEWLINE* measure+ NEWLINE* LYRIC? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
-measure : (repeat|barline)? note_element+ (barline|NEWLINE|RREPEAT);
+measure : (l_repeat|PIPE)? note_element+ (END_NOTES|NEWLINE|r_repeat);
 
-note_element : note+ | chord | tuplet;
-note : (pitch|rest) (NOTE_LENGTH | DIGIT)?;
-pitch : ACCIDENTAL? BASENOTE OCTAVE?;
-rest : 'z';
-tuplet : PAREN DIGIT note_element+;
+note_element : note | rest | chord | tuplet;
+note: NOTE;
+rest: REST;
+tuplet : PAREN DIGIT (note|chord)+;
 chord : LBRAC note+ RBRAC;
 
-repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
-
-barline : PIPE | PIPE PIPE | LBRAC PIPE | PIPE RBRAC;
+l_repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
+r_repeat: RREPEAT;

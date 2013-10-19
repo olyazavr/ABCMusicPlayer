@@ -9,15 +9,39 @@ public class Listener extends ABCMusicBaseListener {
     private Stack<MusicPiece> stack = new Stack<MusicPiece>();
 
     @Override
+    public void exitField_tempo(ABCMusicParser.Field_tempoContext ctx) {
+    }
+
+    @Override
+    public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
+    }
+
+    @Override
     public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) {
     }
 
     @Override
-    public void exitOther_fields(ABCMusicParser.Other_fieldsContext ctx) {
+    public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) {
     }
 
     @Override
-    public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) {
+    public void exitNote_element(ABCMusicParser.Note_elementContext ctx) {
+    }
+
+    @Override
+    public void exitL_repeat(ABCMusicParser.L_repeatContext ctx) {
+    }
+
+    @Override
+    public void exitR_repeat(ABCMusicParser.R_repeatContext ctx) {
+    }
+
+    @Override
+    public void exitField_composer(ABCMusicParser.Field_composerContext ctx) {
+    }
+
+    @Override
+    public void exitChord(ABCMusicParser.ChordContext ctx) {
     }
 
     @Override
@@ -26,15 +50,6 @@ public class Listener extends ABCMusicBaseListener {
 
     @Override
     public void exitField_key(ABCMusicParser.Field_keyContext ctx) {
-    }
-
-
-    @Override
-    public void exitField_tempo(ABCMusicParser.Field_tempoContext ctx) {
-    }
-
-    @Override
-    public void exitField_composer(ABCMusicParser.Field_composerContext ctx) {
     }
 
     @Override
@@ -50,7 +65,19 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     @Override
+    public void exitTuplet(ABCMusicParser.TupletContext ctx) {
+    }
+
+    @Override
+    public void exitRest(ABCMusicParser.RestContext ctx) {
+    }
+
+    @Override
     public void exitField_title(ABCMusicParser.Field_titleContext ctx) {
+    }
+
+    @Override
+    public void exitNote(ABCMusicParser.NoteContext ctx) {
     }
 
     @Override
