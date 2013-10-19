@@ -48,8 +48,7 @@ NEWLINE: [\n];
 COLON : ':';
 ACCIDENTAL : '^' | '^^' | '_' | '__' | '=';
 TEXT: [a-zA-Z'.''!''#''&''('')''?']+;
-WHITESPACE : [ \t\r]+ -> skip
-MULTINOTE: [CDEF' | 'G' | 'A' | 'B'| 'c' | 'd' | 'e' | 'f' | 'g' | 'a' | 'b';
+WHITESPACE : [ \t\r]+ -> skip;
 
 /*
  * These are the parser rules. They define the structures used by the parser.
@@ -84,6 +83,7 @@ key_accidental : '#' | 'b';
 mode_minor : 'm';
 
 meter : 'C' | 'C|' | meter_fraction;
+
 meter_fraction : DIGIT '/' DIGIT;
 
 tempo : meter_fraction '=' DIGIT;
@@ -98,6 +98,7 @@ note : note_or_rest note_length?;
 note_or_rest : pitch | rest;
 pitch : ACCIDENTAL? basenote octave?;
 octave : '\''+ | ','+;
+
 note_length : DIGIT '/'? | '/' |  DIGIT? '/' DIGIT;
 note_length_strict : DIGIT '/' DIGIT;
 
