@@ -54,7 +54,7 @@ public class Listener extends ABCMusicBaseListener {
             if (voices.containsKey(voiceName)) {
                 currentVoice = voices.get(voiceName);
             } else {
-                Voice voice = new Voice(voiceName, new ArrayList<Note>());
+                Voice voice = new Voice(voiceName, new ArrayList<MusicSymbol>(), new ArrayList<Lyric>());
                 voices.put(voiceName, voice);
             }
         }
@@ -119,7 +119,7 @@ public class Listener extends ABCMusicBaseListener {
         // create a default voice if there are no voices, and it will always be
         // the currentVoice
         if (v.isEmpty()){
-            Voice defaultVoice = new Voice("defaultVoice", new ArrayList<Note>());
+            Voice defaultVoice = new Voice("defaultVoice", new ArrayList<MusicSymbol>(), new ArrayList<Lyric>());
             v.add("defaultVoice");
             currentVoice = defaultVoice;
         }
@@ -132,14 +132,14 @@ public class Listener extends ABCMusicBaseListener {
         // pop notes, add them to Chord, add Chord to currentVoice
 
         // [ notes ]
-        String chord = ctx.getText();
+        String chordText = ctx.getText();
 
         // I need the number of notes, so I split around them, and the number of
         // notes will be 1 less than the number of chunks
-        String[] chordsSplit = chord.split("[A-Ga-g]");
+        String[] chordsSplit = chordText.split("[A-Ga-g]");
         int numNotes = chordsSplit.length - 1;
 
-        List<Note> notes = new ArrayList<Note>(numNotes);
+        List<Pitch> notes = new ArrayList<Pitch>(numNotes);
 
         // pop notes and add them to a list
         for (int i = 0; i < numNotes; ++i) {
@@ -148,7 +148,7 @@ public class Listener extends ABCMusicBaseListener {
 
         Chord chord = new Chord(notes);
 
-        currentVoice.addNote(chord);
+        currentVoice.addMusicSymbol(chord);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class Listener extends ABCMusicBaseListener {
             Pitch note = (Pitch) currentVoice.pop();
             // add to the currentVoice the same note with its length multiplied
             // by the multiplicationFactor
-            currentVoice.addNote(note.multiplyLength(multiplicationFactor));
+            currentVoice.addMusicSymbol(note.multiplyLength(multiplicationFactor));
         }
 
     }
@@ -184,7 +184,7 @@ public class Listener extends ABCMusicBaseListener {
         // duration is right after the 'z'
         Fraction duration = new Fraction(ctx.getText().substring(1));
 
-        currentVoice.addNote(new Rest(duration));
+        currentVoice.addMusicSymbol(new Rest(duration));
     }
 
     @Override
@@ -211,7 +211,7 @@ public class Listener extends ABCMusicBaseListener {
             // TODO: CONTINUE HERE!!!!!!
         }
 
-        currentVoice.addNote(new Pitch(length, value, octave, accidental));
+        currentVoice.addMusicSymbol(new Pitch(length, value, octave, accidental));
 
     }
 
