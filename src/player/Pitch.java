@@ -1,5 +1,5 @@
 package player;
-
+import sound.MusicPlayer;
 
 /**
  * Basic ADT that represents a single pitch. It has 
@@ -22,24 +22,10 @@ public class Pitch implements Note {
         this.octave=octave;
         this.accidental=accidental;         
     }   
-        
-    public boolean isRest(){
-    	return false;
+    
+    public Note multiplyLength(Fraction factor){
+    	Fraction newLength=length.multiply(factor);
+    	return new Pitch(newLength,value,octave,accidental);
     }
     
-    public int endTime(int startTime){
-    	return length.add(startTime);
-    }
-    
-    /**
-     * Produces a sound.Pitch object which can be later
-     * converted into a midiNote 
-     * @return the current pitch converted to sound.Pitch object
-     */
-    public sound.Pitch makePitch(){
-    	sound.Pitch note=new sound.Pitch(value);
-    	note=note.transpose(accidental);
-    	note=note.octaveTranspose(octave);
-    	return note;
-    }
 }
