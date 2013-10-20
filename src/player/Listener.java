@@ -4,7 +4,9 @@ import grammar.ABCMusicBaseListener;
 import grammar.ABCMusicParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -16,6 +18,8 @@ import java.util.Stack;
 public class Listener extends ABCMusicBaseListener {
     private Stack<Object> stack = new Stack<Object>();
     private String key = "";
+    private Map<String, Voice> voices = new HashMap<String, Voice>();
+    private Voice currentVoice;
 
     @Override
     public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) {
@@ -33,6 +37,32 @@ public class Listener extends ABCMusicBaseListener {
     public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) {
         // make actual MusicPiece object
 
+    }
+
+    @Override
+    public void enterField_voice(ABCMusicParser.Field_voiceContext ctx) {
+        // Make a new Voice to add Lyrics and Notes to. Set currentVoice to it.
+
+        // we could either be in the header or in the body. We only care for the
+        // body. If we are not in the header, the stack should have something in
+        // it already.
+        if (stack.size() > 0) {
+            // get voice name sans the "V:"
+            String voiceName = ctx.getText().substring(2).trim();
+            if (voices.containsKey(voiceName)) {
+                currentVoice = voices.get(voiceName);
+            } else {
+                Voice voice = new Voice(voiceName, new ArrayList<Note>());
+                voices.put(voiceName, voice);
+            }
+        }
+
+    }
+
+    @Override
+    public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) {
+        // store header info in Signature object
+
         String[] lines = ctx.getText().split("/n");
         String t = "";
         String c = "Unknown";
@@ -41,6 +71,7 @@ public class Listener extends ABCMusicBaseListener {
         Fraction l = new Fraction(0, 1);
         String q = "";
         List<String> v = new ArrayList<String>();
+
 
         // populate fields, we don't care about X: whatever
         for (String s : lines) {
@@ -82,18 +113,21 @@ public class Listener extends ABCMusicBaseListener {
         if (t.isEmpty()) {
             t = l.toString() + "=100";
         }
+        
+        // create a default voice if there are no voices, and it will always be
+        // the currentVoice
+        if (v.isEmpty()){
+            Voice defaultVoice = new Voice("defaultVoice", new ArrayList<Note>());
+            v.add("defaultVoice");
+            currentVoice = defaultVoice;
+        }
 
         stack.push(new Signature(t, c, l, m, q, key, v));
     }
 
     @Override
-    public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) {
-        // somehow store header info?
-    }
-
-    @Override
     public void exitChord(ABCMusicParser.ChordContext ctx) {
-        // pop notes, add them to a list to be played at once
+        // pop notes, add them to Chord, add Chord to currentVoice
 
         // [ notes ]
         String chord = ctx.getText();
@@ -107,10 +141,12 @@ public class Listener extends ABCMusicBaseListener {
 
         // pop notes and add them to a list
         for (int i = 0; i < numNotes; ++i) {
-            notes.add((Pitch) stack.pop());
+            notes.add((Pitch) currentVoice.pop());
         }
 
-        stack.push(notes);
+        Chord chord = new Chord(notes);
+
+        currentVoice.addNote(chord);
     }
 
     @Override
@@ -131,10 +167,10 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         for (int i = 0; i < tupletNumber; ++i) {
-            Pitch note = (Pitch) stack.pop();
-            // add to the stack the same note with its length multiplied byt the
-            // multiplicationFactor
-            stack.push(note.multiplyLength(multiplicationFactor));
+            Pitch note = (Pitch) currentVoice.pop();
+            // add to the currentVoice the same note with its length multiplied
+            // by the multiplicationFactor
+            currentVoice.addNote(note.multiplyLength(multiplicationFactor));
         }
 
     }
@@ -146,7 +182,7 @@ public class Listener extends ABCMusicBaseListener {
         // duration is right after the 'z'
         Fraction duration = new Fraction(ctx.getText().substring(1));
 
-        stack.push(new Rest(duration));
+        currentVoice.addNote(new Rest(duration));
     }
 
     @Override
@@ -173,7 +209,7 @@ public class Listener extends ABCMusicBaseListener {
             // TODO: CONTINUE HERE!!!!!!
         }
 
-        stack.push(new Pitch(length, value, octave, accidental));
+        currentVoice.addNote(new Pitch(length, value, octave, accidental));
 
     }
 
