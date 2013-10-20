@@ -5,21 +5,16 @@ import sound.MusicPlayer;
  * - the fraction of default note
  * 
  */
-public class Rest implements Note {
+public class Rest implements MusicSymbol {
     private final Fraction length;
 
     public Rest(Fraction length) {
         this.length = length;
       
-    }     
-    
-    public Note multiplyLength(Fraction factor){
-    	Fraction newLength=length.multiply(factor);
-    	return new Rest(newLength);
-    }
-    
-    public void addNote(MusicPlayer player, int ticksPerBeat){
-    	new Fraction ticks=length.multiply(ticksPerBeat);
+    }         
+       
+    public void addNotes(MusicPlayer player, int ticksPerBeat){
+    	Fraction ticks=length.multiply(ticksPerBeat);
     	player.addTime(ticks.getDenominator());
     }
 

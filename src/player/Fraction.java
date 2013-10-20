@@ -124,11 +124,11 @@ class Fraction {
  	/**
  	 * Getters
  	 */
- 	public int get_numerator(){
+ 	public int getNumerator(){
  		return this.numerator;
  	}
  	
- 	public int get_denominator(){
+ 	public int getDenominator(){
  		return this.denominator;
  	}
 
