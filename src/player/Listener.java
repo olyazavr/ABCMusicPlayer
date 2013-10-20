@@ -15,7 +15,7 @@ import java.util.Stack;
  */
 public class Listener extends ABCMusicBaseListener {
     private Stack<Object> stack = new Stack<Object>();
-    private String key;
+    private String key = "";
 
     @Override
     public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) {
@@ -36,39 +36,41 @@ public class Listener extends ABCMusicBaseListener {
         String[] lines = ctx.getText().split("/n");
         String t = "";
         String c = "Unknown";
-        Fraction m;
-        Fraction l;
+        Fraction m = new Fraction(4, 4);
+        // can't leave this null, so initialize to something silly
+        Fraction l = new Fraction(0, 1);
         String q = "";
-        String k = "";
         List<String> v = new ArrayList<String>();
 
-        // populate fields
+        // populate fields, we don't care about X: whatever
         for (String s : lines) {
-            if (s.startsWith("T:")) {
+            if (s.startsWith("T:")) { // title, mandatory
                 t = s.substring(2).trim();
-            } else if (s.startsWith("C:")) {
+            }
+            else if (s.startsWith("C:")) { // composer
                 c = s.substring(2).trim();
-            } else if (s.startsWith("M:")) {
+            }
+            else if (s.startsWith("M:")) { // meter
                 // make a Fraction object by splitting around the /
-                String meterString = s.substring(2).trim();
-                String[] meterSplit = meterString.split("/");
-                m = new Fraction(new Integer(meterSplit[0]), new Integer(meterSplit[1]));
-            } else if (s.startsWith("L:")) {
+                m = new Fraction(s.substring(2).trim());
+            }
+            else if (s.startsWith("L:")) { // length
                 // make a Fraction object by splitting around the /
-                String lengthString = s.substring(2).trim();
-                String[] lengthSplit = lengthString.split("/");
-                m = new Fraction(new Integer(lengthSplit[0]), new Integer(lengthSplit[1]));
-            } else if (s.startsWith("Q:")) {
+                l = new Fraction(s.substring(2).trim());
+            }
+            else if (s.startsWith("Q:")) { // tempo
                 q = s.substring(2).trim();
-            } else if (s.startsWith("K:")) {
-                k = s.substring(2).trim();
-            } else if (s.startsWith("V:")) {
+            }
+            else if (s.startsWith("K:")) { // key, mandatory
+                key = s.substring(2).trim();
+            }
+            else if (s.startsWith("V:")) { // voices
                 v.add(s.substring(2).trim());
             }
         }
 
         // Default length is 1/16 if meter < 3/4 and 1/8 if meter>= 3/4
-        if (l == null) {
+        if (l.evaluate() == 0f) { // has not been re-initialized
             if (m.evaluate() < .75) {
                 l = new Fraction(1, 16);
             } else {
@@ -81,7 +83,7 @@ public class Listener extends ABCMusicBaseListener {
             t = l.toString() + "=100";
         }
 
-        stack.push(new Signature(t, c, l, m, q, k, v));
+        stack.push(new Signature(t, c, l, m, q, key, v));
     }
 
     @Override
@@ -104,8 +106,8 @@ public class Listener extends ABCMusicBaseListener {
         List<Note> notes = new ArrayList<Note>(numNotes);
 
         // pop notes and add them to a list
-        for (int i = 0; i <= numNotes; ++i) {
-            notes.add(stack.pop());
+        for (int i = 0; i < numNotes; ++i) {
+            notes.add((Pitch) stack.pop());
         }
 
         stack.push(notes);
@@ -113,17 +115,66 @@ public class Listener extends ABCMusicBaseListener {
 
     @Override
     public void exitTuplet(ABCMusicParser.TupletContext ctx) {
-        // pop notes, modify them, add notes
+        // pop notes, modify their length, add new notes back
+
+        // determines if duplet, triplet, quadruplet
+        int tupletNumber = new Integer(ctx.getText().substring(1, 2));
+
+        // multiply duration of each note by 3/2 if duplet, 2/3 if triplet, 3/4
+        // if quadruplet
+        Fraction multiplicationFactor = new Fraction(3, 2);
+        if (tupletNumber == 3) {
+            multiplicationFactor = new Fraction(2, 3);
+        }
+        else if (tupletNumber == 4) {
+            multiplicationFactor = new Fraction(3, 4);
+        }
+
+        for (int i = 0; i < tupletNumber; ++i) {
+            Pitch note = (Pitch) stack.pop();
+            // add to the stack the same note with its length multiplied byt the
+            // multiplicationFactor
+            stack.push(note.multiplyLength(multiplicationFactor));
+        }
+
     }
 
     @Override
     public void exitRest(ABCMusicParser.RestContext ctx) {
-        // add rest
+        // add Rest
+
+        // duration is right after the 'z'
+        Fraction duration = new Fraction(ctx.getText().substring(1));
+
+        stack.push(new Rest(duration));
     }
 
     @Override
     public void exitNote(ABCMusicParser.NoteContext ctx) {
-        // add note
+        // add Pitch
+
+        String text = ctx.getText();
+        char value = 'A';
+        Fraction length = new Fraction(1, 1);
+        int octave = 0;
+        int accidental = 0;
+
+        // get all the modifiers around the note, accidentals (^ _) in first,
+        // octaves (, ') and length in second
+        String[] modifiers = text.split("[A-Ga-g]");
+        
+        // if there are no modifiers
+        if (modifiers.length == 0) {
+            value = text.charAt(0);
+        }
+        // if there are both accidentals, and octaves/length
+        else if (modifiers.length == 2) {
+            value = text.charAt(modifiers[1].length());
+            // TODO: CONTINUE HERE!!!!!!
+        }
+
+        stack.push(new Pitch(length, value, octave, accidental));
+
     }
 
     @Override
@@ -137,7 +188,7 @@ public class Listener extends ABCMusicBaseListener {
      * @return MusicPiece
      */
     protected MusicPiece getMusic() {
-        return stack.get(0);
+        return (MusicPiece) stack.get(0);
     }
 
 }
