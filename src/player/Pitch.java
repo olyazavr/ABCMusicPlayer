@@ -28,7 +28,7 @@ public class Pitch implements Note {
     }
     
     public int endTime(int startTime){
-    	return startTime+length;
+    	return length.add(startTime);
     }
     
     /**
