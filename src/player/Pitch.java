@@ -1,13 +1,13 @@
 package player;
 
 
-
-
 /**
- * Basic ADT that represents a single pitch. It has a value (A, B, C...), an
- * octave, and a length (quarter note, eighth note...)
- * 
- * Accidentals modify the value.
+ * Basic ADT that represents a single pitch. It has 
+ * *a value -- A,B,C,D,E,F,G
+ * *an octave -- the offset from the standard octave 
+ * 					(e.g. +1 for "a,b,c.." octave)
+ * *length -- the fraction of default note
+ * *accidental -- 1 for sharp and -2 for flat.
  * 
  */
 public class Pitch implements Note {
@@ -32,14 +32,14 @@ public class Pitch implements Note {
     }
     
     /**
-     * Produces a sound.Pitch object which can be 
+     * Produces a sound.Pitch object which can be later
      * converted into a midiNote 
      * @return the current pitch converted to sound.Pitch object
      */
     public sound.Pitch makePitch(){
     	sound.Pitch note=new sound.Pitch(value);
-    	note.transpose(accidental);
-    	note.octaveTranspose(octave);
+    	note=note.transpose(accidental);
+    	note=note.octaveTranspose(octave);
     	return note;
     }
 }

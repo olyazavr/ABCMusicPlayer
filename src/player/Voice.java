@@ -13,7 +13,8 @@ import java.util.List;
 public class Voice {
     private final String name;
     private final List<Note> notes;
-
+    private List<Syllable> lyrics;
+    
     public Voice(String name, List<Note> notes) {
         this.name = name;
         this.notes = new ArrayList<Note>(notes);
