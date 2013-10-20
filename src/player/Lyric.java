@@ -8,15 +8,18 @@ import java.util.List;
  * 
  */
 public class Lyric {
-    private final List<String> syllables;
+	private List<String> syllables;
 
-    public Lyric(List<String> syllables) {
-        this.syllables = new ArrayList<String>(syllables);
-    }
-    
-    // not really sure what this was supposed to be
-    // public String getName(){
-    // return value;
-    // }
+	public Lyric(List<String> syllables) {
+		this.syllables = new ArrayList<String>(syllables);
+	}
+
+	public String getSyllable(int i) {
+		return syllables.get(i);
+	}
+
+	public void addSyllable(String syllable) {
+		syllables.add(syllable);
+	}
 
 }

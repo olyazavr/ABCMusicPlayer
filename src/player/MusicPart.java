@@ -8,5 +8,5 @@ public interface MusicPart extends Music {
 	    * @param player is a valid MusicPlayer
 	    * @param ticksPerBeat is a valid integer 
 	    */
-	   public void addNotes(MusicPlayer player, int ticksPerBeat);
+	   public void addNotes(MusicPlayer player);
 }

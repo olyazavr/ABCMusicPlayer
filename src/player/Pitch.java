@@ -23,14 +23,13 @@ public class Pitch implements MusicSymbol {
 		this.accidental = accidental;
 	}
 
-	public void addNote(MusicPlayer player, int ticksPerBeat, String syllable) {
-		int ticks = length.multiply(ticksPerBeat).getDenominator();
-
+	public void addNote(MusicPlayer player, String syllable) {
+		
 		sound.Pitch pitch = new sound.Pitch(value);
 		pitch = pitch.transpose(accidental).octaveTranspose(octave);
 
-		player.addNote(pitch.toMidiNote(), ticks);
-		player.addTime(ticks);
+		player.addNote(pitch.toMidiNote(), length);
+		player.addTime(length);
 
 		if (!syllable.isEmpty()) {
 			player.addLyric(syllable);

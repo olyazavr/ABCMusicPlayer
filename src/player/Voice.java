@@ -16,17 +16,17 @@ import utils.num;
 public class Voice implements MusicPart{
     private final String name;
     private final List<MusicSymbol> notes;
-    private List<Lyric> lyrics;
+    private Lyric lyrics;
     
-    public Voice(String name, List<MusicSymbol> notes, List<Lyric> lyrics) {
+    public Voice(String name, List<MusicSymbol> notes, Lyric lyrics) {
         this.name = name;
         this.notes = new ArrayList<MusicSymbol>(notes);
-        this.lyrics = new ArrayList<Lyric>(lyrics);
+        this.lyrics = lyrics;
     }
     
-    public void addNotes(MusicPlayer player, int ticksPerBeat){
+    public void addNotes(MusicPlayer player){
     	for (int i=0; i<notes.size();i++){
-    		notes.get(i).addNote(player, ticksPerBeat, lyrics.get(i).getName());
+    		notes.get(i).addNote(player, lyrics.getSyllable(i));
     	}
     }
     
@@ -42,13 +42,13 @@ public class Voice implements MusicPart{
         notes.add(musicSymbol);
     }
 
-    public MusicSymbol pop() {
+    public MusicSymbol popMusicSymbol() {
         MusicSymbol last = notes.get(notes.size() - 1);
         notes.remove(notes.size() - 1);
         return last;
     }
 
-    public void addLyric(Lyric lyric) {
-        lyrics.add(lyric);
+    public void addLyric(String lyric) {
+        lyrics.addSyllable(lyric);
     }
 }

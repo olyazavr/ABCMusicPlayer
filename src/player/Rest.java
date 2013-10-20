@@ -15,9 +15,8 @@ public class Rest implements MusicSymbol {
       
     }         
        
-    public void addNote(MusicPlayer player, int ticksPerBeat, String syllable){
-    	Fraction ticks=length.multiply(ticksPerBeat);
-    	player.addTime(ticks.getDenominator());
+    public void addNote(MusicPlayer player, String syllable){
+    	player.addTime(length);
     	if (!syllable.isEmpty()) {
 			player.addLyric(syllable);
 		}

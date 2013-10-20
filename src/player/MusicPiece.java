@@ -20,9 +20,9 @@ public class MusicPiece implements MusicPart {
     	this.signature=signature;
     	this.voices=new ArrayList<Voice>(voices);    	
     }
-    public void addNotes(MusicPlayer player, int ticksPerBeat){
+    public void addNotes(MusicPlayer player){
     	for (Voice voice:voices){
-    		voice.addNotes(player, ticksPerBeat);
+    		voice.addNotes(player);
     		player.resetTime();
     	}
     	

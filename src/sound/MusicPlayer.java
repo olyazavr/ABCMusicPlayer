@@ -2,13 +2,15 @@ package sound;
 
 
 import javax.sound.midi.InvalidMidiDataException;
-
 import javax.sound.midi.MidiUnavailableException;
+
+import utils.Fraction;
 
 
 public class MusicPlayer {
 	private SequencePlayer player;
 	private int currentTick;
+	private final int ticksPerBeat;
 	
 	public MusicPlayer(int tempo, int ticksPerBeat) throws MidiUnavailableException, InvalidMidiDataException{
 		 LyricListener listener = new LyricListener() {
@@ -16,16 +18,18 @@ public class MusicPlayer {
                  System.out.println(text);
              }
          };
-         player=new SequencePlayer(tempo,ticksPerBeat,listener);
-         currentTick=0;
+         this.player=new SequencePlayer(tempo,ticksPerBeat,listener);
+         this.currentTick=0;
+         this.ticksPerBeat=ticksPerBeat;
 	}
 	
-	public void addNote(int note, int numTicks){
-		player.addNote(note, currentTick, currentTick+numTicks);
+	public void addNote(int note, Fraction noteLength){
+		player.addNote(note, currentTick, 
+				       currentTick+noteLength.multiply(ticksPerBeat).getDenominator());
 	}
 	
-	public void addTime(int time){
-		currentTick+=time;
+	public void addTime(Fraction length){
+		currentTick+=length.multiply(ticksPerBeat).getDenominator();
 	}
 	
 	public void addLyric(String lyric){
