@@ -17,7 +17,7 @@ public class Chord implements MusicSymbol {
 		int ticks=notes.get(0).getLength().multiply(ticksPerBeat).getDenominator();
 		
 		for (Pitch pitch:notes){
-			pitch.addNotes(player,ticksPerBeat, new String());
+			pitch.addNote(player,ticksPerBeat, new String());
 		}
 		player.addTime(-ticks*(notes.size()-1));
 		
