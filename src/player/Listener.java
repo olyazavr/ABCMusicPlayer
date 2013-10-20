@@ -14,7 +14,7 @@ import java.util.Stack;
  * 
  */
 public class Listener extends ABCMusicBaseListener {
-    private Stack<MusicPiece> stack = new Stack<MusicPiece>();
+    private Stack<Object> stack = new Stack<Object>();
     private String key;
 
     @Override
@@ -38,24 +38,26 @@ public class Listener extends ABCMusicBaseListener {
         String c = "Unknown";
         Fraction m;
         Fraction l;
-        String q ="";
-        String k ="";
+        String q = "";
+        String k = "";
         List<String> v = new ArrayList<String>();
-        
+
         // populate fields
-        for (String s : lines){
+        for (String s : lines) {
             if (s.startsWith("T:")) {
                 t = s.substring(2).trim();
             } else if (s.startsWith("C:")) {
                 c = s.substring(2).trim();
             } else if (s.startsWith("M:")) {
+                // make a Fraction object by splitting around the /
                 String meterString = s.substring(2).trim();
-                String[] meterSplit = m.split("/");
-                m = new Fraction(meterSplit[0], meterSplit[1]);
+                String[] meterSplit = meterString.split("/");
+                m = new Fraction(new Integer(meterSplit[0]), new Integer(meterSplit[1]));
             } else if (s.startsWith("L:")) {
+                // make a Fraction object by splitting around the /
                 String lengthString = s.substring(2).trim();
-                String[] lengthSplit = m.split("/");
-                m = new Fraction(lengthSplit[0], lengthSplit[1]);
+                String[] lengthSplit = lengthString.split("/");
+                m = new Fraction(new Integer(lengthSplit[0]), new Integer(lengthSplit[1]));
             } else if (s.startsWith("Q:")) {
                 q = s.substring(2).trim();
             } else if (s.startsWith("K:")) {
@@ -64,21 +66,22 @@ public class Listener extends ABCMusicBaseListener {
                 v.add(s.substring(2).trim());
             }
         }
-            
-            // Default length is 1/16 if meter < 3/4 and 1/8 if meter>= 3/4
-            if (l.isEmpty()){
-                if (meter < .75f) {
-                    l = new Fraction(1, 16);
-                } else {
-                    l = new Fraction(1, 8);
-                }
-            }
 
-            // Default tempo is length notes = 100
-            if (t.isEmpty()) {
-                t = l.toString() + "=100";
+        // Default length is 1/16 if meter < 3/4 and 1/8 if meter>= 3/4
+        if (l == null) {
+            if (m.evaluate() < .75) {
+                l = new Fraction(1, 16);
+            } else {
+                l = new Fraction(1, 8);
             }
-        stack.push(new Signature(t, c, l, m, q, k));
+        }
+
+        // Default tempo is length notes = 100
+        if (t.isEmpty()) {
+            t = l.toString() + "=100";
+        }
+
+        stack.push(new Signature(t, c, l, m, q, k, v));
     }
 
     @Override
@@ -88,7 +91,24 @@ public class Listener extends ABCMusicBaseListener {
 
     @Override
     public void exitChord(ABCMusicParser.ChordContext ctx) {
-        // pop notes, modify them, add notes
+        // pop notes, add them to a list to be played at once
+
+        // [ notes ]
+        String chord = ctx.getText();
+
+        // I need the number of notes, so I split around them, and the number of
+        // notes will be 1 less than the number of chunks
+        String[] chordsSplit = chord.split("[A-Ga-g]");
+        int numNotes = chordsSplit.length - 1;
+
+        List<Note> notes = new ArrayList<Note>(numNotes);
+
+        // pop notes and add them to a list
+        for (int i = 0; i <= numNotes; ++i) {
+            notes.add(stack.pop());
+        }
+
+        stack.push(notes);
     }
 
     @Override
