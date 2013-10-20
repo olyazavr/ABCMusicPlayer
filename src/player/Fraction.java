@@ -2,7 +2,6 @@ package player;
 
 /* Fraction.java */
 
-import java.io.*;
 
 /** The Fraction class implements non-negative fractions, i.e., rational 
  * numbers.   

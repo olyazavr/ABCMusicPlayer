@@ -6,7 +6,7 @@ import java.util.Map;
 public class Scales {
 
 	private final Map<String, String> SCALES = new HashMap<String, String>(
-			'Cm'=>'c';
+			'Cm'=>'cd';
 			
 			);
 	private String scale;
