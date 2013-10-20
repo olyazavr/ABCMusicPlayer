@@ -3,6 +3,8 @@ package player;
 import grammar.ABCMusicBaseListener;
 import grammar.ABCMusicParser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -13,6 +15,7 @@ import java.util.Stack;
  */
 public class Listener extends ABCMusicBaseListener {
     private Stack<MusicPiece> stack = new Stack<MusicPiece>();
+    private String key;
 
     @Override
     public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) {
@@ -29,6 +32,53 @@ public class Listener extends ABCMusicBaseListener {
     @Override
     public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) {
         // make actual MusicPiece object
+
+        String[] lines = ctx.getText().split("/n");
+        String t = "";
+        String c = "Unknown";
+        Fraction m;
+        Fraction l;
+        String q ="";
+        String k ="";
+        List<String> v = new ArrayList<String>();
+        
+        // populate fields
+        for (String s : lines){
+            if (s.startsWith("T:")) {
+                t = s.substring(2).trim();
+            } else if (s.startsWith("C:")) {
+                c = s.substring(2).trim();
+            } else if (s.startsWith("M:")) {
+                String meterString = s.substring(2).trim();
+                String[] meterSplit = m.split("/");
+                m = new Fraction(meterSplit[0], meterSplit[1]);
+            } else if (s.startsWith("L:")) {
+                String lengthString = s.substring(2).trim();
+                String[] lengthSplit = m.split("/");
+                m = new Fraction(lengthSplit[0], lengthSplit[1]);
+            } else if (s.startsWith("Q:")) {
+                q = s.substring(2).trim();
+            } else if (s.startsWith("K:")) {
+                k = s.substring(2).trim();
+            } else if (s.startsWith("V:")) {
+                v.add(s.substring(2).trim());
+            }
+        }
+            
+            // Default length is 1/16 if meter < 3/4 and 1/8 if meter>= 3/4
+            if (l.isEmpty()){
+                if (meter < .75f) {
+                    l = new Fraction(1, 16);
+                } else {
+                    l = new Fraction(1, 8);
+                }
+            }
+
+            // Default tempo is length notes = 100
+            if (t.isEmpty()) {
+                t = l.toString() + "=100";
+            }
+        stack.push(new Signature(t, c, l, m, q, k));
     }
 
     @Override
