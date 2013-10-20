@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import utils.Fraction;
+
 /**
  * Walks the tree, creates a MusicPiece object with Notes and Syllables
  * 

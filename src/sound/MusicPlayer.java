@@ -28,8 +28,12 @@ public class MusicPlayer {
 		currentTick+=time;
 	}
 	
-	public void addLyric(String lyric, int startTick){
-		player.addLyricEvent(lyric, startTick);
+	public void addLyric(String lyric){
+		player.addLyricEvent(lyric, currentTick);
+	}
+	
+	public void resetTime(){
+		currentTick=0;
 	}
 	
 	public void play() throws MidiUnavailableException{

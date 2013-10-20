@@ -10,5 +10,9 @@ public class Syllable {
     public Syllable(String value) {
         this.value = value;
     }
+    
+    public String getName(){
+    	return value;
+    }
 
 }

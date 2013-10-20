@@ -3,6 +3,8 @@ package player;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Fraction;
+
 /**
  * ADT that represents a signature. It has a title, composer, length, meter,
  * tempo, and key.
