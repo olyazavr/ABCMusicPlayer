@@ -63,10 +63,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \phantom{xxx}
 \bigskip
-\centerline{{\large \bf Design Description }}
+\centerline{{\large \bf ABC Parser Project: Design Description }}
 \bigskip\bigskip
 
-We represent ???add some bullshit???
+We represent an ABC parser for music files as a series of well-structured interfaces.
 
 \centerline{ \includegraphics{Music.pdf}}
 
@@ -125,7 +125,6 @@ It has the following methods:
 
 \bigskip
 \centerline{{\large \bf Parsing }}
-\bigskip
 
 \begin{itemize}
 \item {\bf Lexer}: The lexer is designed such that all of the header lines (ie. title, composer, etc) are each lexed as one token, as are all lyric and comment llines. Notes are lexed together with their modifiers (accidentals, octaves, duration) as one token. Tuplet and chord brackets/parenthesis/digits are lexed separately from their notes. Pipes, repeats, and end of measure symbols are lexed as their own tokens. All whitespace except for newlines (/n/r) is skipped.
@@ -149,15 +148,90 @@ When exiting a chord, the number of notes inside is determined, then they are po
 
 When exiting a lyric, the chunk of text will be broken up into syllables (discarding the “w:”) and then further treated according to whether or not these new syllables have special characters. Then a list of strings representing the syllables will be used to create a Lyric object, which is added to the current voice. Ensuring that there are the right number of syllables will be done at a later time.
 
-When exiting a measure, repeats are detected (if any), and then the notes inside are doubled.
+When exiting a measure, repeats are detected and then the notes inside are doubled.
 
 When exiting music, voices and signature will be added to a MusicPiece object, which is then added to the stack.
-
-
-
 \end{itemize}
 
+\bigskip
+\centerline{{\large \bf .g4 Grammar file }}
+\bigskip
 
+\begin{verbatim}
+/*
+ * These are the lexical rules. They define the tokens used by the lexer.
+ *
+ * All of the header lines and comments are individual tokens, then the notes and 
+ * rests are lexed together with their modifiers. Tuplet and chord (, [, and ] 
+ * symbols are lexed separately from their notes.
+ * Repeats and pipes are lexed on their own.
+ *
+ */
+ 
+WHITESPACE : [ \t]+ -> skip ;
+DIGIT: [0-9]+;
+NEWLINE: [\n\r];
+INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
+TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ ' '* [\n\r]+;
+COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r]+;
+LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r]+;
+METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r]+;
+TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
+VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
+KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
+LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | 
+        '\-' | [a-zA-Z] | '.' | '!' | '?')+ ' '* [\n\r];
+COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']* ' '* [\n\r]+;
+NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | 
+        '/')?;
+REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
+PAREN: '(';
+PIPE: '|';
+LBRAC: '[';
+RBRAC: ']';
+LREPEAT: '|:';
+RREPEAT: ':|';
+ONE_REPEAT : '[1';
+TWO_REPEAT: '[2';
+END_NOTES: '|]' | '||';
+
+/*
+ * These are the parser rules. They define the structures used by the parser.
+ *
+ * Each header field has its own rule. Notes, rests, tuplets, chords, and 
+ * measures have their own respective rules. Repeats have their own rules as 
+ * well, but to get the entire repeated measure, extract the token from measure.
+ * Lyrics also have their own rule.
+ *
+ */
+abc_tune : abc_header abc_music NEWLINE* EOF;
+abc_header : field_number COMMENT* field_title other_fields* field_key;
+
+field_number : INDEX;
+field_title : TITLE;
+other_fields : field_composer | field_default_length | field_meter | field_tempo | 
+               field_voice | COMMENT;
+field_composer : COMPOSER;
+field_default_length : LENGTH;
+field_meter : METER;
+field_tempo : TEMPO;
+field_voice : VOICE;
+field_key : KEY;
+
+abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | 
+            COMMENT)+;
+measure : (l_repeat|PIPE)? note_element+ (END_NOTES|NEWLINE|r_repeat);
+
+note_element : note | rest | chord | tuplet;
+note: NOTE;
+rest: REST;
+tuplet : PAREN DIGIT (note|chord)+;
+chord : LBRAC note+ RBRAC;
+lyric: LYRIC;
+
+l_repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
+r_repeat: RREPEAT;
+\end{verbatim}
 
 
 
