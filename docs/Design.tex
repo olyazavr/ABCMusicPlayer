@@ -123,6 +123,40 @@ It has the following methods:
 
 \end{itemize}
 
+\bigskip
+\centerline{{\large \bf Parsing }}
+\bigskip
+
+\begin{itemize}
+\item {\bf Lexer}: The lexer is designed such that all of the header lines (ie. title, composer, etc) are each lexed as one token, as are all lyric and comment llines. Notes are lexed together with their modifiers (accidentals, octaves, duration) as one token. Tuplet and chord brackets/parenthesis/digits are lexed separately from their notes. Pipes, repeats, and end of measure symbols are lexed as their own tokens. All whitespace except for newlines (/n/r) is skipped.
+
+\item {\bf Parser}: The parser has rules for the whole musical piece, which is then broken into the header rules and the actual musical body rules. Each header line has its own rule, with title, number and key being mandatory. The musical body consists of either measures optionally followed by a lyric line or a voice or a comment. Measures are note elements optionally surrounded by repeats or pipes, but must end with either a repeat, an end of measure symbol, or a newline. 
+
+A note element is a note, rest, chord, or tuplet. Tuplets are a parenthesis followed by a digit and a number of notes or chords. A chord is a number of notes enclosed in square brackets. Note, rest, and lyric have their own rules as well, which are just their respective lexer tokens.
+
+\item {\bf Errors}: Errors in parsing and lexing result in an exception being thrown. (reportErrorsAsExceptions is invoked on both parser and lexer).
+
+\item {\bf Listener}: While parsing the tree, we only care about these events: exit note, exit rest, exit chord, exit tuplet, exit lyric, enter voice, exit header, exit measure, exit music.
+
+When exiting a header, the information is extracted from the context, and defaults are added if necessary. A default voice is set if none are provided. The current voice is kept track of.
+
+When entering a voice,  the current voice is switched to one with the same name.
+
+When exiting a note or rest, we extract the needed information from the context and add a Pitch or Rest object to the current voice. 
+When exiting a tuplet, the number of notes inside is determined, then they are popped, and their duration is modified accordingly, and the new notes are inserted back into the current voice.
+
+When exiting a chord, the number of notes inside is determined, then they are popped, and then added to a Chord object, which is then added to the current voice (this object represents a list of notes, since they all start at the same time).
+
+When exiting a lyric, the chunk of text will be broken up into syllables (discarding the “w:”) and then further treated according to whether or not these new syllables have special characters. Then a list of strings representing the syllables will be used to create a Lyric object, which is added to the current voice. Ensuring that there are the right number of syllables will be done at a later time.
+
+When exiting a measure, repeats are detected (if any), and then the notes inside are doubled.
+
+When exiting music, voices and signature will be added to a MusicPiece object, which is then added to the stack.
+
+
+
+\end{itemize}
+
 
 
 
