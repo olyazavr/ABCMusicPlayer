@@ -4,9 +4,9 @@ import sound.MusicPlayer;
 import utils.Fraction;
 
 /**
- * Basic ADT that represents a single pitch. It has *a value -- A,B,C,D,E,F,G
- * *an octave -- the offset from the standard octave (e.g. +1 for "a,b,c.."
- * octave) *length -- the fraction of default note *accidental -- 1 for sharp
+ * Basic ADT that represents a single pitch. It has a value -- A,B,C,D,E,F,G;
+ * an octave -- the offset from the standard octave (e.g. +1 for "a,b,c.."
+ * octave); length -- the fraction of default note *accidental -- 1 for sharp
  * and -2 for flat.
  * 
  */
