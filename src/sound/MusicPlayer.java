@@ -20,16 +20,20 @@ public class MusicPlayer {
          currentTick=0;
 	}
 	
-	public void addNote(int note, int startTick, int numTicks){
-		player.addNote(note, startTick, numTicks);
+	public void addNote(int note, int numTicks){
+		player.addNote(note, currentTick, currentTick+numTicks);
 	}
 	
 	public void addTime(int time){
 		currentTick+=time;
 	}
 	
-	public void addLyric(String lyric, int startTick){
-		player.addLyricEvent(lyric, startTick);
+	public void addLyric(String lyric){
+		player.addLyricEvent(lyric, currentTick);
+	}
+	
+	public void resetTime(){
+		currentTick=0;
 	}
 	
 	public void play() throws MidiUnavailableException{

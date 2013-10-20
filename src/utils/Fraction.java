@@ -1,11 +1,11 @@
-package player;
+package utils;
 
 /* Fraction.java */
 
 /**
  * The Fraction class implements non-negative fractions, i.e., rational numbers.
  */
-class Fraction {
+public class Fraction {
 	
 	/* private fields within a Fraction. */
 	private int numerator;
@@ -19,15 +19,15 @@ class Fraction {
 	 *            is the denominator, assumed positive.
 	 */
 	Fraction(int n, int d) {
-		this.numerator = n;
-		this.denominator = d;
+		int gcd= num.gcd(n, d);
+		this.numerator = n/gcd;
+		this.denominator = d/gcd;
 	}
 
 	/**
 	 * Constructs a Fraction n/1.
 	 * 
-	 * @param n
-	 *            is the numerator, assumed non-negative.
+	 * @param n is the numerator, assumed non-negative.
 	 */
 	public Fraction(int n) {
 		this(n, 1);
@@ -41,8 +41,11 @@ class Fraction {
 	 */
 	public Fraction(String frac) {
 		String[] parsedFrac = frac.split("/");
-		this.numerator = new Integer(parsedFrac[0]);
-		this.denominator = new Integer(parsedFrac[1]);
+		int n = new Integer(parsedFrac[0]);
+		int d = new Integer(parsedFrac[1]);
+		int gcd= num.gcd(n, d);
+		this.numerator = n/gcd;
+		this.denominator = d/gcd;
 	}
 	/**
 	 * Constructs a Fraction 0/1.
@@ -124,11 +127,11 @@ class Fraction {
  	/**
  	 * Getters
  	 */
- 	public int get_numerator(){
+ 	public int getNumerator(){
  		return this.numerator;
  	}
  	
- 	public int get_denominator(){
+ 	public int getDenominator(){
  		return this.denominator;
  	}
 
