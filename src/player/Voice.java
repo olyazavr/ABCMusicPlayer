@@ -23,30 +23,19 @@ public class Voice implements MusicPart{
     }
     
     public void addNotes(MusicPlayer player){
-    	for (int i=0; i<notes.size();i++){
-    		notes.get(i).addNote(player, lyrics.getSyllable(i));
+    	for (Measure measure:measures){
+    		measure.addNotes(player);    		
     	}
+    	
     }
     
     public int calculateTicksPerBeat(){
     	int LCM=1;
-    	for (MusicSymbol symbol:notes){
-    		LCM=num.lcm(LCM, symbol.calculateTicksPerBeat());
+    	for (Measure measure:measures){
+    		LCM=num.lcm(LCM, measure.calculateTicksPerBeat());
     	}
     	return LCM;
     }
 
-    public void addMusicSymbol(MusicSymbol musicSymbol) {
-        notes.add(musicSymbol);
-    }
-
-    public MusicSymbol popMusicSymbol() {
-        MusicSymbol last = notes.get(notes.size() - 1);
-        notes.remove(notes.size() - 1);
-        return last;
-    }
-
-    public void addLyric(String lyric) {
-        lyrics.addSyllable(lyric);
-    }
+    
 }
