@@ -17,25 +17,31 @@ public class Chord implements MusicSymbol {
 	public Chord(List<Pitch> notes) {
 		this.notes = new ArrayList<Pitch>(notes);
 	}
-	
-	public void addNote(MusicPlayer player, String syllable) {		
-		
-		for (Pitch pitch:notes){
+
+	/**
+	 * TODO: description of method
+	 */
+	public void addNote(MusicPlayer player, String syllable) {
+
+		for (Pitch pitch : notes) {
 			pitch.addNote(player, new String());
 		}
-		player.addTime(notes.get(0).getLength().multiply(1-notes.size()));
-		
-		if (!syllable.isEmpty()){
+		player.addTime(notes.get(0).getLength().multiply(1 - notes.size()));
+
+		if (!syllable.isEmpty()) {
 			player.addLyric(syllable);
 		}
 	}
-	
-	public int calculateTicksPerBeat(){
-    	int LCM=1;
-    	for (Pitch pitch:notes){
-    		LCM=num.lcm(LCM, pitch.calculateTicksPerBeat());
-    	}
-    	return LCM;
-    }
+
+	/**
+	 * TODO: description of method
+	 */
+	public int calculateTicksPerBeat() {
+		int LCM = 1;
+		for (Pitch pitch : notes) {
+			LCM = num.lcm(LCM, pitch.calculateTicksPerBeat());
+		}
+		return LCM;
+	}
 
 }

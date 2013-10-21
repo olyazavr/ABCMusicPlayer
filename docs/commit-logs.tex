@@ -1,0 +1,175 @@
+\documentclass[12pt]{book}
+
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\setlength{\headheight}{30pt}
+
+
+\setlength{\oddsidemargin}{0cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-2.2cm}
+\setlength{\textheight}{9.3in}
+ \pagestyle{plain}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{ \fancyplain{}{ABC Player} }
+\rhead{ \fancyplain{}{Andrei Ivanov, Olga Shestopalova, Zeke Schmois} }
+\rfoot{ \fancyplain{}{\thepage} }
+
+\renewcommand{\arraystretch}{1.5}	
+\newcommand{\Ri}{\ \Rightarrow\ }
+\newcommand{\Le}{\ \Leftarrow\ }
+\newcommand{\Lr}{\ \Leftrightarrow\ }
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ts}{\textstyle}
+\newcommand{\sst}{\scriptstyle}
+\newcommand{\sss}{\scriptscriptstyle}
+\newcommand{\q}{\quad}
+\newcommand{\ap}{\alpha}
+\newcommand{\ii}{\^{\i}n }
+\newcommand{\si}{\c{s}i }
+\newcommand{\oaf}{oricare ar fi }
+\newcommand{\nn}{\mathbb{N}}
+\newcommand{\ns}{\mathbb{N}^{*}}
+\newcommand{\rr}{\mathbb{R}}
+\newcommand{\rs}{\mathbb{R}^{*}}
+\newcommand{\cc}{\mathbb{C}}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\zs}{\mathbb{Z}^{*}}
+\newcommand{\qq}{\mathbb{Q}}
+\newcommand{\qs}{\mathbb{Q}^{*}}
+\newcommand{\g}{\mathbb{G}}
+\newcommand{\di}{\displaystyle}
+\newcommand{\ai}{astfel \^{\i}nc\^{a}t }
+\newcommand{\la}{\lambda}
+\newcommand{\s}{\sigma}
+\newcommand{\ri}{\ \rightarrow\ }
+\newcommand{\gr}{^{\circ}}
+\usepackage{graphicx}
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%-------1------%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\phantom{xxx}
+\bigskip
+\centerline{{\large \bf ABC Parser Project: Design Description }}
+\bigskip\bigskip
+
+We represent an ABC parser for music files as a series of well-structured interfaces.
+
+\begin{verbatim}
+* e2a8db4 (HEAD, origin/master, origin/HEAD, master) Add methods to Measure
+* ee590b3 I broke everything so sorry
+* 3059a70 More Listener work, maybe add Measure object?
+* 68ded49 Added a method to scales which shifts a pitch up/down depending on the tone change given.
+* c81a983 Fully working Scales method.
+* 751818f Update Scales
+* 203c05f Add documentation, fix a few Listener errors. We need to reallllly do more documentation
+* 71c3021 Design revision
+* 00de6b9 some more renaiming
+* 1d68ba5 Docs renamed
+* 9fdc434 Fixed the title and intro, added the grammar file at the end
+* a636548 Parser added to the design
+* 32038c1 Change Syllable to Lyric, add more methods to Voice
+*   b729e3c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * fa7cd83 Making the contract a nice LaTeX at 4AM......
+| * 10c8dda Minor change in Chord.java
+| * 8fdc9e8 Design description added. PROOFREAD  needed
+| * 40e8858 ADT revised. Some classes moved to utils
+| * ecf98be Music interface created, others revised
+* | 4148f8f Add Voices to Listener
+|/
+* 557e0c3 More work on Listener, only have Note and Syllable left to do
+*   e04b554 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * f1c7f57 multiplyLength added to Pitch
+* | d810fa0 Fraction now supports equals(), multiply(int), multiply(Fraction), and a constructor given a String representation of a full fraction
+|/
+*   82a0cb2 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   115172f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 471f311 Fraction file
+| * |   fec5741 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\ \
+| * | | 6034c07 new Fraction class available. Pitch is a bit different now but still needs work transforming lengths to Fraction. Scales is still in the works
+* | | |   a712710 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \ \
+| | |_|/
+| |/| |
+| * | | 3aecd81 Add Fraction, modify Signature, start Listener
+| * | | 4e2e6d2 Start Listener
+| | |/
+| |/|
+* | | d1b02f3 MusicPlayer class added
+|/ /
+* | d10f9a6 Add Signature, Syllable. Clean up Lexer, add outline to Listener
+|/
+*   89b6d4e Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 10c4053 Add more lexer tests and documentation
+* | 81d05ad Datatype modifications
+|/
+* 8beea02 Note interface implemented
+*   6a74a54 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 930363a warm-up tests no didit added
+* | 8e9f093 Add repeated measure class and more comments on tests
+|/
+* 22873ec small ADT changes
+* 380ef1f g4 worksgit status All sample_abc files run
+* 125a22c Fix g4, now it worksgit status! Super hackey, and lyrics is now just one token. However, notes are not just one massive line token
+* 5e8cd39 new test
+* 284c547 fixed piece2 and piece3. worked more on the lexer and parser
+* 707733a Warmup tests fixed
+* dedb91c More tweaks. Now parses everything except G2 for some reason ugh
+*   e991cff Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 50be82f LexerTests updated, and now all pass! Still can't read a file. More g4 stuff
+| * a3ff9a6 Re-did g4, now there are a shitton of Lexer rules
+* | 6f3d289 warm-up tests added
+|/
+* 99f1eb3 piece 1 corrected once more
+* 484d162 piece 1 corrected
+*   6fcda67 Add lots of ADT and g4. Ugly merge fix ):
+|\
+| * 3a32576 More work on parser, still fails ):
+| * 93e56b7 Made a Listener, nothing inside
+| * 5a2e028 Got the g4 to work
+| * cbca2b0 i wonder if didit supports branching....
+* | 0ea387d Work more on the grammar. Impossible. Also added Lexer tests
+* | 635d51f Warm-up exercises revised. Triplets fixed in first example, some errors in the second example.
+* | b31c495 Worked on g4, doesn't work perfectly yet. Also added Listener and stuff to Main
+|/
+* 6c20289 Add warm up tests (so far nothing works), start ADT files. Music is the interface
+* 6b9fadb FIX1: piece1.abc
+* 5ff043d Warm-up exercises
+* 9a91896 Add contract file
+* dfdee13 Starting code.
+
+\end{verbatim}
+
+
+
+
+
+
+\bigskip
+
+
+      
+      \end{document}
+  
+
