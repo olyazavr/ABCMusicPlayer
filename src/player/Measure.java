@@ -77,6 +77,15 @@ public class Measure implements MusicPart{
         return counter;
     }
 
+    /**
+     * Checks whether or not Lyrics is empty (has no syllables)
+     * 
+     * @return if Lyrics is empty
+     */
+    public boolean hasLyrics() {
+        return lyrics.isEmpty();
+    }
+
     public int calculateTicksPerBeat(){
     	int LCM=1;
     	for (MusicSymbol symbol:notes){

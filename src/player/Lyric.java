@@ -22,4 +22,13 @@ public class Lyric {
         return syllables.get(i);
     }
 
+    /**
+     * Returns whether or not there are any syllables
+     * 
+     * @return if the syllables are empty
+     */
+    public boolean isEmpty() {
+        return syllables.isEmpty();
+    }
+
 }
