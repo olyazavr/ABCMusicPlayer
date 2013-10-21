@@ -37,12 +37,12 @@ public class Lyric {
 	}
 
     /**
-     * Returns whether or not there are any syllables
+     * Returns how many syllables this Lyric contains
      * 
-     * @return if the syllables are empty
+     * @return number of syllables
      */
-    public boolean isEmpty() {
-        return syllables.isEmpty();
+    public int getNumberOfSyllables() {
+        return syllables.size();
     }
 
 }

@@ -82,12 +82,13 @@ public class Measure implements MusicPart{
     }
 
     /**
-     * Checks whether or not Lyrics is empty (has no syllables)
+     * Checks whether or not Lyrics is full (contains enough syllables to fit
+     * each note)
      * 
-     * @return if Lyrics is empty
+     * @return if Lyrics is full
      */
-    public boolean hasLyrics() {
-        return lyrics.isEmpty();
+    public boolean hasEnoughLyrics() {
+        return lyrics.getNumberOfSyllables() == notesPerMeasure();
     }
 
     public int calculateTicksPerBeat(){
