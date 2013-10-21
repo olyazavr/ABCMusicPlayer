@@ -37,5 +37,22 @@ public class Voice implements MusicPart{
     	return LCM;
     }
 
-    
+    public void addMeasure(Measure measure) {
+        measures.add(measure);
+    }
+
+    /**
+     * Returns all Measures without Lyrics so Lyrics can be added to them
+     * 
+     * @return list of Measures without Lyrics
+     */
+    public List<Measure> getMeasuresWithoutLyrics() {
+        List<Measure> measuresWOLyrics = new ArrayList<Measure>();
+        for (Measure m : measures) {
+            if (!m.hasLyrics()) {
+                measuresWOLyrics.add(m);
+            }
+        }
+        return measuresWOLyrics;
+    }
 }

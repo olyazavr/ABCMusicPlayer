@@ -11,13 +11,17 @@ import sound.MusicPlayer;
 /*
  * Representation MusicSymbol = Chord(notes: List<Pitch>) + Pitch(value: string,
  * octave: int, length: int) + Rest(length: int)
- */ 
+ */
 
-public interface MusicSymbol extends Music { 
+public interface MusicSymbol extends Music {
 	/**
-	    * Adds the note and the associated given lyric to the music player given the number of ticks per beat
-	    * @param player is a valid MusicPlayer
-	    * @param ticksPerBeat is a valid integer 
-	    */
-	   public void addNote(MusicPlayer player, String syllable);		
+	 * Adds the note and the associated given lyric to the music player given
+	 * the number of ticks per beat
+	 * 
+	 * @param player
+	 *            is a valid MusicPlayer
+	 * @param ticksPerBeat
+	 *            is a valid integer
+	 */
+	public void addNote(MusicPlayer player, String syllable);
 }

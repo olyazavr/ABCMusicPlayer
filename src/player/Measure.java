@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import sound.MusicPlayer;
+import utils.Scales;
 import utils.num;
 
 /**
@@ -42,17 +43,20 @@ public class Measure implements MusicPart{
     }
 
     /**
-     * Returns the accidental if the pitch has one
+     * Returns the accidental if the pitch has one. If no accidental is set in
+     * the measure, return the accidental for the key.
      * 
      * @param pitch
      *            the pitch to check for
+     * @param key
+     *            the key the measure is in
      * @return 1 for sharp, -2 for flat, 0 for none
      */
-    public int getAccidental(String pitch) {
+    public int getAccidental(String pitch, String key) {
         if (accidentals.containsKey(pitch)) {
             return accidentals.get(pitch);
         }
-        return 0;
+        return Scales.adjustKey(pitch, key);
     }
     
     public void addNotes(MusicPlayer player){
@@ -75,6 +79,15 @@ public class Measure implements MusicPart{
             }
         }
         return counter;
+    }
+
+    /**
+     * Checks whether or not Lyrics is empty (has no syllables)
+     * 
+     * @return if Lyrics is empty
+     */
+    public boolean hasLyrics() {
+        return lyrics.isEmpty();
     }
 
     public int calculateTicksPerBeat(){

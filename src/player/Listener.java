@@ -31,7 +31,6 @@ public class Listener extends ABCMusicBaseListener {
      */
     private String key = "";
     private Voice currentVoice;
-    private int currentAccidental = 0;
     private Measure currentMeasure;
 
     /**
@@ -44,11 +43,20 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     /**
-     * Test for repeats here, and also reset currentAccidental
+     * Make a new Measure object and set currentMeasure to it
      */
     @Override
-    public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
-        currentAccidental = 0;
+    public void enterMeasure(ABCMusicParser.MeasureContext ctx) {
+        System.out.println(ctx.getText());
+
+        // TODO: CHECK FOR REPEATS SOMEHOW
+
+        Measure measure = new Measure(new ArrayList<MusicSymbol>(), new Lyric(new ArrayList<String>()),
+                new HashMap<String, Integer>());
+
+        System.out.println("adding Measure " + measure);
+        currentMeasure = measure;
+        currentVoice.addMeasure(measure);
     }
 
     /**
@@ -56,10 +64,13 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) {
+        System.out.println(ctx.getText());
+
         Signature signature = (Signature) stack.pop();
         List<Voice> voicesList = new ArrayList<Voice>(voices.values());
         MusicPiece musicPiece = new MusicPiece(signature, voicesList);
 
+        System.out.println("adding MusicPiece" + musicPiece);
         stack.push(musicPiece);
     }
 
@@ -73,12 +84,16 @@ public class Listener extends ABCMusicBaseListener {
         // body. If we are not in the header, the stack should have something in
         // it already.
         if (stack.size() > 0) {
+            System.out.println(ctx.getText());
+
             // get voice name sans the "V:"
             String voiceName = ctx.getText().substring(2).trim();
             if (voices.containsKey(voiceName)) {
                 currentVoice = voices.get(voiceName);
+                System.out.println("switching to Voice" + currentVoice);
             } else {
-                Voice voice = new Voice(voiceName, new ArrayList<MusicSymbol>(), new Lyric(new ArrayList<String>()));
+                Voice voice = new Voice(voiceName, new ArrayList<Measure>());
+                System.out.println("adding Voice" + voice);
                 voices.put(voiceName, voice);
             }
         }
@@ -145,13 +160,14 @@ public class Listener extends ABCMusicBaseListener {
         // create a default voice if there are no voices, and it will always be
         // the currentVoice
         if (v.isEmpty()) {
-            Voice defaultVoice = new Voice("defaultVoice", new ArrayList<MusicSymbol>(), new Lyric(
-                    new ArrayList<String>()));
+            Voice defaultVoice = new Voice("defaultVoice", new ArrayList<Measure>());
             v.add("defaultVoice");
             currentVoice = defaultVoice;
         }
 
-        stack.push(new Signature(t, c, l, m, q, key, v));
+        Signature signature = new Signature(t, c, l, m, q, key, v);
+        System.out.println("adding Signature " + signature);
+        stack.push(signature);
     }
 
     /**
@@ -173,13 +189,13 @@ public class Listener extends ABCMusicBaseListener {
 
         // pop notes and add them to a list
         for (int i = 0; i < numNotes; ++i) {
-            notes.add((Pitch) currentVoice.popMusicSymbol());
+            notes.add((Pitch) currentMeasure.popMusicSymbol());
         }
 
         Chord chord = new Chord(notes);
         System.out.println("adding Chord " + chord);
 
-        currentVoice.addMusicSymbol(chord);
+        currentMeasure.addMusicSymbol(chord);
     }
 
     /**
@@ -204,13 +220,13 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         for (int i = 0; i < tupletNumber; ++i) {
-            Pitch note = (Pitch) currentVoice.popMusicSymbol();
+            Pitch note = (Pitch) currentMeasure.popMusicSymbol();
             // add to the currentVoice the same note with its length multiplied
             // by the multiplicationFactor
             Pitch newNote = note.multiplyLength(multiplicationFactor);
 
             System.out.println("adding tuplet " + newNote);
-            currentVoice.addMusicSymbol(newNote);
+            currentMeasure.addMusicSymbol(newNote);
         }
 
     }
@@ -226,7 +242,7 @@ public class Listener extends ABCMusicBaseListener {
 
         System.out.println(ctx.getText());
         System.out.println("adding Rest " + rest);
-        currentVoice.addMusicSymbol(rest);
+        currentMeasure.addMusicSymbol(rest);
     }
 
     /**
@@ -240,6 +256,8 @@ public class Listener extends ABCMusicBaseListener {
         Fraction length = new Fraction(1, 1);
         int octave = 0;
         int accidental = 0;
+        // this is for storing accidentals for the measure
+        String noteOctave = "";
 
         // split everything so we can deal with modifiers
         String[] splitNote = text.trim().split("");
@@ -247,67 +265,57 @@ public class Listener extends ABCMusicBaseListener {
         for (String s : splitNote) {
             if (s.matches("[A-G]")) { // this is the actual note
                 value = s.charAt(0);
-
-                // if the note doesn't set its own accidental, try taking the
-                // measure's accidental
-                if (accidental == 0) {
-                    accidental += currentAccidental;
-                }
-                // if no accidental is set, take the key's accidental
-                if (accidental == 0) {
-                    accidental += Scales.adjustKey(s, key);
-                }
+                noteOctave += s;
             }
             else if (s.matches("[a-g]")) { // note one octave up
                 value = s.toUpperCase().charAt(0);
+                noteOctave += s;
                 octave++;
-
-                // if the note doesn't set its own accidental, try taking the
-                // measure's accidental
-                if (accidental == 0) {
-                    accidental += currentAccidental;
-                }
-                // if no accidental is set, take the key's accidental
-                if (accidental == 0) {
-                    accidental += Scales.adjustKey(String.valueOf(value), key);
-                }
             }
             else if (s.equals("'")) { // higher octave
+                noteOctave += "'";
                 octave++;
 
             } else if (s.equals(",")) { // lower octave
+                noteOctave += ",";
                 octave--;
 
             } else if (s.equals("^")) { // sharp
                 accidental++;
-                currentAccidental++;
 
             } else if (s.equals("_")) { // flat
                 accidental -= 2;
-                currentAccidental -= 2;
             }
+        }
+
+        // if the note doesn't set its own accidental, try taking the
+        // measure's accidental
+        if (accidental == 0) {
+            accidental += currentMeasure.getAccidental(noteOctave, key);
+        } else {
+            currentMeasure.addAccidental(noteOctave, accidental);
         }
 
         // now, fix the accidental
         // for every two sharps, move up a pitch
         if (accidental == 2) {
-            String[] adjust = Scales.movePitch(value, 1);
-            value = adjust[0].charAt(0);
-            octave += new Integer(adjust[1]);
+            List<String> adjust = Scales.movePitch(value, 1);
+            value = adjust.get(0).charAt(0);
+            octave += new Integer(adjust.get(1));
             accidental = 0;
 
             // for every two flats, move down a pitch
         } else if (accidental == -4) {
-            String[] adjust = Scales.movePitch(value, -1);
-            value = adjust[0].charAt(0);
-            octave += new Integer(adjust[1]);
+            List<String> adjust = Scales.movePitch(value, -1);
+            value = adjust.get(0).charAt(0);
+            octave += new Integer(adjust.get(1));
             accidental = 0;
         }
 
         Pitch note = new Pitch(length, value, octave, accidental);
 
         System.out.println("adding Pitch of " + note);
-        currentVoice.addMusicSymbol(note);
+        currentMeasure.addMusicSymbol(note);
 
     }
 
@@ -320,9 +328,13 @@ public class Listener extends ABCMusicBaseListener {
 
         // remove the initial "w:" and split by spaces
         String[] splitLyrics = ctx.getText().substring(2).trim().split(" ");
+        
+        //find the measures that need lyrics
+        List<Measure> measures = currentVoice.getMeasuresWithoutLyrics();
 
         for (String s : splitLyrics) {
 
+            // TODO: CONTINUE HERE
         }
     }
 

@@ -41,6 +41,7 @@ public class Pitch implements MusicSymbol {
         this.accidental = accidental;
     }
 
+    @Override
     public void addNote(MusicPlayer player, String syllable) {
 
         sound.Pitch pitch = new sound.Pitch(value);
