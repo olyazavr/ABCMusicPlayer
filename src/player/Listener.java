@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import utils.Fraction;
+import utils.Scales;
 
 /**
  * Walks the tree, creates a MusicPiece object with Notes and Syllables
@@ -74,7 +75,6 @@ public class Listener extends ABCMusicBaseListener {
         String q = "";
         List<String> v = new ArrayList<String>();
 
-
         // populate fields, we don't care about X: whatever
         for (String s : lines) {
             if (s.startsWith("T:")) { // title, mandatory
@@ -115,10 +115,10 @@ public class Listener extends ABCMusicBaseListener {
         if (t.isEmpty()) {
             t = l.toString() + "=100";
         }
-        
+
         // create a default voice if there are no voices, and it will always be
         // the currentVoice
-        if (v.isEmpty()){
+        if (v.isEmpty()) {
             Voice defaultVoice = new Voice("defaultVoice", new ArrayList<MusicSymbol>(), new Lyric(
                     new ArrayList<String>()));
             v.add("defaultVoice");
@@ -198,18 +198,43 @@ public class Listener extends ABCMusicBaseListener {
         int octave = 0;
         int accidental = 0;
 
-        // get all the modifiers around the note, accidentals (^ _) in first,
-        // octaves (, ') and length in second
-        String[] modifiers = text.split("[A-Ga-g]");
-        
-        // if there are no modifiers
-        if (modifiers.length == 0) {
-            value = text.charAt(0);
+        // split everything so we can deal with modifiers
+        String[] splitNote = text.trim().split("");
+
+        for (String s : splitNote) {
+            if (s.matches("[A-G]")) { // this is the actual note
+                value = s.charAt(0);
+            }
+            else if (s.matches("[a-g]")) { // note one octave up
+                value = s.charAt(0);
+                octave ++;
+            }
+            else if (s.equals("'")) { // higher octave
+                octave ++;
+
+            } else if (s.equals(",")) { // lower octave
+                octave --;
+
+            } else if (s.equals("^")) { // sharp
+                accidental ++;
+
+            } else if (s.equals("_")) { // flat
+                // flat actually equals -2, but we need this so it can cancel
+                // out with the sharp
+                accidental--;
+            }
         }
-        // if there are both accidentals, and octaves/length
-        else if (modifiers.length == 2) {
-            value = text.charAt(modifiers[1].length());
-            // TODO: CONTINUE HERE!!!!!!
+
+        Scales.adjustKey(value, key);
+
+        // now, fix the accidental
+        // if there are two flats, move down an octave, keep accidental = -2
+        if (accidental == -2) {
+            octave -= 1;
+        } else if (accidental == -1) { // this is just the format we want
+            accidental = -2;
+        } else if (accidental == 2) {
+            
         }
 
         currentVoice.addMusicSymbol(new Pitch(length, value, octave, accidental));

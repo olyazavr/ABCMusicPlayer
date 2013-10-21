@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Scales {
 
-	private Map<String, Map> SCALES = new HashMap<String, Map>();
+    private static Map<String, Map> SCALES = new HashMap<String, Map>();
 
 	private String scale;
 
@@ -40,4 +40,16 @@ public class Scales {
 		SCALES.put("Cm",C);
 		SCALES.put("Cm",AM);
 	}
+
+    public static int adjustKey(String value, String key) {
+        Map<String, String> keyMap = SCALES.get(key);
+        if (keyMap.containsKey(value)) {
+            if (keyMap.get(value).equals("sharp")) {
+                return 1;
+            } else if (keyMap.get(value).equals("flat")) {
+                return -1;
+            }
+        }
+        return 0;
+    }
 }
