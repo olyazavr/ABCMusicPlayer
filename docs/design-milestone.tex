@@ -137,20 +137,21 @@ A note element is a note, rest, chord, or tuplet. Tuplets are a parenthesis foll
 
 \item {\bf Errors}: Errors in parsing and lexing result in an exception being thrown. (reportErrorsAsExceptions is invoked on both parser and lexer).
 
-\item {\bf Listener}: While parsing the tree, we only care about these events: exit note, exit rest, exit chord, exit tuplet, exit lyric, enter voice, exit header, exit measure, exit music.
+\item {\bf Listener}: While parsing the tree, we only care about these events: exit note, enter measure, exit measure, exit rest, exit chord, exit tuplet, exit lyric, enter voice, exit header, exit music.
 
 When exiting a header, the information is extracted from the context, and defaults are added if necessary. A default voice is set if none are provided. The current voice is kept track of.
 
-When entering a voice,  the current voice is switched to one with the same name.
+When entering a voice, the current voice is switched.
 
-When exiting a note or rest, we extract the needed information from the context and add a Pitch or Rest object to the current voice. 
-When exiting a tuplet, the number of notes inside is determined, then they are popped, and their duration is modified accordingly, and the new notes are inserted back into the current voice.
+When exiting a note or rest, we extract the needed information from the context and add a Pitch or Rest object to the current measure. 
 
-When exiting a chord, the number of notes inside is determined, then they are popped, and then added to a Chord object, which is then added to the current voice (this object represents a list of notes, since they all start at the same time).
+When exiting a tuplet, the number of notes inside is determined, then they are popped, and their duration is modified accordingly, and the new notes are inserted back into the current measure.
 
-When exiting a lyric, the chunk of text will be broken up into syllables (discarding the “w:”) and then further treated according to whether or not these new syllables have special characters. Then a list of strings representing the syllables will be used to create a Lyric object, which is added to the current voice. Ensuring that there are the right number of syllables will be done at a later time.
+When exiting a chord, the number of notes inside is determined, then they are popped, and then added to a Chord object, which is then added to the current measure (this object represents a list of notes, since they all start at the same time).
 
-When exiting a measure, repeats are detected and then the notes inside are doubled.
+When exiting a lyric, the chunk of text will be sent to another lexer and parser, which will return strings syllables, which will be added to the current measure's lyric.
+
+When entering and exiting a measure, repeats are searched for and the repeated measures are added to the voice. Moreoever, the current measure is switched when entering a measure. New measures are added to the current voice.
 
 When exiting music, voices and signature will be added to a MusicPiece object, which is then added to the stack.
 
@@ -161,7 +162,7 @@ Examples: Simple header only, extended header, header and body, lyrics, music th
 \item Parser: Test different inputs and expect fully-formed MusicPiece objects to be returned. 
 Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures
 \item ADT tests: test the methods of our ADTs
-Examples: calculateTicksPerBeat, addMusicSymbol, popMusicSymbol, addLyric.
+Examples: equals, toString, hashCode, calculateTicksPerBeat, addMusicSymbol, popMusicSymbol, addLyric.
 \item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
 Examples: pass in all of the sample\_abc files to be played, they contain the varying inputs that we want (simple measures, measures with comments, multiple voices, repeated sections, chords, tuplets, rests).
 \end{itemize}
