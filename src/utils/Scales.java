@@ -5,9 +5,7 @@ import java.util.Map;
 
 public class Scales {
 
-    private static Map<String, Map> SCALES = new HashMap<String, Map>();
-
-	private String scale;
+    private static Map<String, Map<String,String>> SCALES = new HashMap<String, Map<String,String>>();
 
 	private final Map<String,String> C = new HashMap<String,String>();
 	private final Map<String,String> AM = new HashMap<String,String>();
@@ -39,6 +37,124 @@ public class Scales {
 
 		SCALES.put("Cm",C);
 		SCALES.put("Cm",AM);
+
+		G.put("f","sharp");
+		SCALES.put("G",G);
+		EM.put("f","sharp");
+		SCALES.put("Em",EM);
+
+		D.put("c","sharp");
+		D.put("f","sharp");
+		SCALES.put("D",D);
+		BM.put("c","sharp");
+		BM.put("f","sharp");
+		SCALES.put("Bm",BM);
+
+		A.put("c","sharp");
+		A.put("f","sharp");
+		A.put("g","sharp");
+		SCALES.put("A",A);
+		FSM.put("c","sharp");
+		FSM.put("f","sharp");
+		FSM.put("g","sharp");
+		SCALES.put("F#m",FSM);
+
+		E.put("c","sharp");
+		E.put("d","sharp");
+		E.put("f","sharp");
+		E.put("g","sharp");
+		SCALES.put("E",E);
+		CSM.put("c","sharp");
+		CSM.put("d","sharp");
+		CSM.put("f","sharp");
+		CSM.put("g","sharp");
+		SCALES.put("C#m",CSM);
+
+		B.put("A","sharp");
+		B.put("c","sharp");
+		B.put("d","sharp");
+		B.put("f","sharp");
+		B.put("g","sharp");
+		SCALES.put("B",B);
+		GSM.put("A","sharp");
+		GSM.put("c","sharp");
+		GSM.put("d","sharp");
+		GSM.put("f","sharp");
+		GSM.put("g","sharp");
+		SCALES.put("G#m",GSM);
+
+		B.put("A","sharp");
+		B.put("c","sharp");
+		B.put("d","sharp");
+		B.put("f","sharp");
+		B.put("g","sharp");
+		SCALES.put("B",B);
+		GSM.put("A","sharp");
+		GSM.put("c","sharp");
+		GSM.put("d","sharp");
+		GSM.put("f","sharp");
+		GSM.put("g","sharp");
+		SCALES.put("G#m",GSM);
+
+		FS.put("A","sharp");
+		FS.put("c","sharp");
+		FS.put("d","sharp");
+		FS.put("e","sharp");
+		FS.put("f","sharp");
+		FS.put("g","sharp");
+		SCALES.put("F#",FS);
+		DSM.put("A","sharp");
+		DSM.put("c","sharp");
+		DSM.put("d","sharp");
+		DSM.put("e","sharp");
+		DSM.put("f","sharp");
+		DSM.put("g","sharp");
+		SCALES.put("D#m",DSM);
+
+		D_.put("G","flat");
+		D_.put("A","flat");
+		D_.put("B","flat");
+		D_.put("d","flat");
+		D_.put("e","flat");
+		SCALES.put("Db",D_);
+		B_M.put("G","flat");
+		B_M.put("A","flat");
+		B_M.put("B","flat");
+		B_M.put("d","flat");
+		B_M.put("e","flat");
+		SCALES.put("Bbm",B_M);
+
+		A_.put("A","flat");
+		A_.put("B","flat");
+		A_.put("d","flat");
+		A_.put("e","flat");
+		SCALES.put("Ab",A_);
+		FM.put("A","flat");
+		FM.put("B","flat");
+		FM.put("d","flat");
+		FM.put("e","flat");
+		SCALES.put("Fm",FM);
+
+		E_.put("A","flat");
+		E_.put("B","flat");
+		E_.put("e","flat");
+		SCALES.put("Eb",E_);
+		CM.put("A","flat");
+		CM.put("B","flat");
+		CM.put("e","flat");
+		SCALES.put("Cm",CM);
+
+		B_.put("B","flat");
+		B_.put("e","flat");
+		SCALES.put("Bb",B_);
+		GM.put("B","flat");
+		GM.put("e","flat");
+		SCALES.put("Gm",GM);
+
+		F.put("B","flat");
+		SCALES.put("F",F);
+		DM.put("B","flat");;
+		SCALES.put("Dm",DM);
 	}
 
     public static int adjustKey(String value, String key) {
