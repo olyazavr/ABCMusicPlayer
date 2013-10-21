@@ -34,6 +34,12 @@ public class Listener extends ABCMusicBaseListener {
     private Measure currentMeasure;
 
     /**
+     * Keep a list of measures that could possibly be repeated from the
+     * beginning or from after a repeat, or from after an end notes symbol
+     */
+    private List<Measure> repeatedMeasures = new ArrayList<Measure>();
+
+    /**
      * do nothing, because the top of the stack should have the node already in
      * it
      */
@@ -43,20 +49,51 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     /**
-     * Make a new Measure object and set currentMeasure to it
+     * Make a new Measure object and set currentMeasure to it. If there is a
+     * left repeat, clear repeated measures and start recording them again.
+     * Otherwise, just add the measure to repeatedMeasures
      */
     @Override
     public void enterMeasure(ABCMusicParser.MeasureContext ctx) {
         System.out.println(ctx.getText());
 
-        // TODO: CHECK FOR REPEATS SOMEHOW
+        // clear and restart repeatedMeasures
+        if (ctx.LREPEAT() != null) {
+            repeatedMeasures.clear();
+        }
 
         Measure measure = new Measure(new ArrayList<MusicSymbol>(), new Lyric(new ArrayList<String>()),
                 new HashMap<String, Integer>());
 
         System.out.println("adding Measure " + measure);
         currentMeasure = measure;
+
+        // don't repeat if there's a one-repeat
+        if (ctx.ONE_REPEAT() == null) {
+            repeatedMeasures.add(measure);
+        }
         currentVoice.addMeasure(measure);
+    }
+
+    /**
+     * Check for repeats and add all the repeated measures if there is a repeat
+     * symbol
+     */
+    @Override
+    public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
+        System.out.println(ctx.getText());
+
+        // add all the recorded repeatedMeasures if there's a repeat
+        if (ctx.RREPEAT() != null) {
+            currentVoice.addAllMeasures(repeatedMeasures);
+            System.out.println("adding " + repeatedMeasures.size() + " repeated Measures");
+            repeatedMeasures.clear();
+        }
+
+        // clear and restart repeatedMeasures
+        if (ctx.END_NOTES() != null) {
+            repeatedMeasures.clear();
+        }
     }
 
     /**
@@ -328,18 +365,35 @@ public class Listener extends ABCMusicBaseListener {
 
         // remove the initial "w:" and split by spaces
         String[] splitLyrics = ctx.getText().substring(2).trim().split(" ");
-        
 
         for (String s : splitLyrics) {
-            if (s.contains("-")) { // breaks word into 2 syllables
+            if (s.equals("*")) { // adds extra space
+                currentVoice.getNextMeasure().addLyric(" ");
 
+            } else if (s.contains("~")) { // adds space, but same syllable
+                currentVoice.getNextMeasure().addLyric(s.replace('~', ' '));
+
+            } else if (s.contains("\\-")) { // add -, but same syllable
+                currentVoice.getNextMeasure().addLyric(s.replaceFirst("\\", ""));
+
+            } else if (s.matches("-[A-Za-z0-9]")) { // break up into 2 syllables
+                currentVoice.getNextMeasure().addLyric(" ");
+                currentVoice.getNextMeasure().addLyric(s.replaceFirst("-", ""));
+
+            } else if (s.contains("_")) { // add another syllable at end
+                handleUnderscores(s);
             }
         }
     }
 
-    private void addToNextMeasure() {
-        // find the measures that need lyrics
-        List<Measure> measures = currentVoice.getMeasuresWithoutEnoughLyrics();
+    private void handleDashes(String text) {
+        String[] splitString = text.split("");
+        for (String s : splitString) {
+
+        }
+    }
+
+    private void handleUnderscores(String text) {
 
     }
 
