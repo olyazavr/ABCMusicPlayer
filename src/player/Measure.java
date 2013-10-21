@@ -1,13 +1,17 @@
 package player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sound.MusicPlayer;
 import utils.num;
 
 /**
- * ADT that represents a measure. It has a list of MusicSymbols, and a Lyric.
+ * ADT that represents a measure. It has a list of MusicSymbols, a Lyric, and a
+ * Map of accidentals to find which notes in the measure have accidentals (since
+ * they persist throughou the measure).
  * 
  * This class is primarily used to ensure the correct number of syllables in the
  * lyrics
@@ -16,10 +20,39 @@ import utils.num;
 public class Measure implements MusicPart{
     private final List<MusicSymbol> notes;
     private Lyric lyrics;
+    // this keeps track of which notes in the measure have sharps or flats
+    private Map<String, Integer> accidentals;
     
-    public Measure(List<MusicSymbol> notes, Lyric lyrics) {
+    public Measure(List<MusicSymbol> notes, Lyric lyrics, Map<String, Integer> accidentals) {
         this.notes = new ArrayList<MusicSymbol>(notes);
         this.lyrics = lyrics;
+        this.accidentals = new HashMap<String, Integer>(accidentals);
+    }
+
+    /**
+     * Add an entry to accidentals
+     * 
+     * @param pitch
+     *            the pitch that has the accidental
+     * @param accidental
+     *            1 for sharp, -2 for flat
+     */
+    public void addAccidental(String pitch, int accidental) {
+        accidentals.put(pitch, accidental);
+    }
+
+    /**
+     * Returns the accidental if the pitch has one
+     * 
+     * @param pitch
+     *            the pitch to check for
+     * @return 1 for sharp, -2 for flat, 0 for none
+     */
+    public int getAccidental(String pitch) {
+        if (accidentals.containsKey(pitch)) {
+            return accidentals.get(pitch);
+        }
+        return 0;
     }
     
     public void addNotes(MusicPlayer player){
