@@ -1,6 +1,7 @@
 package player;
 
 import grammar.ABCMusicBaseListener;
+import grammar.ABCMusicLexer;
 import grammar.ABCMusicParser;
 
 import java.util.ArrayList;
@@ -8,6 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+
+import lyricsParse.LyricsListener;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import utils.Fraction;
 import utils.Scales;
@@ -362,6 +373,28 @@ public class Listener extends ABCMusicBaseListener {
     @Override
     public void exitLyric(ABCMusicParser.LyricContext ctx) {
         System.out.println(ctx.getText());
+
+        // Create a stream of tokens using the lexer.
+        CharStream stream = new ANTLRInputStream(ctx.getText());
+        ABCMusicLexer lexer = new ABCMusicLexer(stream);
+        lexer.reportErrorsAsExceptions();
+        TokenStream tokens = new CommonTokenStream(lexer);
+        // List<? extends Token> actualTokens = lexer.getAllTokens();
+
+        // Feed the tokens into the parser.
+        ABCMusicParser parser = new ABCMusicParser(tokens);
+        parser.reportErrorsAsExceptions();
+
+        // Generate the parse tree using the starter rule.
+        ParseTree tree;
+        tree = parser.abc_tune(); // "abc_tune" is the starter rule.
+        ((RuleContext) tree).inspect(parser);
+
+        // Walk the tree with the listener.
+        ParseTreeWalker walker = new ParseTreeWalker();
+        LyricsListener listener = new LyricsListener();
+        walker.walk(listener, tree);
+        Lyric lyric = listener.getLyric();
 
         // remove the initial "w:" and split by spaces
         String[] splitLyrics = ctx.getText().substring(2).trim().split(" ");
