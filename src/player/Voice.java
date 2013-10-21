@@ -36,18 +36,8 @@ public class Voice implements MusicPart{
     	return LCM;
     }
 
-    public void addMusicSymbol(MusicSymbol musicSymbol) {
-        notes.add(musicSymbol);
-    }
-
-    public MusicSymbol popMusicSymbol() {
-        MusicSymbol last = notes.get(notes.size() - 1);
-        notes.remove(notes.size() - 1);
-        return last;
-    }
-
-    public void addLyric(String lyric) {
-        lyrics.addSyllable(lyric);
+    public void addMeasure(Measure measure) {
+        measures.add(measure);
     }
 
     /**

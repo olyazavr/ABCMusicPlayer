@@ -31,7 +31,6 @@ public class Listener extends ABCMusicBaseListener {
      */
     private String key = "";
     private Voice currentVoice;
-    private int currentAccidental = 0;
     private Measure currentMeasure;
 
     /**
@@ -44,11 +43,21 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     /**
+     * Make a new Measure object and set currentMeasure to it
+     */
+    @Override
+    public void enterMeasure(ABCMusicParser.MeasureContext ctx) {
+        Measure measure = new Measure(new ArrayList<MusicSymbol>(), new Lyric(new ArrayList<String>()),
+                new HashMap<String, Integer>());
+
+        currentVoice.addMeasure(measure);
+    }
+
+    /**
      * Test for repeats here, and also reset currentAccidental
      */
     @Override
     public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
-        currentAccidental = 0;
     }
 
     /**
