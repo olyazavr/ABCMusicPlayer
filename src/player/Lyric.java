@@ -14,13 +14,27 @@ public class Lyric {
 		this.syllables = new ArrayList<String>(syllables);
 	}
 
-    public void addSyllable(String syllable) {
-        syllables.add(syllable);
-    }
+	/**
+	 * Adds a syllable to the ongoing Lyric object
+	 * 
+	 * @param syllable
+	 *            a string representing the entire piece of text being connected
+	 *            to its corresponding note
+	 */
+	public void addSyllable(String syllable) {
+		syllables.add(syllable);
+	}
 
+	/**
+	 * Simply returns the syllable at the index requested.
+	 * 
+	 * @param i
+	 *            index of syllable to return
+	 * @return the syllable String
+	 */
 	public String getSyllable(int i) {
-        return syllables.get(i);
-    }
+		return syllables.get(i);
+	}
 
     /**
      * Returns whether or not there are any syllables
