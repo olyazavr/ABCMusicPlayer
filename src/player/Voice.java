@@ -41,6 +41,10 @@ public class Voice implements MusicPart{
         measures.add(measure);
     }
 
+    public void addAllMeasures(List<Measure> measures) {
+        measures.addAll(measures);
+    }
+
     /**
      * Returns the next Measure without enough syllables in Lyrics so syllables
      * can be added to them

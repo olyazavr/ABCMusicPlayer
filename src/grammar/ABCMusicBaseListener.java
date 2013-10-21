@@ -60,12 +60,6 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterField_title(ABCMusicParser.Field_titleContext ctx) { }
 	@Override public void exitField_title(ABCMusicParser.Field_titleContext ctx) { }
 
-	@Override public void enterR_repeat(ABCMusicParser.R_repeatContext ctx) { }
-	@Override public void exitR_repeat(ABCMusicParser.R_repeatContext ctx) { }
-
-	@Override public void enterL_repeat(ABCMusicParser.L_repeatContext ctx) { }
-	@Override public void exitL_repeat(ABCMusicParser.L_repeatContext ctx) { }
-
 	@Override public void enterNote(ABCMusicParser.NoteContext ctx) { }
 	@Override public void exitNote(ABCMusicParser.NoteContext ctx) { }
 

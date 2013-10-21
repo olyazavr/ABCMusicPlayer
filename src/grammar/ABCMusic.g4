@@ -98,7 +98,7 @@ field_voice : VOICE;
 field_key : KEY;
 
 abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
-measure : (l_repeat|PIPE)? note_element+ (END_NOTES|NEWLINE|r_repeat);
+measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (END_NOTES|NEWLINE|RREPEAT);
 
 note_element : note | rest | chord | tuplet;
 note: NOTE;
@@ -106,6 +106,3 @@ rest: REST;
 tuplet : PAREN DIGIT (note|chord)+;
 chord : LBRAC note+ RBRAC;
 lyric: LYRIC;
-
-l_repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
-r_repeat: RREPEAT;
