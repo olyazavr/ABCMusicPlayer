@@ -23,15 +23,16 @@ public class Voice implements MusicPart{
     }
     
     public void addNotes(MusicPlayer player){
-    	for (int i=0; i<notes.size();i++){
-    		notes.get(i).addNote(player, lyrics.getSyllable(i));
+    	for (Measure measure:measures){
+    		measure.addNotes(player);    		
     	}
+    	
     }
     
     public int calculateTicksPerBeat(){
     	int LCM=1;
-    	for (MusicSymbol symbol:notes){
-    		LCM=num.lcm(LCM, symbol.calculateTicksPerBeat());
+    	for (Measure measure:measures){
+    		LCM=num.lcm(LCM, measure.calculateTicksPerBeat());
     	}
     	return LCM;
     }
@@ -41,14 +42,15 @@ public class Voice implements MusicPart{
     }
 
     /**
-     * Returns all Measures without Lyrics so Lyrics can be added to them
+     * Returns all Measures without enough syllables in Lyrics so syllables can
+     * be added to them
      * 
-     * @return list of Measures without Lyrics
+     * @return list of Measures without enough syllables
      */
-    public List<Measure> getMeasuresWithoutLyrics() {
+    public List<Measure> getMeasuresWithoutEnoughLyrics() {
         List<Measure> measuresWOLyrics = new ArrayList<Measure>();
         for (Measure m : measures) {
-            if (!m.hasLyrics()) {
+            if (!m.hasEnoughLyrics()) {
                 measuresWOLyrics.add(m);
             }
         }

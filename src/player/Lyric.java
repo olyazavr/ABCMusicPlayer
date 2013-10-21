@@ -70,5 +70,13 @@ public class Lyric {
 	public int hashCode() {
 		return this.syllables.hashCode();
 	}
+    /**
+     * Returns how many syllables this Lyric contains
+     * 
+     * @return number of syllables
+     */
+    public int getNumberOfSyllables() {
+        return syllables.size();
+    }
 
 }

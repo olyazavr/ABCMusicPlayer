@@ -329,13 +329,18 @@ public class Listener extends ABCMusicBaseListener {
         // remove the initial "w:" and split by spaces
         String[] splitLyrics = ctx.getText().substring(2).trim().split(" ");
         
-        //find the measures that need lyrics
-        List<Measure> measures = currentVoice.getMeasuresWithoutLyrics();
 
         for (String s : splitLyrics) {
+            if (s.contains("-")) { // breaks word into 2 syllables
 
-            // TODO: CONTINUE HERE
+            }
         }
+    }
+
+    private void addToNextMeasure() {
+        // find the measures that need lyrics
+        List<Measure> measures = currentVoice.getMeasuresWithoutEnoughLyrics();
+
     }
 
     /**
