@@ -7,10 +7,11 @@ import utils.Fraction;
 
 /**
  * ADT that represents a signature. It has a title, composer, length, meter,
- * tempo, and key.
+ * tempo, key, and voices.
  * 
  * Default composer is "Unknown". Default meter is 4/4. Default length is 1/16
  * if meter < 3/4 and 1/8 if meter>= 3/4. Default tempo is length notes = 100.
+ * If no voice is provided, a default voice is added.
  * 
  */
 public class Signature {

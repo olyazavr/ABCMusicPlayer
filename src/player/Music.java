@@ -1,19 +1,20 @@
 package player;
 
-import sound.MusicPlayer;
+
 
 /**
- * Interface that represents music.
- * It can be either a music piece, a voice, or a music symbol. 
- * The objects are immutable.
+ * Interface that represents any music item. MusicSymbol and MusicPart extend
+ * this. Thus, a Music could be a MusicPiece, a Voice, a Chord, a Lyric, a
+ * Pitch, or a Rest. a The objects are immutable.
  * 
  **/
 
-/* Representation
-Music = MusicPiece(voices:List<Pitch>)+
-		Voice(notes: List<MusicSymbol>, lyrics:List<Syllables>) +
-        MusicSymbol(*described in its interface*) 
-*/ 
+/*
+ * Representation Music = MusicPiece(signature:Signature, voices:List<Voice>) +
+ * Voice(notes: List<MusicSymbol>, lyrics: Lyric) + Chord(notes: List<Pitch>)+ +
+ * Lyric(syllables: List<String>) + Pitch(value: string, octave: int, length:
+ * int) + Rest(length: int)
+ */ 
 
 public interface Music {	
 	   

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ADT that represents a line of syllables. It has a list of syllables.
+ * ADT that represents complete lyrics. It has a list of syllables.
  * 
  */
 public class Lyric {
@@ -14,12 +14,12 @@ public class Lyric {
 		this.syllables = new ArrayList<String>(syllables);
 	}
 
-	public String getSyllable(int i) {
-		return syllables.get(i);
-	}
+    public void addSyllable(String syllable) {
+        syllables.add(syllable);
+    }
 
-	public void addSyllable(String syllable) {
-		syllables.add(syllable);
-	}
+	public String getSyllable(int i) {
+        return syllables.get(i);
+    }
 
 }

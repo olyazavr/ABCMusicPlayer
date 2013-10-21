@@ -7,7 +7,8 @@ import sound.MusicPlayer;
 import utils.num;
 
 /**
- * ADT that represents a voice. It has a name and a list of measures
+ * ADT that represents a voice. It has a name, a list of MusicSymbols, and a
+ * Lyric.
  * 
  * By default, there is one voice, but there can be multiple. This is used to
  * have several melodies play at once.

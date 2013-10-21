@@ -6,6 +6,11 @@ import java.util.List;
 import sound.MusicPlayer;
 import utils.num;
 
+/**
+ * ADT that represents a chord. It contains a list of Pitches, which are all
+ * played at the same time. No rests or Tuplets are allowed.
+ * 
+ */
 public class Chord implements MusicSymbol {
 	private final List<Pitch> notes;
 

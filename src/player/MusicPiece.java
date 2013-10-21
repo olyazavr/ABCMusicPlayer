@@ -7,8 +7,8 @@ import sound.MusicPlayer;
 import utils.num;
 
 /**
- * Interface that will help build all of the ADT components. Everything will be
- * immutable.
+ * ADT that represents the complete music piece. It has a Signature and and list
+ * of Voices. The Voices then have the notes and lyrics.
  * 
  */
 public class MusicPiece implements MusicPart {

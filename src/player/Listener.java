@@ -54,7 +54,7 @@ public class Listener extends ABCMusicBaseListener {
             if (voices.containsKey(voiceName)) {
                 currentVoice = voices.get(voiceName);
             } else {
-                Voice voice = new Voice(voiceName, new ArrayList<MusicSymbol>(), new ArrayList<Lyric>());
+                Voice voice = new Voice(voiceName, new ArrayList<MusicSymbol>(), new Lyric(new ArrayList<String>()));
                 voices.put(voiceName, voice);
             }
         }
@@ -119,7 +119,8 @@ public class Listener extends ABCMusicBaseListener {
         // create a default voice if there are no voices, and it will always be
         // the currentVoice
         if (v.isEmpty()){
-            Voice defaultVoice = new Voice("defaultVoice", new ArrayList<MusicSymbol>(), new ArrayList<Lyric>());
+            Voice defaultVoice = new Voice("defaultVoice", new ArrayList<MusicSymbol>(), new Lyric(
+                    new ArrayList<String>()));
             v.add("defaultVoice");
             currentVoice = defaultVoice;
         }
@@ -143,7 +144,7 @@ public class Listener extends ABCMusicBaseListener {
 
         // pop notes and add them to a list
         for (int i = 0; i < numNotes; ++i) {
-            notes.add((Pitch) currentVoice.pop());
+            notes.add((Pitch) currentVoice.popMusicSymbol());
         }
 
         Chord chord = new Chord(notes);
@@ -169,7 +170,7 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         for (int i = 0; i < tupletNumber; ++i) {
-            Pitch note = (Pitch) currentVoice.pop();
+            Pitch note = (Pitch) currentVoice.popMusicSymbol();
             // add to the currentVoice the same note with its length multiplied
             // by the multiplicationFactor
             currentVoice.addMusicSymbol(note.multiplyLength(multiplicationFactor));

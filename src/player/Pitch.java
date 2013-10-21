@@ -4,56 +4,74 @@ import sound.MusicPlayer;
 import utils.Fraction;
 
 /**
- * Basic ADT that represents a single pitch. It has a value -- A,B,C,D,E,F,G;
- * an octave -- the offset from the standard octave (e.g. +1 for "a,b,c.."
- * octave); length -- the fraction of default note *accidental -- 1 for sharp
- * and -2 for flat.
+ * Basic ADT that represents a single pitch.
+ * 
+ * It has a value -- A,B,C,D,E,F,G
+ * 
+ * octave -- the offset from the standard octave (e.g. +1 for "a,b,c.." octave);
+ * 
+ * length -- the fraction of default note
+ * 
+ * accidental -- 1 for sharp and -2 for flat.
  * 
  */
 public class Pitch implements MusicSymbol {
-	private final char value;
-	private final Fraction length;
-	private final int octave;
-	private final int accidental;
+    private final char value;
+    private final Fraction length;
+    private final int octave;
+    private final int accidental;
 
-	public Pitch(Fraction length, char value, int octave, int accidental) {
-		this.length = length;
-		this.value = value;
-		this.octave = octave;
-		this.accidental = accidental;
-	}
+    /**
+     * An object representative of a pitch.
+     * 
+     * @param length
+     *            the fraction of default note
+     * @param value
+     *            A,B,C,D,E,F,G
+     * @param octave
+     *            the offset from the standard octave (e.g. +1 for "a,b,c.."
+     *            octave)
+     * @param accidental
+     *            1 for sharp and -2 for flat.
+     */
+    public Pitch(Fraction length, char value, int octave, int accidental) {
+        this.length = length;
+        this.value = value;
+        this.octave = octave;
+        this.accidental = accidental;
+    }
 
-	public void addNote(MusicPlayer player, String syllable) {
-		
-		sound.Pitch pitch = new sound.Pitch(value);
-		pitch = pitch.transpose(accidental).octaveTranspose(octave);
+    public void addNote(MusicPlayer player, String syllable) {
 
-		player.addNote(pitch.toMidiNote(), length);
-		player.addTime(length);
+        sound.Pitch pitch = new sound.Pitch(value);
+        pitch = pitch.transpose(accidental).octaveTranspose(octave);
 
-		if (!syllable.isEmpty()) {
-			player.addLyric(syllable);
-		}
-	}
+        player.addNote(pitch.toMidiNote(), length);
+        player.addTime(length);
 
-	/**
-	 * Creates a copy of the note with length multiplied by factor
-	 * 
-	 * @param factor
-	 *            is a valid Fraction
-	 * @return note with the new length
-	 */
-	public Pitch multiplyLength(Fraction factor) {
-		Fraction newLength = length.multiply(factor);
-		return new Pitch(newLength, value, octave, accidental);
-	}
+        if (!syllable.isEmpty()) {
+            player.addLyric(syllable);
+        }
+    }
 
-	public Fraction getLength() {
-		return length;
-	}
+    /**
+     * Creates a copy of the note with length multiplied by factor
+     * 
+     * @param factor
+     *            is a valid Fraction
+     * @return note with the new length
+     */
+    public Pitch multiplyLength(Fraction factor) {
+        Fraction newLength = length.multiply(factor);
+        return new Pitch(newLength, value, octave, accidental);
+    }
 
-	public int calculateTicksPerBeat() {
-		return length.getNumerator();
-	}
+    public Fraction getLength() {
+        return length;
+    }
+
+    public int calculateTicksPerBeat() {
+        return length.getNumerator();
+    }
 
 }
