@@ -20,31 +20,53 @@ import utils.Scales;
  */
 public class Listener extends ABCMusicBaseListener {
     private Stack<Object> stack = new Stack<Object>();
-    private String key = "";
-    private Map<String, Voice> voices = new HashMap<String, Voice>();
-    private Voice currentVoice;
 
+    /**
+     * A way to locate the Voice object from its name
+     */
+    private Map<String, Voice> voices = new HashMap<String, Voice>();
+
+    /**
+     * Variables to keep track of information shared among measures and notes
+     */
+    private String key = "";
+    private Voice currentVoice;
+    private int currentAccidental = 0;
+
+    /**
+     * do nothing, because the top of the stack should have the node already in
+     * it
+     */
     @Override
     public void exitAbc_tune(ABCMusicParser.Abc_tuneContext ctx) {
-        // do nothing, because the top of the stack should have the node already
-        // in it
         assert stack.size() == 1;
     }
 
+    /**
+     * Test for repeats here, and also reset currentAccidental
+     */
     @Override
     public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
-        // test for repeats here!
+        currentAccidental = 0;
     }
 
+    /**
+     * Make actual MusicPiece object
+     */
     @Override
     public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) {
-        // make actual MusicPiece object
+        Signature signature = (Signature) stack.pop();
+        List<Voice> voicesList = new ArrayList<Voice>(voices.values());
+        MusicPiece musicPiece = new MusicPiece(signature, voicesList);
 
+        stack.push(musicPiece);
     }
 
+    /**
+     * Make a new Voice to add Lyrics and Notes to. Set currentVoice to it.
+     */
     @Override
     public void enterField_voice(ABCMusicParser.Field_voiceContext ctx) {
-        // Make a new Voice to add Lyrics and Notes to. Set currentVoice to it.
 
         // we could either be in the header or in the body. We only care for the
         // body. If we are not in the header, the stack should have something in
@@ -62,9 +84,12 @@ public class Listener extends ABCMusicBaseListener {
 
     }
 
+    /**
+     * Store header info in Signature object
+     */
     @Override
     public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) {
-        // store header info in Signature object
+        System.out.println(ctx.getText());
 
         String[] lines = ctx.getText().split("/n");
         String t = "";
@@ -128,12 +153,15 @@ public class Listener extends ABCMusicBaseListener {
         stack.push(new Signature(t, c, l, m, q, key, v));
     }
 
+    /**
+     * Pop notes, add them to Chord, add Chord to currentVoice. This way all the
+     * notes in the Chord will be played at the same time.
+     */
     @Override
     public void exitChord(ABCMusicParser.ChordContext ctx) {
-        // pop notes, add them to Chord, add Chord to currentVoice
-
         // [ notes ]
         String chordText = ctx.getText();
+        System.out.println(chordText);
 
         // I need the number of notes, so I split around them, and the number of
         // notes will be 1 less than the number of chunks
@@ -148,13 +176,18 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         Chord chord = new Chord(notes);
+        System.out.println("adding Chord " + chord);
 
         currentVoice.addMusicSymbol(chord);
     }
 
+    /**
+     * Pop notes, modify their length, add new notes back. This way, they will
+     * be played as a Tuplet.
+     */
     @Override
     public void exitTuplet(ABCMusicParser.TupletContext ctx) {
-        // pop notes, modify their length, add new notes back
+        System.out.println(ctx.getText());
 
         // determines if duplet, triplet, quadruplet
         int tupletNumber = new Integer(ctx.getText().substring(1, 2));
@@ -173,26 +206,35 @@ public class Listener extends ABCMusicBaseListener {
             Pitch note = (Pitch) currentVoice.popMusicSymbol();
             // add to the currentVoice the same note with its length multiplied
             // by the multiplicationFactor
-            currentVoice.addMusicSymbol(note.multiplyLength(multiplicationFactor));
+            Pitch newNote = note.multiplyLength(multiplicationFactor);
+
+            System.out.println("adding tuplet " + newNote);
+            currentVoice.addMusicSymbol(newNote);
         }
 
     }
 
+    /**
+     * Add Rest.
+     */
     @Override
     public void exitRest(ABCMusicParser.RestContext ctx) {
-        // add Rest
-
         // duration is right after the 'z'
         Fraction duration = new Fraction(ctx.getText().substring(1));
+        Rest rest = new Rest(duration);
 
-        currentVoice.addMusicSymbol(new Rest(duration));
+        System.out.println(ctx.getText());
+        System.out.println("adding Rest " + rest);
+        currentVoice.addMusicSymbol(rest);
     }
 
+    /**
+     * Add Pitch
+     */
     @Override
     public void exitNote(ABCMusicParser.NoteContext ctx) {
-        // add Pitch
-
         String text = ctx.getText();
+        System.out.println(text);
         char value = 'A';
         Fraction length = new Fraction(1, 1);
         int octave = 0;
@@ -204,46 +246,83 @@ public class Listener extends ABCMusicBaseListener {
         for (String s : splitNote) {
             if (s.matches("[A-G]")) { // this is the actual note
                 value = s.charAt(0);
+
+                // if the note doesn't set its own accidental, try taking the
+                // measure's accidental
+                if (accidental == 0) {
+                    accidental += currentAccidental;
+                }
+                // if no accidental is set, take the key's accidental
+                if (accidental == 0) {
+                    accidental += Scales.adjustKey(s, key);
+                }
             }
             else if (s.matches("[a-g]")) { // note one octave up
-                value = s.charAt(0);
-                octave ++;
+                value = s.toUpperCase().charAt(0);
+                octave++;
+
+                // if the note doesn't set its own accidental, try taking the
+                // measure's accidental
+                if (accidental == 0) {
+                    accidental += currentAccidental;
+                }
+                // if no accidental is set, take the key's accidental
+                if (accidental == 0) {
+                    accidental += Scales.adjustKey(String.valueOf(value), key);
+                }
             }
             else if (s.equals("'")) { // higher octave
-                octave ++;
+                octave++;
 
             } else if (s.equals(",")) { // lower octave
-                octave --;
+                octave--;
 
             } else if (s.equals("^")) { // sharp
-                accidental ++;
+                accidental++;
+                currentAccidental++;
 
             } else if (s.equals("_")) { // flat
-                // flat actually equals -2, but we need this so it can cancel
-                // out with the sharp
-                accidental--;
+                accidental -= 2;
+                currentAccidental -= 2;
             }
         }
 
-        Scales.adjustKey(value, key);
-
         // now, fix the accidental
-        // if there are two flats, move down an octave, keep accidental = -2
-        if (accidental == -2) {
-            octave -= 1;
-        } else if (accidental == -1) { // this is just the format we want
-            accidental = -2;
-        } else if (accidental == 2) {
-            
+        // for every two sharps, move up a pitch
+        if (accidental == 2) {
+            String[] adjust = Scales.movePitch(value, 1);
+            value = adjust[0].charAt(0);
+            octave += new Integer(adjust[1]);
+            accidental = 0;
+
+            // for every two flats, move down a pitch
+        } else if (accidental == -4) {
+            String[] adjust = Scales.movePitch(value, -1);
+            value = adjust[0].charAt(0);
+            octave += new Integer(adjust[1]);
+            accidental = 0;
         }
 
-        currentVoice.addMusicSymbol(new Pitch(length, value, octave, accidental));
+        Pitch note = new Pitch(length, value, octave, accidental);
+
+        System.out.println("adding Pitch of " + note);
+        currentVoice.addMusicSymbol(note);
 
     }
 
+    /**
+     * Add syllables to currentVoice's Lyric
+     */
     @Override
     public void exitLyric(ABCMusicParser.LyricContext ctx) {
-        // do some crazy shit and produce syllables
+        System.out.println(ctx.getText());
+
+        // remove the initial "w:" and split by spaces
+        String[] splitLyrics = ctx.getText().substring(2).trim().split(" ");
+
+        for (String s : splitLyrics) {
+
+        }
     }
 
     /**
