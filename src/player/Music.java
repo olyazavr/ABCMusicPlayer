@@ -3,7 +3,9 @@ package player;
 /**
  * Interface that represents any music item. MusicSymbol and MusicPart extend
  * this. Thus, a Music could be a MusicPiece, a Voice, a Chord, a Lyric, a
- * Pitch, or a Rest. a The objects are immutable.
+ * Pitch, or a Rest. a The objects are immutable. The equals, toString, and
+ * hashCode methods work recursively and individually different from each class
+ * extending Music. Read their documentation for full specs.
  * 
  **/
 
@@ -23,4 +25,11 @@ public interface Music {
 	 * @return integer representing number of ticks per beat.
 	 */
 	public int calculateTicksPerBeat();
+
+	public boolean equals(Object _that);
+
+	public String toString();
+
+	public int hashCode();
+
 }

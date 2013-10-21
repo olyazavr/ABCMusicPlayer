@@ -47,4 +47,32 @@ public class MusicPiece implements MusicPart {
 		return LCM;
 	}
 
+	/**
+	 * @param _that
+	 *            the object which we check equality against this
+	 */
+	public boolean equals(Object _that) {
+		// two objects can only be equal if they are of the same type
+		if (!(_that instanceof MusicPiece)) {
+			return false;
+		}
+		// if they are, cast the Object into a MusicPiece object and check for
+		// equality recursively
+		MusicPiece that = (MusicPiece) _that;
+		return this.signature.equals(that.signature)
+				&& this.voices.equals(that.voices);
+	}
+
+	/**
+	 * Returns a string recursively, implementing terminal class toString
+	 * methods.
+	 */
+	public String toString() {
+		return this.toString();
+	}
+
+	public int hashCode() {
+		return this.signature.hashCode() + this.voices.hashCode();
+	}
+
 }

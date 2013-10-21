@@ -44,4 +44,41 @@ public class Chord implements MusicSymbol {
 		return LCM;
 	}
 
+	/**
+	 * @param _that
+	 *            the object which we check equality against this
+	 */
+	public boolean equals(Object _that) {
+		// two objects can only be equal if they are of the same type
+		if (!(_that instanceof Chord)) {
+			return false;
+		}
+		// if they are, cast the Object into a Chord object and check for
+		// equality recursively
+		Chord that = (Chord) _that;
+		return this.notes.equals(that.notes);
+	}
+
+	/**
+	 * Returns a string of chords in the format: "[" followed by notes with
+	 * spaces between them and ending with a "]"
+	 */
+	public String toString() {
+		StringBuilder readableChords = new StringBuilder();
+		readableChords.append("[");
+		for (Pitch note : this.notes) {
+			readableChords.append(note);
+			// if it's the last note, don't add a space
+			if (!note.equals(this.notes.get(this.notes.size() - 1))) {
+				readableChords.append("");
+			}
+		}
+		readableChords.append("]");
+		return readableChords.toString();
+	}
+
+	public int hashCode() {
+		return this.notes.hashCode();
+	}
+
 }

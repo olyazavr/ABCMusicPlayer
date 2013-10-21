@@ -4,7 +4,9 @@ import sound.MusicPlayer;
 
 /**
  * Interface that represents a music symbol, which can be either a pitch, a rest
- * or a chord. The objects are immutable.
+ * or a chord. The objects are immutable. The equals, toString, and hashCode
+ * methods work recursively and individually different from each class extending
+ * Music. Read their documentation for full specs.
  * 
  **/
 
@@ -24,4 +26,10 @@ public interface MusicSymbol extends Music {
 	 *            is a valid integer
 	 */
 	public void addNote(MusicPlayer player, String syllable);
+
+	public boolean equals(Object _that);
+
+	public String toString();
+
+	public int hashCode();
 }

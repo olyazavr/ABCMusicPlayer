@@ -66,13 +66,16 @@
 \centerline{{\large \bf ABC Parser Project: Design Description }}
 \bigskip\bigskip
 
-We represent an ABC parser for music files as a series of well-structured interfaces.
+\noindent {\textbf{Overview:}}
+
+We represent an ABC parser for music files as a series of well-structured interfaces. When an ABC Music file is inputted, it will be read and converted into a string, which will then be passed to the lexer to create tokens, which are then fed to the parser to walk the tree and create MusicPiece objects, which then provide the necessary information to create and play the MIDI file created.
 
 \centerline{ \includegraphics{Music.pdf}}
 
 \noindent {\tt Music} is an interface that will represent our ADT. It defines the following method
 
 \begin{itemize} 
+
 \item { \tt calculateTicksPerBeat} is an auxiliar method needed to determine the number of ticks per beat for the player such that any notelength can be represented as an integer number of ticks. The method is called recursively.
 \end{itemize}
 
@@ -150,6 +153,19 @@ When exiting a lyric, the chunk of text will be broken up into syllables (discar
 When exiting a measure, repeats are detected and then the notes inside are doubled.
 
 When exiting music, voices and signature will be added to a MusicPiece object, which is then added to the stack.
+
+\item {\bf Tests}:
+\begin{itemize}
+\item Lexer: Test different inputs and make sure tokens are broken up correctly. 
+Examples: Simple header only, extended header, header and body, lyrics, music that includes chord, tuplets, repeats, music that has comments
+\item Parser: Test different inputs and expect fully-formed MusicPiece objects to be returned. 
+Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures
+\item ADT tests: test the methods of our ADTs
+Examples: calculateTicksPerBeat, addMusicSymbol, popMusicSymbol, addLyric.
+\item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
+Examples: pass in all of the sample\_abc files to be played, they contain the varying inputs that we want (simple measures, measures with comments, multiple voices, repeated sections, chords, tuplets, rests).
+\end{itemize}
+
 \end{itemize}
 
 \bigskip
