@@ -7,20 +7,17 @@ import sound.MusicPlayer;
 import utils.num;
 
 /**
- * ADT that represents a voice. It has a name, a list of MusicSymbols, and a
- * Lyric.
+ * ADT that represents a measure. It has a list of MusicSymbols, and a Lyric.
  * 
- * By default, there is one voice, but there can be multiple. This is used to
- * have several melodies play at once.
+ * This class is primarily used to ensure the correct number of syllables in the
+ * lyrics
  * 
  */
 public class Measure implements MusicPart{
-    private final String name;
     private final List<MusicSymbol> notes;
     private Lyric lyrics;
     
-    public Measure(String name, List<MusicSymbol> notes, Lyric lyrics) {
-        this.name = name;
+    public Measure(List<MusicSymbol> notes, Lyric lyrics) {
         this.notes = new ArrayList<MusicSymbol>(notes);
         this.lyrics = lyrics;
     }
@@ -31,6 +28,22 @@ public class Measure implements MusicPart{
     	}
     }
     
+    /**
+     * Returns the number of notes in this measure, excluding rests. Use this
+     * for ensuring the right number of syllables.
+     * 
+     * @return number of notes
+     */
+    public int notesPerMeasure() {
+        int counter = 0;
+        for (MusicSymbol note : notes) {
+            if (!(note instanceof Rest)) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
     public int calculateTicksPerBeat(){
     	int LCM=1;
     	for (MusicSymbol symbol:notes){

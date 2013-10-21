@@ -7,8 +7,7 @@ import sound.MusicPlayer;
 import utils.num;
 
 /**
- * ADT that represents a voice. It has a name, a list of MusicSymbols, and a
- * Lyric.
+ * ADT that represents a voice. It has a name, and a list of Measures.
  * 
  * By default, there is one voice, but there can be multiple. This is used to
  * have several melodies play at once.
@@ -16,13 +15,11 @@ import utils.num;
  */
 public class Voice implements MusicPart{
     private final String name;
-    private final List<MusicSymbol> notes;
-    private Lyric lyrics;
+    private final List<Measure> measures;
     
-    public Voice(String name, List<MusicSymbol> notes, Lyric lyrics) {
+    public Voice(String name, List<Measure> measures) {
         this.name = name;
-        this.notes = new ArrayList<MusicSymbol>(notes);
-        this.lyrics = lyrics;
+        this.measures = new ArrayList<Measure>(measures);
     }
     
     public void addNotes(MusicPlayer player){

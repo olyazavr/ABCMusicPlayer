@@ -32,6 +32,7 @@ public class Listener extends ABCMusicBaseListener {
     private String key = "";
     private Voice currentVoice;
     private int currentAccidental = 0;
+    private Measure currentMeasure;
 
     /**
      * do nothing, because the top of the stack should have the node already in
