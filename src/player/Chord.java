@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sound.MusicPlayer;
+import utils.Fraction;
 import utils.num;
 
 /**
@@ -49,6 +50,21 @@ public class Chord implements MusicSymbol {
             LCM = num.lcm(LCM, pitch.calculateTicksPerBeat());
         }
         return LCM;
+    }
+
+    /**
+     * Creates a copy of the Chord with lengths of notes multiplied by factor
+     * 
+     * @param factor
+     *            is a valid Fraction
+     * @return Chord with the new length
+     */
+    public Chord multiplyLength(Fraction factor) {
+        List<Pitch> newNotes = new ArrayList<Pitch>(notes.size());
+        for (Pitch p : notes) {
+            newNotes.add(p.multiplyLength(factor));
+        }
+        return new Chord(newNotes);
     }
 
     /**

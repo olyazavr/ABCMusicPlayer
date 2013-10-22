@@ -309,16 +309,22 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         for (int i = 0; i < tupletNumber; ++i) {
-            Pitch note = (Pitch) musicSymbolStack.pop();
-            // add to the currentVoice the same note with its length multiplied
-            // by the multiplicationFactor
-            Pitch newNote = note.multiplyLength(multiplicationFactor);
+            // add to the stack the same note with its length multiplied by the
+            // multiplicationFactor
 
-            // TODO: Tuplets can have Chords!!
-            System.out.println("adding tuplet " + newNote);
-            musicSymbolStack.push(newNote);
+            // Can be Pitch or Chord (not Rest)
+            MusicSymbol musicSymbol = musicSymbolStack.pop();
+            if (musicSymbol instanceof Pitch) {
+                Pitch newMusicSymbol = ((Pitch) musicSymbol).multiplyLength(multiplicationFactor);
+                System.out.println("adding tuplet " + newMusicSymbol);
+                musicSymbolStack.push(newMusicSymbol);
+
+            } else if (musicSymbol instanceof Chord) {
+                Chord newMusicSymbol = ((Chord) musicSymbol).multiplyLength(multiplicationFactor);
+                System.out.println("adding tuplet " + newMusicSymbol);
+                musicSymbolStack.push(newMusicSymbol);
+            }
         }
-
     }
 
     /**
