@@ -17,57 +17,68 @@ import player.Main;
 public class PlayerTest {
 
 	@Test
-	public void playabcTest() {
+	public void playabcTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/abc_song.abc");
 	}
 
 	@Test
-	public void fur_eliseTest() {
+	public void fur_eliseTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/fur_elise.abc");
 	}
 
 	@Test
-	public void inventionTest() {
+	public void inventionTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/invention.abc");
 	}
 
 	@Test
-	public void little_night_musicTest() {
+	public void little_night_musicTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/little_night_music.abc");
 	}
 
 	@Test
-	public void paddyTest() {
+	public void paddyTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/paddy.abc");
 	}
 
 	@Test
-	public void piece1Test() {
+	public void piece1Test() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/piece1.abc");
 	}
 
 	@Test
-	public void piece2Test() {
+	public void piece2Test() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/piece2.abc");
 	}
 
 	@Test
-	public void piece3Test() {
+	public void piece3Test() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/piece3.abc");
 	}
 
 	@Test
-	public void preludeTest() {
+	public void preludeTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/prelude.abc");
 	}
 
 	@Test
-	public void scaleTest() {
+	public void scaleTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/scale.abc");
 	}
 
 	@Test
-	public void waxies_dargleTest() {
+	public void waxies_dargleTest() throws MidiUnavailableException,
+			InvalidMidiDataException {
 		Main.play("sample_abc/waxies_dargle.abc");
 	}
 
