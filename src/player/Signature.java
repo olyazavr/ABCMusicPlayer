@@ -35,8 +35,7 @@ public class Signature {
      * @param meter
      *            sum of lengths of all notes in a measure
      * @param tempo
-     *            number of given length notes to play in a minute (format
-     *            "length=tempo")
+     *            number of given length notes to play in a minute
      * @param key
      *            key signature
      * @param voices

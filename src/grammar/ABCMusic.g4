@@ -80,7 +80,8 @@ END_NOTES: '|]' | '||';
  *
  * Each header field has its own rule. Notes, rests, tuplets, chords, and measures have 
  * their own respective rules. Repeats have their own rules as well, but to get the 
- * entire repeated measure, extract the token from measure.
+ * entire repeated measure, extract the token from measure. A measure has a bunch of 
+ * notes and bars, optionally followed by lyrics.
  * Lyrics also have their own rule.
  *
  */
