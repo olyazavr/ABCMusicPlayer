@@ -5,13 +5,10 @@ import grammar.ABCMusicParser;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -74,7 +71,7 @@ public class Main {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.abc_tune(); // "abc_tune" is the starter rule.
-		((RuleContext) tree).inspect(parser);
+//		((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 		ParseTreeWalker walker = new ParseTreeWalker();
@@ -84,11 +81,6 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		List<String> a = new ArrayList<String>();
-		a.add("a");
-		a.add("b");
-		List<String> b = new ArrayList<String>();
-		b.add("a");
-		System.out.println(a.toString());
+
 	}
 }

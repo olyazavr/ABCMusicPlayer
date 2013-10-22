@@ -13,50 +13,35 @@ import utils.num;
  * have several melodies play at once.
  * 
  */
-public class Voice implements MusicPart{
+public class Voice implements MusicPart {
     private final String name;
     private final List<Measure> measures;
-    
+
+    /**
+     * Creates a new Voice object with a name and its measures
+     * 
+     * @param name
+     *            name of the Voice
+     * @param measures
+     *            list of Measures in the Voice
+     */
     public Voice(String name, List<Measure> measures) {
         this.name = name;
         this.measures = new ArrayList<Measure>(measures);
     }
-    
-    public void addNotes(MusicPlayer player){
-    	for (Measure measure:measures){
-    		measure.addNotes(player);    		
-    	}
-    	
-    }
-    
-    public int calculateTicksPerBeat(){
-    	int LCM=1;
-    	for (Measure measure:measures){
-    		LCM=num.lcm(LCM, measure.calculateTicksPerBeat());
-    	}
-    	return LCM;
-    }
 
-    public void addMeasure(Measure measure) {
-        measures.add(measure);
-    }
-
-    public void addAllMeasures(List<Measure> measures) {
-        measures.addAll(measures);
-    }
-
-    /**
-     * Returns the next Measure without enough syllables in Lyrics so syllables
-     * can be added to them
-     * 
-     * @return Measure without enough syllables or null if they are all full
-     */
-    public Measure getNextMeasure() {
-        for (Measure m : measures) {
-            if (!m.hasEnoughLyrics()) {
-                return m;
-            }
+    public void addNotes(MusicPlayer player) {
+        for (Measure measure : measures) {
+            measure.addNotes(player);
         }
-        return null;
     }
+
+    public int calculateTicksPerBeat() {
+        int LCM = 1;
+        for (Measure measure : measures) {
+            LCM = num.lcm(LCM, measure.calculateTicksPerBeat());
+        }
+        return LCM;
+    }
+
 }

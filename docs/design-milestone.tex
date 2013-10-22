@@ -144,15 +144,15 @@ When exiting a header, the information is extracted from the context, and defaul
 
 When entering a voice, the current voice is switched.
 
-When exiting a note or rest, we extract the needed information from the context and add a Pitch or Rest object to the current measure. 
+When exiting a note or rest, we extract the needed information from the context and add a Pitch or Rest object to the stacke. 
 
-When exiting a tuplet, the number of notes inside is determined, then they are popped, and their duration is modified accordingly, and the new notes are inserted back into the current measure.
+When exiting a tuplet, the number of notes inside is determined, then they are popped, and their duration is modified accordingly, and the new notes are inserted back into stack.
 
-When exiting a chord, the number of notes inside is determined, then they are popped, and then added to a Chord object, which is then added to the current measure (this object represents a list of notes, since they all start at the same time).
+When exiting a chord, the number of notes inside is determined, then they are popped, and then added to a Chord object, which is then added to the stack (this object represents a list of notes, since they all start at the same time).
 
-When exiting a lyric, the chunk of text will be sent to another lexer and parser, which will return strings syllables, which will be added to the current measure's lyric.
+When exiting a lyric, the chunk of text will be sent to another lexer and parser, which will return strings syllables, which will be added to the stack.
 
-When entering and exiting a measure, repeats are searched for and the repeated measures are added to the voice. Moreoever, the current measure is switched when entering a measure. New measures are added to the current voice.
+When entering and exiting a measure, repeats are searched for and the repeated measures are added to the voice. When exiting, the measure is created and added to the stack, gathering its notes and lyrics for their stacks.
 
 When exiting music, voices and signature will be added to a MusicPiece object, which is then added to the stack.
 
@@ -163,7 +163,7 @@ Examples: Simple header only, extended header, header and body, lyrics, music th
 \item Parser: Test different inputs and expect fully-formed MusicPiece objects to be returned. 
 Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures
 \item ADT tests: test the methods of our ADTs
-Examples: equals, toString, hashCode, calculateTicksPerBeat, addMusicSymbol, popMusicSymbol, addLyric.
+Examples: equals, toString, hashCode, calculateTicksPerBeat, multiplyDuration, etc.
 \item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
 Examples: pass in all of the sample\_abc files to be played, they contain the varying inputs that we want (simple measures, measures with comments, multiple voices, repeated sections, chords, tuplets, rests).
 \end{itemize}

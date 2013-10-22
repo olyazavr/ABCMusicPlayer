@@ -1,7 +1,17 @@
 package tests;
 
+import lyrics.LyricsLexer;
+import lyrics.LyricsParser;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 
+import player.Listener;
 import player.Main;
 
 /**
@@ -12,6 +22,30 @@ import player.Main;
  * @category no_didit
  */
 public class PlayerTest {
+	
+    @Test
+    public void lyricParserTestTest() {
+    	String input = "one--two";
+    		// Create a stream of tokens using the lexer.
+    		CharStream stream = new ANTLRInputStream(input);
+    		LyricsLexer lexer = new LyricsLexer(stream);
+    		lexer.reportErrorsAsExceptions();
+    		TokenStream tokens = new CommonTokenStream(lexer);
+
+    		// Feed the tokens into the parser.
+    		LyricsParser parser = new LyricsParser(tokens);
+    		parser.reportErrorsAsExceptions();
+
+    		// Generate the parse tree using the starter rule.
+    		ParseTree tree;
+    		tree = parser.lyric(); // "lyric" is the starter rule.
+//    		((RuleContext) tree).inspect(parser);
+    		
+    		// Walk the tree with the listener.
+    		ParseTreeWalker walker = new ParseTreeWalker();
+    		Listener listener = new Listener();
+    		walker.walk(listener, tree);
+    }
 
     @Test
     public void playabcTest() {

@@ -8,68 +8,55 @@ import java.util.List;
  * 
  */
 public class Lyric {
-	private List<String> syllables;
+    private List<String> syllables;
 
-	public Lyric(List<String> syllables) {
-		this.syllables = new ArrayList<String>(syllables);
-	}
+    /**
+     * Creates a Lyric object with syllables
+     * 
+     * @param syllables
+     *            list of strings representative of syllables per measure
+     */
+    public Lyric(List<String> syllables) {
+        this.syllables = new ArrayList<String>(syllables);
+    }
 
-	/**
-	 * Adds a syllable to the ongoing Lyric object
-	 * 
-	 * @param syllable
-	 *            a string representing the entire piece of text being connected
-	 *            to its corresponding note
-	 */
-	public void addSyllable(String syllable) {
-		syllables.add(syllable);
-	}
+    /**
+     * Simply returns the syllable at the index requested.
+     * 
+     * @param i
+     *            index of syllable to return
+     * @return the syllable String
+     */
+    public String getSyllable(int i) {
+        return syllables.get(i);
+    }
 
-	/**
-	 * Simply returns the syllable at the index requested.
-	 * 
-	 * @param i
-	 *            index of syllable to return
-	 * @return the syllable String
-	 */
-	public String getSyllable(int i) {
-		return syllables.get(i);
-	}
+    /**
+     * @param _that
+     *            the object which we check equality against this
+     */
+    public boolean equals(Object _that) {
+        // two objects can only be equal if they are of the same type
+        if (!(_that instanceof Lyric)) {
+            return false;
+        }
+        // if they are, cast the Object into a Lyric object and check for
+        // equality recursively
+        Lyric that = (Lyric) _that;
+        return this.syllables.equals(that.syllables);
+    }
 
-	/**
-	 * Returns whether or not there are any syllables
-	 * 
-	 * @return if the syllables are empty
-	 */
-	public boolean isEmpty() {
-		return syllables.isEmpty();
-	}
+    /**
+     * Returns a string of the entire lyrics
+     */
+    public String toString() {
+        return this.toString();
+    }
 
-	/**
-	 * @param _that
-	 *            the object which we check equality against this
-	 */
-	public boolean equals(Object _that) {
-		// two objects can only be equal if they are of the same type
-		if (!(_that instanceof Lyric)) {
-			return false;
-		}
-		// if they are, cast the Object into a Lyric object and check for
-		// equality recursively
-		Lyric that = (Lyric) _that;
-		return this.syllables.equals(that.syllables);
-	}
+    public int hashCode() {
+        return this.syllables.hashCode();
+    }
 
-	/**
-	 * Returns a string of the entire lyrics
-	 */
-	public String toString() {
-		return this.toString();
-	}
-
-	public int hashCode() {
-		return this.syllables.hashCode();
-	}
     /**
      * Returns how many syllables this Lyric contains
      * 
