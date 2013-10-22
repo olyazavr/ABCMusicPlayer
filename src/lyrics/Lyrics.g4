@@ -52,8 +52,8 @@ package lyrics;
 
 WORD : ('\'' | '(' | ')' | ',' | [a-zA-Z0-9] | '.' | '!' | '?' | ':' | ';')+ ;
 UNIONOPER : '~' | '\-';
-BEGSYMBOL : '-'+ | '*'+;
-EXTENDER : '_'+;
+BEGSYMBOL : '-' | '*';
+EXTENDER : '_';
 PIPE : '|';
 WHITESPACE : ' ';
 LINESPACE : [\t\n\r]+ -> skip ;
@@ -67,7 +67,9 @@ LINESPACE : [\t\n\r]+ -> skip ;
  * Lyrics also have their own rule.
  *
  */
+ 
 lyric : measure+ WHITESPACE* EOF;
-measure : cluster* PIPE?;
-cluster : BEGSYMBOL cluster | syllable (BEGSYMBOL|EXTENDER|UNIONOPER) | WORD WHITESPACE '-'* cluster | WORD ;
-syllable : WORD | '-' | '*' | '_';
+measure : cluster+ | PIPE;
+cluster : (syllable (BEGSYMBOL|EXTENDER|UNIONOPER) cluster| BEGSYMBOL (BEGSYMBOL|syllable|) | syllable ) WHITESPACE?;
+syllable : WORD;
+maybesyllable : BEGSYMBOL | EXTENDER;

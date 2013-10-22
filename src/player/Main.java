@@ -1,12 +1,10 @@
 package player;
 
-import grammar.ABCMusicLexer;
-import grammar.ABCMusicParser;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+
+import lyrics.LyricsLexer;
+import lyrics.LyricsParser;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
@@ -62,18 +60,21 @@ public class Main {
 	private static MusicPiece stringToMusicPiece(String input) {
 		// Create a stream of tokens using the lexer.
 		CharStream stream = new ANTLRInputStream(input);
-		ABCMusicLexer lexer = new ABCMusicLexer(stream);
+//		ABCMusicLexer lexer = new ABCMusicLexer(stream);
+		LyricsLexer lexer = new LyricsLexer(stream);
 		lexer.reportErrorsAsExceptions();
 		TokenStream tokens = new CommonTokenStream(lexer);
 		// List<? extends Token> actualTokens = lexer.getAllTokens();
 
 		// Feed the tokens into the parser.
-		ABCMusicParser parser = new ABCMusicParser(tokens);
+//		ABCMusicParser parser = new ABCMusicParser(tokens);
+		LyricsParser parser = new LyricsParser(tokens);
 		parser.reportErrorsAsExceptions();
 
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
-		tree = parser.abc_tune(); // "abc_tune" is the starter rule.
+//		tree = parser.abc_tune(); // "abc_tune" is the starter rule.
+		tree = parser.lyric(); // "lyric" is the starter rule.
 		((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
@@ -84,11 +85,6 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		List<String> a = new ArrayList<String>();
-		a.add("a");
-		a.add("b");
-		List<String> b = new ArrayList<String>();
-		b.add("a");
-		System.out.println(a.toString());
+
 	}
 }
