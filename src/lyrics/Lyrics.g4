@@ -41,7 +41,7 @@ package lyrics;
 }
 
 /*
- * These are the lexical rules. They define the tokens used by the lexer.
+ * These are the lyrics lexical rules. They define the tokens used by the lyrics lexer.
  *
  * All of the header lines and comments are individual tokens, then the notes and rests are 
  * lexed together with their modifiers. Tuplet and chord (, [, and ] symbols are lexed 
@@ -49,9 +49,14 @@ package lyrics;
  * Repeats and pipes are lexed on their own.
  *
  */
- 
-WHITESPACE : [ \t]+ -> skip ;
 
+WORD : ('\'' | '(' | ')' | ',' | [a-zA-Z0-9] | '.' | '!' | '?' | ':' | ';')+ ;
+UNIONOPER : '~' | '\-';
+BEGSYMBOL : '-' | '*';
+EXTENDER : '_';
+PIPE : '|';
+WHITESPACE : ' ';
+LINESPACE : [\t\n\r]+ -> skip ;
 
 /*
  * These are the parser rules. They define the structures used by the parser.
@@ -62,5 +67,9 @@ WHITESPACE : [ \t]+ -> skip ;
  * Lyrics also have their own rule.
  *
  */
-lyric : 'w:' EOF;
-
+ 
+lyric : measure+ WHITESPACE* EOF;
+measure : cluster+ | PIPE;
+cluster : (syllable (BEGSYMBOL|EXTENDER|UNIONOPER) cluster| BEGSYMBOL (BEGSYMBOL|syllable|) | syllable ) WHITESPACE?;
+syllable : WORD;
+maybesyllable : BEGSYMBOL | EXTENDER;

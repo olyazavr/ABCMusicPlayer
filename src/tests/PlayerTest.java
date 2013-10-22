@@ -12,6 +12,11 @@ import player.Main;
  * @category no_didit
  */
 public class PlayerTest {
+	
+    @Test
+    public void lyricParserTestTest() {
+        Main.play("sample_abc/lyricParserTestFile.abc");
+    }
 
     @Test
     public void playabcTest() {

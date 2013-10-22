@@ -61,8 +61,8 @@ METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r]+;
 TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
 VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
 KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
-LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z] | '.' | '!' | '?')+ ' '* [\n\r];
-COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']* ' '* [\n\r]+;
+LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z0-9] | '.' | '!' | '?')+ ' '* [\n\r];
+COMMENT : '%' ' '* ([a-zA-Z0-9] | '.' | '!' | '?' | '\'' | '(' | ')' | '-' | '_' | '*' | '~' | '\-' | '|' | ' ')* ' '* [\n\r]+;
 NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 PAREN: '(';
@@ -98,7 +98,7 @@ field_voice : VOICE;
 field_key : KEY;
 
 abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
-measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (END_NOTES|NEWLINE|RREPEAT);
+measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
 
 note_element : note | rest | chord | tuplet;
 note: NOTE;
