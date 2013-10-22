@@ -36,12 +36,16 @@ public class Main {
 	 * @throws MidiUnavailableException
 	 */
     public static void play(String file) {
+        // get the MusicPiece object
         MusicPiece music = stringToMusicPiece(readFileToString(file));
+
+        // Find the ticks and tempo to give to the midi player
         int ticksPerBeat = music.calculateTicksPerBeat();
         int tempo = music.getPlayerTempo();
-        MusicPlayer player;
+
+        // Try to play this, it may throw if it can't read the MIDI
         try {
-            player = new MusicPlayer(tempo, ticksPerBeat);
+            MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
             music.addNotes(player);
             player.play();
         } catch (MidiUnavailableException | InvalidMidiDataException e) {
