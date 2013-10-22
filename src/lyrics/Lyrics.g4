@@ -43,16 +43,13 @@ package lyrics;
 /*
  * These are the lyrics lexical rules. They define the tokens used by the lyrics lexer.
  *
- * All of the header lines and comments are individual tokens, then the notes and rests are 
- * lexed together with their modifiers. Tuplet and chord (, [, and ] symbols are lexed 
- * separately from their notes.
- * Repeats and pipes are lexed on their own.
- *
+ * 
  */
 
 WORD : ('\'' | '(' | ')' | ',' | [a-zA-Z0-9] | '.' | '!' | '?' | ':' | ';')+ ;
-UNIONOPER : '~' | '\-';
-BEGSYMBOL : '-' | '*';
+UNION_OPER : '~' | '\-';
+HYPHEN : '-';
+STAR : '*';
 EXTENDER : '_';
 PIPE : '|';
 WHITESPACE : ' ';
@@ -61,15 +58,32 @@ LINESPACE : [\t\n\r]+ -> skip ;
 /*
  * These are the parser rules. They define the structures used by the parser.
  *
- * Each header field has its own rule. Notes, rests, tuplets, chords, and measures have 
- * their own respective rules. Repeats have their own rules as well, but to get the 
- * entire repeated measure, extract the token from measure.
- * Lyrics also have their own rule.
+ * lyric: 
+ * 	no PIPEs at the beginning of a lyric
+ * 	no empty lyric
+ * 	can have multiple measures and any amount of trailing whitespace at the end
+ * measure:
+ * 	can be an entire lyric if no PIPEs are found
+ * 	can be empty or a cluster (the first word in the cluster determines the first token)
+ * 	clusters can ONLY start with a syllable, a HYPHEN, or a STAR
+ * syllable_cluster:
+ *	begins with a syllable
+ *	if followed by HYPHEN|WHITESPACE HYPHEN|STAR|EXTENDER|UNION_OPER it will end with a syllable_cluster|
+ *	its corresponding
+ *		matching token
+ *	will end with a syllable or an EXTENDER, and/or a WHITESPACE
+ *	one WHITESPACE is allowed at the end of every cluster
+ * hyphen_cluster:
+
  *
  */
  
 lyric : measure+ WHITESPACE* EOF;
-measure : cluster+ | PIPE;
-cluster : (syllable (BEGSYMBOL|EXTENDER|UNIONOPER) cluster| BEGSYMBOL (BEGSYMBOL|syllable|) | syllable ) WHITESPACE?;
+measure : syllable_cluster+ WHITESPACE? PIPE?| PIPE WHITESPACE?;
+syllable_cluster : syllable HYPHEN (syllable_cluster|hyphen_cluster|extender_cluster)| syllable WHITESPACE HYPHEN (syllable_cluster|hyphen_cluster|extender_cluster)| 
+	syllable STAR (syllable_cluster|star_cluster) | syllable UNION_OPER syllable_cluster | 
+	(syllable EXTENDER (syllable_cluster|extender_cluster) | (syllable | EXTENDER) ) WHITESPACE?;
+hyphen_cluster : HYPHEN hyphen_cluster | WHITESPACE;
+star_cluster : STAR star_cluster | WHITESPACE;
+extender_cluster : EXTENDER | WHITESPACE;
 syllable : WORD;
-maybesyllable : BEGSYMBOL | EXTENDER;
