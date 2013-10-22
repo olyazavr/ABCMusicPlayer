@@ -238,9 +238,9 @@ public class Listener extends ABCMusicBaseListener {
             else if (s.startsWith("Q:")) { // tempo
                 // gives "length=number", need length*number
                 String[] extracted = s.substring(2).trim().split("=");
-                int length = new Integer(extracted[0]);
-                Fraction number = new Fraction(extracted[1]);
-                q = number.multiply(length);
+                Fraction length = new Fraction(extracted[0]);
+                int number = new Integer(extracted[1]);
+                q = length.multiply(number);
             }
             else if (s.startsWith("K:")) { // key, mandatory
                 key = s.substring(2).trim();
