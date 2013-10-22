@@ -170,7 +170,21 @@ public class Scales {
 		SCALES.put("Dm", DM);
 	}
 
+	/**
+	 * This method can be used to check for key signature modifications
+	 * throughout the music file
+	 * 
+	 * @param value
+	 *            the uppercase basenote A-G
+	 * @param key
+	 *            the signature key (K in the header)
+	 * @return 1 if it is to be modified as a sharp, -1 for a flat, and 0 for no
+	 *         change
+	 */
 	public static int adjustKey(String value, String key) {
+		if (!SCALES.containsKey(key)) {
+			throw new IllegalArgumentException("Signature key not found");
+		}
 		Map<String, String> keyMap = SCALES.get(key);
 		if (keyMap.containsKey(value)) {
 			if (keyMap.get(value).equals("sharp")) {

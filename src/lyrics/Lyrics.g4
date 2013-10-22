@@ -79,11 +79,12 @@ LINESPACE : [\t\n\r]+ -> skip ;
  */
  
 lyric : measure+ WHITESPACE* EOF;
-measure : syllable_cluster+ WHITESPACE? PIPE?| PIPE WHITESPACE?;
+measure : cluster+ WHITESPACE? PIPE?| PIPE WHITESPACE?;
+cluster : (syllable_cluster| hyphen_cluster | star_cluster ) WHITESPACE?;
 syllable_cluster : syllable HYPHEN (syllable_cluster|hyphen_cluster|extender_cluster)| syllable WHITESPACE HYPHEN (syllable_cluster|hyphen_cluster|extender_cluster)| 
 	syllable STAR (syllable_cluster|star_cluster) | syllable UNION_OPER syllable_cluster | 
-	(syllable EXTENDER (syllable_cluster|extender_cluster) | (syllable | EXTENDER) ) WHITESPACE?;
-hyphen_cluster : HYPHEN hyphen_cluster | WHITESPACE;
-star_cluster : STAR star_cluster | WHITESPACE;
-extender_cluster : EXTENDER | WHITESPACE;
+	syllable EXTENDER (syllable_cluster|extender_cluster) | (syllable | EXTENDER | cluster) ;
+hyphen_cluster : syllable_cluster | HYPHEN cluster | HYPHEN WHITESPACE;
+star_cluster : HYPHEN syllable_cluster| STAR cluster | STAR WHITESPACE;
+extender_cluster : HYPHEN cluster | EXTENDER | EXTENDER WHITESPACE;
 syllable : WORD;
