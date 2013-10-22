@@ -23,8 +23,8 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void fur_eliseTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+    public void fur_eliseTest() throws MidiUnavailableException,
+            InvalidMidiDataException {
 		Main.play("sample_abc/fur_elise.abc");
 	}
 

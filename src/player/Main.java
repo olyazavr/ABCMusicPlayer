@@ -35,14 +35,18 @@ public class Main {
 	 * @throws InvalidMidiDataException
 	 * @throws MidiUnavailableException
 	 */
-	public static void play(String file) throws MidiUnavailableException,
-			InvalidMidiDataException {
-		MusicPiece music = stringToMusicPiece(readFileToString(file));
-		int ticksPerBeat = music.calculateTicksPerBeat();
-		int tempo = music.getPlayerTempo();
-		MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
-		music.addNotes(player);
-		player.play();
+    public static void play(String file) {
+        MusicPiece music = stringToMusicPiece(readFileToString(file));
+        int ticksPerBeat = music.calculateTicksPerBeat();
+        int tempo = music.getPlayerTempo();
+        MusicPlayer player;
+        try {
+            player = new MusicPlayer(tempo, ticksPerBeat);
+            music.addNotes(player);
+            player.play();
+        } catch (MidiUnavailableException | InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
 	}
 
 	private static String readFileToString(String file) {
