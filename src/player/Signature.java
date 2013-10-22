@@ -51,6 +51,10 @@ public class Signature {
         this.key = key;
         this.voices = new ArrayList<String>(voices);
     }
+    
+    public int getPlayerTempo(){
+    	return tempo.multiply(length.getDenominator()).getNumerator();
+    }
 
     /**
      * @param _that

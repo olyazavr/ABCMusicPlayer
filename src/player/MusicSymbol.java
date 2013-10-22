@@ -22,8 +22,7 @@ public interface MusicSymbol extends Music {
      * 
      * @param player
      *            is a valid MusicPlayer
-     * @param ticksPerBeat
-     *            is a valid integer
+     *
      */
     public void addNote(MusicPlayer player, String syllable);
 
