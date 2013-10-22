@@ -1,7 +1,6 @@
 package player;
 
 import grammar.ABCMusicBaseListener;
-import grammar.ABCMusicLexer;
 import grammar.ABCMusicParser;
 
 import java.util.ArrayList;
@@ -9,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+
+import lyrics.LyricsLexer;
+import lyrics.LyricsParser;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
@@ -75,7 +77,7 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void enterMeasure(ABCMusicParser.MeasureContext ctx) {
-        System.out.println(ctx.getText());
+        System.out.println("entering measure " + ctx.getText());
 
         // clear and restart repeatedMeasures
         if (ctx.LREPEAT() != null) {
@@ -94,8 +96,8 @@ public class Listener extends ABCMusicBaseListener {
 
         // Obtain the musicSymbols and Lyric to add to the new Measure
         List<MusicSymbol> musicSymbols = new ArrayList<MusicSymbol>(musicSymbolStack);
-        
-        //Lyics may be empty if the piece doesn't have words
+
+        // Lyics may be empty if the piece doesn't have words
         Lyric lyrics;
         if (!lyricStack.empty()) {
             lyrics = lyricStack.pop();
@@ -358,7 +360,7 @@ public class Listener extends ABCMusicBaseListener {
     @Override
     public void exitNote(ABCMusicParser.NoteContext ctx) {
         String text = ctx.getText();
-        System.out.println(text);
+        // System.out.println(text);
         char value = 'A';
         Fraction length = new Fraction(1, 1);
         int octave = 0;
@@ -425,32 +427,33 @@ public class Listener extends ABCMusicBaseListener {
 
         Pitch note = new Pitch(length, value, octave, accidental);
 
-        System.out.println("adding Pitch of " + note);
+        // System.out.println("adding Pitch of " + note);
         musicSymbolStack.push(note);
 
     }
 
     /**
-     * Add syllables to currentVoice's Lyric
+     * Add syllables to current Voice's stack by passing the lyric text to
+     * another parser
      */
     @Override
     public void exitLyric(ABCMusicParser.LyricContext ctx) {
-        System.out.println(ctx.getText());
+        System.out.println("entering lyric " + ctx.getText());
 
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(ctx.getText());
-        ABCMusicLexer lexer = new ABCMusicLexer(stream);
+        LyricsLexer lexer = new LyricsLexer(stream);
         lexer.reportErrorsAsExceptions();
         TokenStream tokens = new CommonTokenStream(lexer);
         // List<? extends Token> actualTokens = lexer.getAllTokens();
 
         // Feed the tokens into the parser.
-        ABCMusicParser parser = new ABCMusicParser(tokens);
+        LyricsParser parser = new LyricsParser(tokens);
         parser.reportErrorsAsExceptions();
 
         // Generate the parse tree using the starter rule.
         ParseTree tree;
-        tree = parser.abc_tune(); // "abc_tune" is the starter rule.
+        tree = parser.lyric(); // "abc_tune" is the starter rule.
         // ((RuleContext) tree).inspect(parser);
 
         // Walk the tree with the listener.
