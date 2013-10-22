@@ -18,7 +18,7 @@ public class Fraction {
 	 * @param d
 	 *            is the denominator, assumed positive.
 	 */
-    public Fraction(int n, int d) {
+    public Fraction(int n, int d) {    	
 		int gcd= num.gcd(n, d);
 		this.numerator = n/gcd;
 		this.denominator = d/gcd;
