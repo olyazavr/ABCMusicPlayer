@@ -183,7 +183,7 @@ public class Scales {
 	 */
 	public static int adjustKey(String value, String key) {
 		if (!SCALES.containsKey(key)) {
-			throw new IllegalArgumentException("Signature key not found");
+			throw new IllegalArgumentException("Signature key" + key + "not found");
 		}
 		Map<String, String> keyMap = SCALES.get(key);
 		if (keyMap.containsKey(value)) {

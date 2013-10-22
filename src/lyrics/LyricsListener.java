@@ -21,6 +21,9 @@ public interface LyricsListener extends ParseTreeListener {
 	void enterHyphen_cluster(LyricsParser.Hyphen_clusterContext ctx);
 	void exitHyphen_cluster(LyricsParser.Hyphen_clusterContext ctx);
 
+	void enterCluster(LyricsParser.ClusterContext ctx);
+	void exitCluster(LyricsParser.ClusterContext ctx);
+
 	void enterSyllable_cluster(LyricsParser.Syllable_clusterContext ctx);
 	void exitSyllable_cluster(LyricsParser.Syllable_clusterContext ctx);
 
