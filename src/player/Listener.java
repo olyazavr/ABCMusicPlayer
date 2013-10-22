@@ -417,13 +417,6 @@ public class Listener extends ABCMusicBaseListener {
         }
     }
 
-    private void handleDashes(String text) {
-        String[] splitString = text.split("");
-        for (String s : splitString) {
-
-        }
-    }
-
     private void handleUnderscores(String text) {
 
     }

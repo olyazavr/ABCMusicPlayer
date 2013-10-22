@@ -46,10 +46,10 @@ public class LexerTest {
     public void lyricsTest() {
         // Tests lyrics, which are lexed as one chunk.
         String input = "X: 3 \n T:Piece No.3 \n M:3/4 \n L:1/8 \n Q:1/8=100 \n K: C \n "
-                + "z4 D2 | G4 BG |] \n w: * A | ma-zing | \n ";
+                + "z4 D2 | G4 BG |] \n w: * A 2 | ma-zing2 | \n ";
         verifyLexer(input,
                 new String[] { "X: 3 \n", "T:Piece No.3 \n", "M:3/4 \n", "L:1/8 \n", "Q:1/8=100 \n", "K: C \n", "z4",
-                        "D2", "|", "G4", "B", "G", "|]", "\n", "w: * A | ma-zing | \n"
+                        "D2", "|", "G4", "B", "G", "|]", "\n", "w: * A 2 | ma-zing2 | \n"
                 });
     }
 
