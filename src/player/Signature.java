@@ -19,7 +19,7 @@ public class Signature {
     private final String composer;
     private final Fraction length;
     private final Fraction meter;
-    private final String tempo;
+    private final Fraction tempo;
     private final String key;
     private final List<String> voices;
 
@@ -35,15 +35,14 @@ public class Signature {
      * @param meter
      *            sum of lengths of all notes in a measure
      * @param tempo
-     *            number of given length notes to play in a minute (format
-     *            "length=tempo")
+     *            number of given length notes to play in a minute
      * @param key
      *            key signature
      * @param voices
      *            list of voices in the MusicPiece
      */
     public Signature(String title, String composer, Fraction length,
-            Fraction meter, String tempo, String key, List<String> voices) {
+            Fraction meter, Fraction tempo, String key, List<String> voices) {
         this.title = title;
         this.composer = composer;
         this.length = length;

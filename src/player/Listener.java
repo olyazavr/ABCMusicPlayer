@@ -216,7 +216,7 @@ public class Listener extends ABCMusicBaseListener {
         Fraction m = new Fraction(4, 4);
         // can't leave this null, so initialize to something silly
         Fraction l = new Fraction(0, 1);
-        String q = "";
+        Fraction q = new Fraction(0, 1);
         List<String> v = new ArrayList<String>();
 
         // populate fields, we don't care about X: whatever
@@ -236,7 +236,11 @@ public class Listener extends ABCMusicBaseListener {
                 l = new Fraction(s.substring(2).trim());
             }
             else if (s.startsWith("Q:")) { // tempo
-                q = s.substring(2).trim();
+                // gives "length=number", need length*number
+                String[] extracted = s.substring(2).trim().split("=");
+                int length = new Integer(extracted[0]);
+                Fraction number = new Fraction(extracted[1]);
+                q = number.multiply(length);
             }
             else if (s.startsWith("K:")) { // key, mandatory
                 key = s.substring(2).trim();
@@ -256,8 +260,8 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         // Default tempo is length notes = 100
-        if (t.isEmpty()) {
-            t = l.toString() + "=100";
+        if (q.evaluate() == 0f) {
+            q = l.multiply(100);
         }
 
         // create a default Voice stack if no Voices are added
@@ -346,7 +350,14 @@ public class Listener extends ABCMusicBaseListener {
     @Override
     public void exitRest(ABCMusicParser.RestContext ctx) {
         // duration is right after the 'z'
-        Fraction duration = new Fraction(ctx.getText().substring(1));
+        String durationString = ctx.getText().substring(1);
+        Fraction duration;
+        // duration may be empty if none specified
+        if (!durationString.isEmpty()) {
+            duration = new Fraction(durationString);
+        } else {
+            duration = new Fraction(1, 1);
+        }
         Rest rest = new Rest(duration);
 
         System.out.println(ctx.getText());
