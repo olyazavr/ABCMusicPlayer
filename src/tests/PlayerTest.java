@@ -17,68 +17,57 @@ import player.Main;
 public class PlayerTest {
 
 	@Test
-	public void playabcTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void playabcTest() {
 		Main.play("sample_abc/abc_song.abc");
 	}
 
 	@Test
-    public void fur_eliseTest() throws MidiUnavailableException,
-            InvalidMidiDataException {
+	public void fur_eliseTest() {
 		Main.play("sample_abc/fur_elise.abc");
 	}
 
 	@Test
-	public void inventionTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void inventionTest() {
 		Main.play("sample_abc/invention.abc");
 	}
 
 	@Test
-	public void little_night_musicTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void little_night_musicTest() {
 		Main.play("sample_abc/little_night_music.abc");
 	}
 
 	@Test
-	public void paddyTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void paddyTest() {
 		Main.play("sample_abc/paddy.abc");
 	}
 
 	@Test
-	public void piece1Test() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void piece1Test() {
 		Main.play("sample_abc/piece1.abc");
 	}
 
 	@Test
-	public void piece2Test() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void piece2Test() {
 		Main.play("sample_abc/piece2.abc");
 	}
 
 	@Test
-	public void piece3Test() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void piece3Test() {
 		Main.play("sample_abc/piece3.abc");
 	}
 
 	@Test
-	public void preludeTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void preludeTest() {
 		Main.play("sample_abc/prelude.abc");
 	}
 
 	@Test
-	public void scaleTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void scaleTest() {
 		Main.play("sample_abc/scale.abc");
 	}
 
 	@Test
-	public void waxies_dargleTest() throws MidiUnavailableException,
-			InvalidMidiDataException {
+	public void waxies_dargleTest() {
 		Main.play("sample_abc/waxies_dargle.abc");
 	}
 
