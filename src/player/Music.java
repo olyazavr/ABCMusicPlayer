@@ -18,18 +18,18 @@ package player;
 
 public interface Music {
 
-	/**
-	 * Calculates the required number of ticks per beat, so that each note can
-	 * be represented as an integer number of ticks.
-	 * 
-	 * @return integer representing number of ticks per beat.
-	 */
-	public int calculateTicksPerBeat();
+    /**
+     * Calculates the required number of ticks per beat, so that each note can
+     * be represented as an integer number of ticks.
+     * 
+     * @return integer representing number of ticks per beat.
+     */
+    public int calculateTicksPerBeat();
 
-	public boolean equals(Object _that);
+    public boolean equals(Object _that);
 
-	public String toString();
+    public String toString();
 
-	public int hashCode();
+    public int hashCode();
 
 }
