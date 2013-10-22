@@ -44,6 +44,10 @@ public class MusicPiece implements MusicPart {
         }
         return LCM;
     }
+    
+    public int getPlayerTempo(){
+    	return signature.getPlayerTempo();
+    }
 
     /**
      * @param _that

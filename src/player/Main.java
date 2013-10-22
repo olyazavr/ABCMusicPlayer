@@ -6,12 +6,17 @@ import grammar.ABCMusicParser;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import sound.MusicPlayer;
 
 /**
  * Main entry point of your application.
@@ -27,11 +32,17 @@ public class Main {
 	 * 
 	 * @param file
 	 *            the name of input abc file
+	 * @throws InvalidMidiDataException
+	 * @throws MidiUnavailableException
 	 */
-	public static void play(String file) {
+	public static void play(String file) throws MidiUnavailableException,
+			InvalidMidiDataException {
 		MusicPiece music = stringToMusicPiece(readFileToString(file));
-		// TODO: actually do something with this
-
+		int ticksPerBeat = music.calculateTicksPerBeat();
+		int tempo = music.getPlayerTempo();
+		MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
+		music.addNotes(player);
+		player.play();
 	}
 
 	private static String readFileToString(String file) {
@@ -71,7 +82,7 @@ public class Main {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.abc_tune(); // "abc_tune" is the starter rule.
-        // ((RuleContext) tree).inspect(parser);
+		// ((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 		ParseTreeWalker walker = new ParseTreeWalker();

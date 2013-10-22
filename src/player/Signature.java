@@ -19,7 +19,7 @@ public class Signature {
     private final String composer;
     private final Fraction length;
     private final Fraction meter;
-    private final String tempo;
+    private final Fraction tempo;
     private final String key;
     private final List<String> voices;
 
@@ -43,7 +43,7 @@ public class Signature {
      *            list of voices in the MusicPiece
      */
     public Signature(String title, String composer, Fraction length,
-            Fraction meter, String tempo, String key, List<String> voices) {
+            Fraction meter, Fraction tempo, String key, List<String> voices) {
         this.title = title;
         this.composer = composer;
         this.length = length;
@@ -51,6 +51,10 @@ public class Signature {
         this.tempo = tempo;
         this.key = key;
         this.voices = new ArrayList<String>(voices);
+    }
+    
+    public int getPlayerTempo(){
+    	return tempo.multiply(length.getDenominator()).getNumerator();
     }
 
     /**
