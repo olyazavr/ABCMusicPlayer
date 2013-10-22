@@ -97,8 +97,8 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
-measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
+abc_music : (NEWLINE* measure+ NEWLINE* | field_voice NEWLINE* | COMMENT)+;
+measure : ((LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|RREPEAT))+ NEWLINE+ lyric?;
 
 note_element : note | rest | chord | tuplet;
 note: NOTE;

@@ -13,7 +13,6 @@ import java.util.Stack;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -49,10 +48,12 @@ public class Listener extends ABCMusicBaseListener {
 
     /**
      * Notes need to know what key they're in. The dictionary keeps track of
-     * what notes have sharps or flats in each measure
+     * what notes have sharps or flats in each measure. Scale has a dictionary
+     * of key signatures.
      */
     private String key = "";
     private Map<String, Integer> accidentals = new HashMap<String, Integer>();
+    Scales scale;
 
     /**
      * Keep a list of measures that could possibly be repeated from the
@@ -93,7 +94,14 @@ public class Listener extends ABCMusicBaseListener {
 
         // Obtain the musicSymbols and Lyric to add to the new Measure
         List<MusicSymbol> musicSymbols = new ArrayList<MusicSymbol>(musicSymbolStack);
-        Lyric lyrics = lyricStack.pop();
+        
+        //Lyics may be empty if the piece doesn't have words
+        Lyric lyrics;
+        if (!lyricStack.empty()) {
+            lyrics = lyricStack.pop();
+        } else {
+            lyrics = new Lyric(new ArrayList<String>());
+        }
         musicSymbolStack.clear();
 
         Measure measure = new Measure(musicSymbols, lyrics);
@@ -197,7 +205,10 @@ public class Listener extends ABCMusicBaseListener {
     public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) {
         System.out.println(ctx.getText());
 
-        String[] lines = ctx.getText().split("/n");
+        // initialize scale
+        scale = new Scales();
+
+        String[] lines = ctx.getText().split("\r\n");
         String t = "";
         String c = "Unknown";
         Fraction m = new Fraction(4, 4);
@@ -440,7 +451,7 @@ public class Listener extends ABCMusicBaseListener {
         // Generate the parse tree using the starter rule.
         ParseTree tree;
         tree = parser.abc_tune(); // "abc_tune" is the starter rule.
-//        ((RuleContext) tree).inspect(parser);
+        // ((RuleContext) tree).inspect(parser);
 
         // Walk the tree with the listener.
         ParseTreeWalker walker = new ParseTreeWalker();

@@ -71,7 +71,7 @@ public class Main {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.abc_tune(); // "abc_tune" is the starter rule.
-//		((RuleContext) tree).inspect(parser);
+        // ((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 		ParseTreeWalker walker = new ParseTreeWalker();
