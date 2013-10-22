@@ -6,10 +6,11 @@ package utils;
  * The Fraction class implements non-negative fractions, i.e., rational numbers.
  */
 public class Fraction {
-	
+
 	/* private fields within a Fraction. */
 	private int numerator;
 	private int denominator;
+
 	/**
 	 * Constructs a Fraction n/d.
 	 * 
@@ -18,21 +19,22 @@ public class Fraction {
 	 * @param d
 	 *            is the denominator, assumed positive.
 	 */
-    public Fraction(int n, int d) {    	
-		int gcd= num.gcd(n, d);
-		this.numerator = n/gcd;
-		this.denominator = d/gcd;
+	public Fraction(int n, int d) {
+		int gcd = num.gcd(n, d);
+		this.numerator = n / gcd;
+		this.denominator = d / gcd;
 	}
 
 	/**
 	 * Constructs a Fraction n/1.
 	 * 
-	 * @param n is the numerator, assumed non-negative.
+	 * @param n
+	 *            is the numerator, assumed non-negative.
 	 */
 	public Fraction(int n) {
 		this(n, 1);
 	}
-	
+
 	/**
 	 * Constructs a Fraction parsed from a String input.
 	 * 
@@ -40,13 +42,32 @@ public class Fraction {
 	 *            is an int followed by a "/" followed by another int.
 	 */
 	public Fraction(String frac) {
+		int n, d;
+
 		String[] parsedFrac = frac.split("/");
-		int n = new Integer(parsedFrac[0]);
-		int d = new Integer(parsedFrac[1]);
-		int gcd= num.gcd(n, d);
-		this.numerator = n/gcd;
-		this.denominator = d/gcd;
+		if (parsedFrac.length == 1) {
+			if (parsedFrac[0].equals(" ")) {
+				n = new Integer(1);
+			} else {
+				n = new Integer(parsedFrac[0]);
+			}
+			d = new Integer(1);
+		}
+		else {
+			if (parsedFrac[0].equals(" ")) {
+				n = new Integer(1);
+			}
+			else {
+				n = new Integer(parsedFrac[0]);
+			}
+			d = new Integer(parsedFrac[1]);
+		}
+		
+		int gcd = num.gcd(n, d);
+		this.numerator = n / gcd;
+		this.denominator = d / gcd;
 	}
+
 	/**
 	 * Constructs a Fraction 0/1.
 	 */
@@ -91,7 +112,7 @@ public class Fraction {
 				+ (f2.numerator * denominator), (denominator * f2.denominator));
 		return r;
 	}
-	
+
 	/**
 	 * Multiply f to this fraction and return the result.
 	 * 
@@ -99,15 +120,15 @@ public class Fraction {
 	 *            is the Fraction to be multiplied.
 	 * @return the result of multiplying Fraction f to this Fraction.
 	 */
- 	public Fraction multiply(Fraction f) {
-  		
-  		// This calculation is fairly straight-forward.
-  		int num = this.numerator*f.numerator;
-  		int den = this.denominator*f.denominator;
-  		
-  		return new Fraction(num, den);
-  	}
- 	
+	public Fraction multiply(Fraction f) {
+
+		// This calculation is fairly straight-forward.
+		int num = this.numerator * f.numerator;
+		int den = this.denominator * f.denominator;
+
+		return new Fraction(num, den);
+	}
+
 	/**
 	 * Multiply int f to this fraction and return the result.
 	 * 
@@ -115,25 +136,25 @@ public class Fraction {
 	 *            is the int to be multiplied.
 	 * @return the result of multiplying int f to this Fraction.
 	 */
- 	public Fraction multiply(int f) {
-  		
-  		// This calculation is fairly straight-forward.
-  		int num = this.numerator*f;
-  		int den = this.denominator;
-  		
-  		return new Fraction(num, den);
-  	}
- 	
- 	/**
- 	 * Getters
- 	 */
- 	public int getNumerator(){
- 		return this.numerator;
- 	}
- 	
- 	public int getDenominator(){
- 		return this.denominator;
- 	}
+	public Fraction multiply(int f) {
+
+		// This calculation is fairly straight-forward.
+		int num = this.numerator * f;
+		int den = this.denominator;
+
+		return new Fraction(num, den);
+	}
+
+	/**
+	 * Getters
+	 */
+	public int getNumerator() {
+		return this.numerator;
+	}
+
+	public int getDenominator() {
+		return this.denominator;
+	}
 
 	/**
 	 * Computes the greatest common divisor (gcd) of the two inputs.
