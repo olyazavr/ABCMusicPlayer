@@ -52,8 +52,9 @@ public class Signature {
         this.voices = new ArrayList<String>(voices);
     }
     
-    public int getPlayerTempo(){
-    	return tempo.multiply(length.getDenominator()).getNumerator();
+    public int getPlayerTempo(int ticksPerBeat){
+    	Fraction beatPerTicks=new Fraction(1,ticksPerBeat);
+    	return tempo.multiply(length.getDenominator()).multiply(beatPerTicks).getNumerator();
     }
 
     public boolean equals(Object _that) {

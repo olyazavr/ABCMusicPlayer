@@ -45,8 +45,8 @@ public class MusicPiece implements MusicPart {
         return LCM;
     }
     
-    public int getPlayerTempo(){
-    	return signature.getPlayerTempo();
+    public int getPlayerTempo(int ticksPerBeat){
+    	return signature.getPlayerTempo(ticksPerBeat);
     }
 
 
