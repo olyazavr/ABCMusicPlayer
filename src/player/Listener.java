@@ -27,7 +27,6 @@ public class Listener extends ABCMusicBaseListener {
     /**
      * Stacks to combine smaller objects into larger ones
      */
-    private Stack<Voice> voicesStack = new Stack<Voice>();
     private Stack<MusicSymbol> musicSymbolStack = new Stack<MusicSymbol>();
     private Stack<Lyric> lyricStack = new Stack<Lyric>();
 
@@ -67,8 +66,6 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void enterMeasure(ABCMusicParser.MeasureContext ctx) {
-        System.out.println("entering measure " + ctx.getText());
-
         // clear and restart repeatedMeasures
         if (ctx.LREPEAT() != null) {
             repeatedMeasures.clear();
@@ -82,8 +79,6 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
-        System.out.println(ctx.getText());
-
         // Obtain the musicSymbols and Lyric to add to the new Measure
         List<MusicSymbol> musicSymbols = new ArrayList<MusicSymbol>(musicSymbolStack);
 
@@ -118,7 +113,7 @@ public class Listener extends ABCMusicBaseListener {
             repeatedMeasures.clear();
         }
 
-        System.out.println("adding Measure " + measure);
+        System.out.println("adding Measure with " + musicSymbols.size() + " notes");
         currentVoiceStack.push(measure);
     }
 
@@ -127,14 +122,20 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) {
-        System.out.println(ctx.getText());
 
-        // Find the Signature and get all the Voices to make a MusicPiece
+        // We can finally make all the Voices, since we are done
+        // entering/exiting them
+        List<Voice> voicesList = new ArrayList<Voice>();
+        for (String voiceName : voices.keySet()) {
+            List<Measure> measures = new ArrayList<Measure>(voices.get(voiceName));
+            voicesList.add(new Voice(voiceName, measures));
+        }
+
+        // Find the Signature and make a MusicPiece
         Signature signature = (Signature) finalStack.pop();
-        List<Voice> voicesList = new ArrayList<Voice>(voicesStack);
         MusicPiece musicPiece = new MusicPiece(signature, voicesList);
 
-        System.out.println("adding MusicPiece" + musicPiece);
+        System.out.println("adding MusicPiece with " + voicesList.size() + " voices");
         finalStack.push(musicPiece);
     }
 
@@ -148,14 +149,21 @@ public class Listener extends ABCMusicBaseListener {
         // body. If we are not in the header, the stack should have something in
         // it already.
         if (finalStack.size() > 0) {
-            System.out.println(ctx.getText());
-
             // get voice name sans the "V:" and set it to currentVoice
             String voiceName = ctx.getText().substring(2).trim();
             currentVoice = voiceName;
 
-            // add a new Voice stack if needed
-            if (!voices.containsKey(voiceName)) {
+            // add a new Voice stack if needed, containsKey() doesn't work here
+            // for some reason
+            boolean voiceExists = false;
+            for (String name : voices.keySet()) {
+                if (name.equals(voiceName)) {
+                    // this voice already exists
+                    voiceExists = true;
+                    break;
+                }
+            }
+            if (!voiceExists) { // add new Voice stack
                 Stack<Measure> stack = new Stack<Measure>();
                 System.out.println("adding Voice stack " + voiceName);
                 voices.put(voiceName, stack);
@@ -165,38 +173,10 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     /**
-     * Make a new Voice and push it to the voices stack
-     */
-    @Override
-    public void exitField_voice(ABCMusicParser.Field_voiceContext ctx) {
-
-        // we could either be in the header or in the body. We only care for the
-        // body. If we are not in the header, the stack should have something in
-        // it already.
-        if (finalStack.size() > 0) {
-            System.out.println(ctx.getText());
-
-            // Find the current Voice stack
-            Stack<Measure> currentVoiceStack = voices.get(currentVoice);
-
-            // Find all the Measures to make a new Voice
-            List<Measure> measures = new ArrayList<Measure>(currentVoiceStack);
-            currentVoiceStack.clear();
-            Voice voice = new Voice(currentVoice, measures);
-
-            System.out.println("adding Voice " + voice);
-            voicesStack.push(voice);
-        }
-
-    }
-
-    /**
      * Store header info in Signature object
      */
     @Override
     public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) {
-        System.out.println(ctx.getText());
-
         // initialize scale
         scale = new Scales();
 
@@ -267,7 +247,7 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         Signature signature = new Signature(t, c, l, m, q, key, v);
-        System.out.println("adding Signature " + signature);
+        System.out.println("adding Signature");
         finalStack.push(signature);
     }
 
@@ -279,7 +259,6 @@ public class Listener extends ABCMusicBaseListener {
     public void exitChord(ABCMusicParser.ChordContext ctx) {
         // [ notes ]
         String chordText = ctx.getText();
-        System.out.println(chordText);
 
         // I need the number of notes, so I split around them, and the number of
         // notes will be 1 less than the number of chunks
@@ -294,8 +273,6 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         Chord chord = new Chord(notes);
-        System.out.println("adding Chord " + chord);
-
         musicSymbolStack.push(chord);
     }
 
@@ -305,8 +282,6 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitTuplet(ABCMusicParser.TupletContext ctx) {
-        System.out.println(ctx.getText());
-
         // determines if duplet, triplet, quadruplet
         int tupletNumber = new Integer(ctx.getText().substring(1, 2));
 
@@ -328,12 +303,10 @@ public class Listener extends ABCMusicBaseListener {
             MusicSymbol musicSymbol = musicSymbolStack.pop();
             if (musicSymbol instanceof Pitch) {
                 Pitch newMusicSymbol = ((Pitch) musicSymbol).multiplyLength(multiplicationFactor);
-                System.out.println("adding tuplet " + newMusicSymbol);
                 musicSymbolStack.push(newMusicSymbol);
 
             } else if (musicSymbol instanceof Chord) {
                 Chord newMusicSymbol = ((Chord) musicSymbol).multiplyLength(multiplicationFactor);
-                System.out.println("adding tuplet " + newMusicSymbol);
                 musicSymbolStack.push(newMusicSymbol);
             }
         }
@@ -349,15 +322,11 @@ public class Listener extends ABCMusicBaseListener {
         Fraction duration;
         // duration may be empty if none specified
         if (!durationString.isEmpty()) {
-            System.out.println(durationString);
             duration = new Fraction(durationString);
         } else {
             duration = new Fraction(1, 1);
         }
         Rest rest = new Rest(duration);
-
-        System.out.println(ctx.getText());
-        System.out.println("adding Rest " + rest);
         musicSymbolStack.push(rest);
     }
 
@@ -367,7 +336,6 @@ public class Listener extends ABCMusicBaseListener {
     @Override
     public void exitNote(ABCMusicParser.NoteContext ctx) {
         String text = ctx.getText();
-        // System.out.println(text);
         char value = 'A';
         Fraction length = new Fraction(1, 1);
         int octave = 0;
@@ -433,8 +401,6 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         Pitch note = new Pitch(length, value, octave, accidental);
-
-        // System.out.println("adding Pitch of " + note);
         musicSymbolStack.push(note);
 
     }
