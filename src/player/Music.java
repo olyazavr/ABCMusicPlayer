@@ -26,10 +26,33 @@ public interface Music {
      */
     public int calculateTicksPerBeat();
 
+    /**
+     * Tests the equality of one music to to another, such that two expressions
+     * with equal attributes (observationally indistinguishable) are considered
+     * equal
+     * 
+     * @param _that
+     *            expression to compare to
+     * @return whether or not the two musics are equal
+     */
+    @Override
     public boolean equals(Object _that);
 
+    /**
+     * Returns the string representation of the music
+     * 
+     * @returns the music as a string
+     */
+    @Override
     public String toString();
 
+    /**
+     * Calculates the hashcode for this music. HashCode for two equal musics
+     * will be identical.
+     * 
+     * @return the hashcode for the music
+     */
+    @Override
     public int hashCode();
 
 }

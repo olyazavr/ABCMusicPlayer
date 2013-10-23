@@ -9,16 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import lyrics.LyricsLexer;
-import lyrics.LyricsParser;
-
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
 import utils.Fraction;
 import utils.Scales;
 
@@ -228,8 +218,13 @@ public class Listener extends ABCMusicBaseListener {
                 c = s.substring(2).trim();
             }
             else if (s.startsWith("M:")) { // meter
-                // make a Fraction object by splitting around the /
-                m = new Fraction(s.substring(2).trim());
+                String meter = s.substring(2).trim();
+                if (meter.equals("C")) { // C = 4/4
+                    m = new Fraction(4, 4);
+                } else {
+                    // make a Fraction object by splitting around the /
+                    m = new Fraction(meter);
+                }
             }
             else if (s.startsWith("L:")) { // length
                 // make a Fraction object by splitting around the /
@@ -354,6 +349,7 @@ public class Listener extends ABCMusicBaseListener {
         Fraction duration;
         // duration may be empty if none specified
         if (!durationString.isEmpty()) {
+            System.out.println(durationString);
             duration = new Fraction(durationString);
         } else {
             duration = new Fraction(1, 1);
@@ -449,32 +445,28 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitLyric(ABCMusicParser.LyricContext ctx) {
-        System.out.println("entering lyric " + ctx.getText());
-
-        // Create a stream of tokens using the lexer.
-        CharStream stream = new ANTLRInputStream(ctx.getText());
-        LyricsLexer lexer = new LyricsLexer(stream);
-        lexer.reportErrorsAsExceptions();
-        TokenStream tokens = new CommonTokenStream(lexer);
-        // List<? extends Token> actualTokens = lexer.getAllTokens();
-
-        // Feed the tokens into the parser.
-        LyricsParser parser = new LyricsParser(tokens);
-        parser.reportErrorsAsExceptions();
-
-        // Generate the parse tree using the starter rule.
-        ParseTree tree;
-        tree = parser.lyric(); // "abc_tune" is the starter rule.
-        // ((RuleContext) tree).inspect(parser);
-
-        // Walk the tree with the listener.
-        ParseTreeWalker walker = new ParseTreeWalker();
-        LyricsListener listener = new LyricsListener();
-        walker.walk(listener, tree);
-        Lyric lyric = listener.getLyric();
-
-        System.out.println("adding Lyric " + lyric);
-        lyricStack.push(lyric);
+        System.out.println("skipping lyrics!");
+        /*
+         * System.out.println("entering lyric " + ctx.getText()); // Create a
+         * stream of tokens using the lexer. CharStream stream = new
+         * ANTLRInputStream(ctx.getText()); LyricsLexer lexer = new
+         * LyricsLexer(stream); lexer.reportErrorsAsExceptions(); TokenStream
+         * tokens = new CommonTokenStream(lexer); // List<? extends Token>
+         * actualTokens = lexer.getAllTokens();
+         * 
+         * // Feed the tokens into the parser. LyricsParser parser = new
+         * LyricsParser(tokens); parser.reportErrorsAsExceptions();
+         * 
+         * // Generate the parse tree using the starter rule. ParseTree tree;
+         * tree = parser.lyric(); // "abc_tune" is the starter rule. //
+         * ((RuleContext) tree).inspect(parser);
+         * 
+         * // Walk the tree with the listener. ParseTreeWalker walker = new
+         * ParseTreeWalker(); LyricsListener listener = new LyricsListener();
+         * walker.walk(listener, tree); Lyric lyric = listener.getLyric();
+         * 
+         * System.out.println("adding Lyric " + lyric); lyricStack.push(lyric);
+         */
     }
 
     /**

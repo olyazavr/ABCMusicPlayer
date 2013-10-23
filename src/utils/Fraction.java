@@ -58,7 +58,8 @@ public class Fraction {
 				n = new Integer(1);
 			}
 			else {
-				n = new Integer(parsedFrac[0]);
+                n = new Integer(parsedFrac[0]); // TODO: this is a problem.
+                                                // fails on / and /2
 			}
 			d = new Integer(parsedFrac[1]);
 		}

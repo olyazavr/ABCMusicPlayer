@@ -22,13 +22,36 @@ public interface MusicSymbol extends Music {
      * 
      * @param player
      *            is a valid MusicPlayer
-     *
+     * 
      */
     public void addNote(MusicPlayer player, String syllable);
 
+    /**
+     * Tests the equality of one MusicSymbol to to another, such that two
+     * expressions with equal attributes (observationally indistinguishable) are
+     * considered equal
+     * 
+     * @param _that
+     *            expression to compare to
+     * @return whether or not the two MusicSymbols are equal
+     */
+    @Override
     public boolean equals(Object _that);
 
+    /**
+     * Returns the string representation of the MusicSymbol
+     * 
+     * @returns the MusicSymbol as a string
+     */
+    @Override
     public String toString();
 
+    /**
+     * Calculates the hashcode for this MusicSymbol. HashCode for two equal
+     * MusicSymbols will be identical.
+     * 
+     * @return the hashcode for the MusicSymbol
+     */
+    @Override
     public int hashCode();
 }

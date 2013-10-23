@@ -67,10 +67,6 @@ public class Chord implements MusicSymbol {
         return new Chord(newNotes);
     }
 
-    /**
-     * @param _that
-     *            the object which we check equality against this
-     */
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Chord)) {

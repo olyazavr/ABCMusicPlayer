@@ -56,10 +56,6 @@ public class Signature {
     	return tempo.multiply(length.getDenominator()).getNumerator();
     }
 
-    /**
-     * @param _that
-     *            the object which we check equality against this
-     */
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Signature)) {

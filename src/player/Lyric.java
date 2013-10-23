@@ -31,10 +31,6 @@ public class Lyric {
         return syllables.get(i);
     }
 
-    /**
-     * @param _that
-     *            the object which we check equality against this
-     */
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Lyric)) {
@@ -46,11 +42,8 @@ public class Lyric {
         return this.syllables.equals(that.syllables);
     }
 
-    /**
-     * Returns a string of the entire lyrics
-     */
     public String toString() {
-        return this.toString();
+        return syllables.toString();
     }
 
     public int hashCode() {

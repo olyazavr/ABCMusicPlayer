@@ -49,10 +49,7 @@ public class MusicPiece implements MusicPart {
     	return signature.getPlayerTempo();
     }
 
-    /**
-     * @param _that
-     *            the object which we check equality against this
-     */
+
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof MusicPiece)) {
@@ -65,12 +62,8 @@ public class MusicPiece implements MusicPart {
                 && this.voices.equals(that.voices);
     }
 
-    /**
-     * Returns a string recursively, implementing terminal class toString
-     * methods.
-     */
     public String toString() {
-        return this.toString();
+        return signature.toString() + "\n" + voices.toString();
     }
 
     public int hashCode() {

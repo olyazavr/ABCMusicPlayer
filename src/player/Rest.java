@@ -33,10 +33,6 @@ public class Rest implements MusicSymbol {
         return length.getNumerator();
     }
 
-    /**
-     * @param _that
-     *            the object which we check equality against this
-     */
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Rest)) {
@@ -52,7 +48,6 @@ public class Rest implements MusicSymbol {
      * Returns a string for a rest which is a "z" followed by its length
      */
     public String toString() {
-
         return "z" + this.length.toString();
     }
 
