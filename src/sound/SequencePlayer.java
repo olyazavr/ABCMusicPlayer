@@ -228,9 +228,9 @@ public class SequencePlayer {
             player.play();
 
             /*
-             * Note: A possible weird behavior of the Java sequencer: Even if the
-             * sequencer has finished playing all of the scheduled notes and is
-             * manually closed, the program may not terminate. This is likely
+             * Note: A possible weird behavior of the Java sequencer: Even if
+             * the sequencer has finished playing all of the scheduled notes and
+             * is manually closed, the program may not terminate. This is likely
              * due to daemon threads that are spawned when the sequencer is
              * opened but keep on running even after the sequencer is killed. In
              * this case, you need to explicitly exit the program with

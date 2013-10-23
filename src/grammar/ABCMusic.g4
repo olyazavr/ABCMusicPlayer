@@ -80,8 +80,7 @@ END_NOTES: '|]' | '||';
  *
  * Each header field has its own rule. Notes, rests, tuplets, chords, and measures have 
  * their own respective rules. Repeats have their own rules as well, but to get the 
- * entire repeated measure, extract the token from measure. A measure has a bunch of 
- * notes and bars, optionally followed by lyrics.
+ * entire repeated measure, extract the token from measure.
  * Lyrics also have their own rule.
  *
  */
@@ -98,8 +97,8 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : (NEWLINE* measure+ NEWLINE* | field_voice NEWLINE* | COMMENT)+;
-measure : ((LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|RREPEAT))+ NEWLINE+ lyric?;
+abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
+measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
 
 note_element : note | rest | chord | tuplet;
 note: NOTE;
