@@ -20,7 +20,7 @@ public class Fraction {
 	 *            is the denominator, assumed positive.
 	 */
 	public Fraction(int n, int d) {
-		int gcd = num.gcd(n, d);
+		int gcd = NumberTheory.gcd(n, d);
 		this.numerator = n / gcd;
 		this.denominator = d / gcd;
 	}
@@ -64,7 +64,7 @@ public class Fraction {
 			d = new Integer(parsedFrac[1]);
 		}
 		
-		int gcd = num.gcd(n, d);
+		int gcd = NumberTheory.gcd(n, d);
 		this.numerator = n / gcd;
 		this.denominator = d / gcd;
 	}

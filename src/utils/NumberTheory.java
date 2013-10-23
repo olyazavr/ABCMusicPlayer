@@ -1,6 +1,6 @@
 package utils;
 
-public class num {
+public class NumberTheory {
 	public static int gcd(int a, int b) {
 		if (a == 0) {
 			return b;

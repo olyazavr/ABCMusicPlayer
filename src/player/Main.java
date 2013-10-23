@@ -42,7 +42,7 @@ public class Main {
         // Find the ticks and tempo to give to the midi player
         int ticksPerBeat = music.calculateTicksPerBeat();
         int tempo = music.getPlayerTempo();
-
+        
         // Try to play this, it may throw if it can't read the MIDI
         try {
             MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
@@ -50,7 +50,7 @@ public class Main {
             player.play();
         } catch (MidiUnavailableException | InvalidMidiDataException e) {
             e.printStackTrace();
-        }
+        } 
 	}
 
 	private static String readFileToString(String file) {

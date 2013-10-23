@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sound.MusicPlayer;
-import utils.num;
+import utils.NumberTheory;
 
 /**
  * ADT that represents the complete music piece. It has a Signature and and list
@@ -40,7 +40,7 @@ public class MusicPiece implements MusicPart {
     public int calculateTicksPerBeat() {
         int LCM = 1;
         for (Voice voice : voices) {
-            LCM = num.lcm(LCM, voice.calculateTicksPerBeat());
+            LCM = NumberTheory.lcm(LCM, voice.calculateTicksPerBeat());
         }
         return LCM;
     }

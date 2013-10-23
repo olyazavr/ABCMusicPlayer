@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sound.MusicPlayer;
-import utils.num;
+import utils.NumberTheory;
 
 /**
  * ADT that represents a voice. It has a name, and a list of Measures.
@@ -39,7 +39,7 @@ public class Voice implements MusicPart {
     public int calculateTicksPerBeat() {
         int LCM = 1;
         for (Measure measure : measures) {
-            LCM = num.lcm(LCM, measure.calculateTicksPerBeat());
+            LCM = NumberTheory.lcm(LCM, measure.calculateTicksPerBeat());
         }
         return LCM;
     }

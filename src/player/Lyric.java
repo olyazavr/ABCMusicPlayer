@@ -19,6 +19,15 @@ public class Lyric {
     public Lyric(List<String> syllables) {
         this.syllables = new ArrayList<String>(syllables);
     }
+    
+    /**
+     * Checks whether the lyrics are empty
+     * @return true if is empty, false otherwise
+     */
+    
+    public boolean isEmpty(){
+    	return syllables.isEmpty();
+    }
 
     /**
      * Simply returns the syllable at the index requested.

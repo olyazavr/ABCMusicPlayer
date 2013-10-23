@@ -5,7 +5,7 @@ import java.util.List;
 
 import sound.MusicPlayer;
 import utils.Fraction;
-import utils.num;
+import utils.NumberTheory;
 
 /**
  * ADT that represents a chord. It contains a list of Pitches, which are all
@@ -47,7 +47,7 @@ public class Chord implements MusicSymbol {
     public int calculateTicksPerBeat() {
         int LCM = 1;
         for (Pitch pitch : notes) {
-            LCM = num.lcm(LCM, pitch.calculateTicksPerBeat());
+            LCM = NumberTheory.lcm(LCM, pitch.calculateTicksPerBeat());
         }
         return LCM;
     }
