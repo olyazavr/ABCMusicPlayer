@@ -45,7 +45,7 @@ public class Fraction {
 		int n=1, d=2;
 		boolean noNumerator=false;
 		boolean noDenominator=false;
-		String currentNumber=new String("");
+		boolean parsedNumerator=false;
 		String[] elementsFrac = frac.trim().split("/");
 		for (String s:elementsFrac){
 			if (s.matches("")) {
@@ -59,11 +59,12 @@ public class Fraction {
 					noNumerator=true; // first "" stands for numerator
 				}				
 			} else if (s.matches("[0-9]")){
-				if (! noNumerator){
-					n=Integer.parseInt(s);
-				} else {
+				if (parsedNumerator || noNumerator){
 					d=Integer.parseInt(s);
-				}
+				} else {
+					n=Integer.parseInt(s);
+					parsedNumerator=true;
+				} 
 			}
 		}
 		
