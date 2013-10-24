@@ -154,21 +154,16 @@ public class Listener extends ABCMusicBaseListener {
             // get voice name sans the "V:" and set it to currentVoice
             String voiceName = ctx.getText().substring(2).trim();
             currentVoice = voiceName;
-
-            // add a new Voice stack if needed, containsKey() doesn't work here
-            // for some reason
-            boolean voiceExists = false;
-            for (String name : voices.keySet()) {
-                if (name.equals(voiceName)) {
-                    // this voice already exists
-                    voiceExists = true;
-                    break;
-                }
-            }
-            if (!voiceExists) { // add new Voice stack
+            
+            // add a new Voice stack and repeatMeasure list if needed
+            Stack<Measure> voiceExists = voices.get(currentVoice);
+            if (voiceExists==null) { // add new Voice stack
                 Stack<Measure> stack = new Stack<Measure>();
+                List<Measure> list = new ArrayList<Measure>(); 
                 System.out.println("adding Voice stack " + voiceName);
                 voices.put(voiceName, stack);
+                voiceRepeatMeasures.put(voiceName,list);
+                
             }
         }
 
