@@ -15,6 +15,13 @@ import org.junit.Test;
  * headers and body, comments, and all kinds of notes (chords, repeats, tuplets,
  * octaves, accidentals).
  * 
+ * Testing strategy: Test first the simple cases, then increasingly more
+ * complicated and more prone to parsing error cases. Make sure all tokens are
+ * correctly lexed and behave the way they should even with whitespace and
+ * newlines. Comments should be entirely thrown out, and notes (but not chords
+ * or tuplets) should be lexed along with their modifiers. Header lines should
+ * be lexed as their own tokens.
+ * 
  */
 public class LexerTest {
 
