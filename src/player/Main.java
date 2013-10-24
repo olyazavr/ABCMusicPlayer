@@ -42,13 +42,11 @@ public class Main {
         int tempo = music.getPlayerTempo(ticksPerBeat);
 
         // Try to play this, it may throw if it can't read the MIDI
-        try {
+        
             MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
             music.addNotes(player);
             player.play();
-        } catch (MidiUnavailableException | InvalidMidiDataException e) {
-            e.printStackTrace();
-        }
+        
     }
 
     private static String readFileToString(String file) {
