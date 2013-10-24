@@ -74,4 +74,13 @@ public class Measure implements MusicPart {
 		return LCM;
 	}
 
+    public boolean equals(Object _that) {
+        // two objects can only be equal if they are of the same type
+        if (!(_that instanceof Measure)) {
+            return false;
+        }
+        Measure that = (Measure) _that;
+        return this.notes.equals(that.notes) && this.lyrics.equals(that.lyrics);
+    }
+
 }

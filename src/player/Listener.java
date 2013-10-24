@@ -247,7 +247,7 @@ public class Listener extends ABCMusicBaseListener {
         }
 
         Signature signature = new Signature(t, c, l, m, q, key, v);
-        System.out.println("adding Signature");
+        System.out.println("adding Signature with key " + key);
         finalStack.push(signature);
     }
 

@@ -32,7 +32,7 @@ public interface Music {
      * equal
      * 
      * @param _that
-     *            expression to compare to
+     *            music to compare to
      * @return whether or not the two musics are equal
      */
     @Override

@@ -28,9 +28,9 @@ public class LexerTest {
     @Test
     public void extendedHeaderOnlyTest() {
         // tests the full possible header
-        String input = "X: 1 \n T:Piece No.1 \n M:4/4 \n L:1/4 \n Q:1/4=140 \n K:C \n";
-        verifyLexer(input, new String[] { "X: 1 \n", "T:Piece No.1 \n", "M:4/4 \n", "L:1/4 \n", "Q:1/4=140 \n",
-                "K:C \n" });
+        String input = "X: 1 \n T:Piece No.1 \n C: Me \n M:4/4 \n L:1/4 \n Q:1/4=140 \n K:C \n";
+        verifyLexer(input, new String[] { "X: 1 \n", "T:Piece No.1 \n", "C: Me \n", "M:4/4 \n", "L:1/4 \n",
+                "Q:1/4=140 \n", "K:C \n" });
     }
 
     @Test
@@ -71,13 +71,13 @@ public class LexerTest {
     @Test
     public void chordsTupletsTest() {
         // Test chords and tuplets, where (, [, and ], are lexed separately from
-        // their notes
+        // their notes (comments are ignored by the lexer)
         String input = "X:8628 \n T:Prelude BWV 846 no. 1 \n C:Johann Sebastian Bach "
                 + "\n M:4/4 \n L:1/16 \n Q:1/4=70 \n V:1 \n K:C \n "
                 + "% \n V:1 \n (2AB B dfdB dBGB DFED|[E16G16c16]|] \n";
         verifyLexer(input,
                 new String[] { "X:8628 \n", "T:Prelude BWV 846 no. 1 \n", "C:Johann Sebastian Bach \n", "M:4/4 \n",
-                        "L:1/16 \n", "Q:1/4=70 \n", "V:1 \n", "K:C \n", "% \n", "V:1 \n",
+                        "L:1/16 \n", "Q:1/4=70 \n", "V:1 \n", "K:C \n", "\n", "V:1 \n",
                         "(", "2", "A", "B", "B", "d", "f", "d", "B", "d", "B", "G", "B", "D", "F", "E",
                         "D", "|", "[", "E16", "G16", "c16", "]", "|]", "\n"
                 });

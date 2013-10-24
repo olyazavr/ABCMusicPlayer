@@ -29,17 +29,19 @@ public class Signature {
      * @param title
      *            title of the MusicPiece (mandatory)
      * @param composer
-     *            composer of MusicPiece
+     *            composer of MusicPiece (default: "Unknown")
      * @param length
-     *            default length of a note
+     *            default length of a note (default: 1/16 if meter < 3/4, 1/8 if
+     *            meter>= 3/4)
      * @param meter
-     *            sum of lengths of all notes in a measure
+     *            sum of lengths of all notes in a measure (default: 4/4)
      * @param tempo
-     *            number of given length notes to play in a minute
+     *            number of given length notes to play in a minute (default:
+     *            length note * 100)
      * @param key
-     *            key signature
+     *            key signature (mandatory)
      * @param voices
-     *            list of voices in the MusicPiece
+     *            list of voices in the MusicPiece (default: "defaultVoice")
      */
     public Signature(String title, String composer, Fraction length,
             Fraction meter, Fraction tempo, String key, List<String> voices) {
@@ -51,9 +53,9 @@ public class Signature {
         this.key = key;
         this.voices = new ArrayList<String>(voices);
     }
-    
-    public int getPlayerTempo(){
-    	return tempo.multiply(length.getDenominator()).getNumerator();
+
+    public int getPlayerTempo() {
+        return tempo.multiply(length.getDenominator()).getNumerator();
     }
 
     public boolean equals(Object _that) {

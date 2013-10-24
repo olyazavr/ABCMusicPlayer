@@ -44,4 +44,23 @@ public class Voice implements MusicPart {
         return LCM;
     }
 
+    /**
+     * Tests the equality of one Voice to to another, such that two expressions
+     * with equal attributes (observationally indistinguishable) are considered
+     * equal
+     * 
+     * @param _that
+     *            Voice to compare to
+     * @return whether or not the two Voices are equal
+     */
+    @Override
+    public boolean equals(Object _that) {
+        // two objects can only be equal if they are of the same type
+        if (!(_that instanceof Voice)) {
+            return false;
+        }
+        Voice that = (Voice) _that;
+        return this.measures.equals(that.measures) && this.name.equals(that.name);
+    }
+
 }

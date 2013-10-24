@@ -47,10 +47,11 @@ package grammar;
  * lexed together with their modifiers. Tuplet and chord (, [, and ] symbols are lexed 
  * separately from their notes.
  * Repeats and pipes are lexed on their own.
+ * Tabs, spaces, and comments are ignored.
  *
  */
  
-WHITESPACE : [ \t]+ -> skip ;
+WHITESPACE : [ \t%]+ -> skip ;
 DIGIT: [0-9]+;
 NEWLINE: [\n\r];
 INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
@@ -62,7 +63,6 @@ TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
 VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
 KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
 LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z0-9] | '.' | '!' | '?')+ ' '* [\n\r];
-COMMENT : '%' ' '* ([a-zA-Z0-9] | '.' | '!' | '?' | '\'' | '(' | ')' | '-' | '_' | '*' | '~' | '\-' | '|' | ' ')* ' '* [\n\r]+;
 NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 PAREN: '(';
@@ -81,15 +81,17 @@ END_NOTES: '|]' | '||';
  * Each header field has its own rule. Notes, rests, tuplets, chords, and measures have 
  * their own respective rules. Repeats have their own rules as well, but to get the 
  * entire repeated measure, extract the token from measure.
+ * A measure comsists of repeats, pipes, note elements, and has to end in a repeat,
+ * newline, pipe, or end note symbols.
  * Lyrics also have their own rule.
  *
  */
 abc_tune : abc_header abc_music NEWLINE* EOF;
-abc_header : field_number COMMENT* field_title other_fields* field_key;
+abc_header : field_number field_title other_fields* field_key;
 
 field_number : INDEX;
 field_title : TITLE;
-other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | COMMENT;
+other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice;
 field_composer : COMPOSER;
 field_default_length : LENGTH;
 field_meter : METER;
@@ -97,7 +99,7 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
+abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE*)+;
 measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
 
 note_element : note | rest | chord | tuplet;

@@ -23,18 +23,16 @@ import sound.MusicPlayer;
  */
 public class Main {
 
-	/**
-	 * Plays the input file using Java MIDI API and displays header information
-	 * to the standard output stream.
-	 * 
-	 * (Your code should not exit the application abnormally using
-	 * System.exit().)
-	 * 
-	 * @param file
-	 *            the name of input abc file
-	 * @throws InvalidMidiDataException
-	 * @throws MidiUnavailableException
-	 */
+    /**
+     * Plays the input file using Java MIDI API and displays header information
+     * to the standard output stream.
+     * 
+     * (Your code should not exit the application abnormally using
+     * System.exit().)
+     * 
+     * @param file
+     *            the name/location of input abc file relative to abcplayer/src
+     */
     public static void play(String file) {
         // get the MusicPiece object
         MusicPiece music = stringToMusicPiece(readFileToString(file));
@@ -42,7 +40,7 @@ public class Main {
         // Find the ticks and tempo to give to the midi player
         int ticksPerBeat = music.calculateTicksPerBeat();
         int tempo = music.getPlayerTempo();
-        
+
         // Try to play this, it may throw if it can't read the MIDI
         try {
             MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
@@ -50,56 +48,56 @@ public class Main {
             player.play();
         } catch (MidiUnavailableException | InvalidMidiDataException e) {
             e.printStackTrace();
-        } 
-	}
+        }
+    }
 
-	private static String readFileToString(String file) {
-		StringBuilder output = new StringBuilder("");
+    private static String readFileToString(String file) {
+        StringBuilder output = new StringBuilder("");
 
-		// try with resources, resources always closed after
-		try (BufferedReader bufferReader = new BufferedReader(new FileReader(
-				file))) {
-			String line;
+        // try with resources, resources always closed after
+        try (BufferedReader bufferReader = new BufferedReader(new FileReader(
+                file))) {
+            String line;
 
-			// Read file line by line and save to output
-			while ((line = bufferReader.readLine()) != null) {
-				output.append(line);
-				output.append(System.getProperty("line.separator"));
-			}
-			bufferReader.close();
+            // Read file line by line and save to output
+            while ((line = bufferReader.readLine()) != null) {
+                output.append(line);
+                output.append(System.getProperty("line.separator"));
+            }
+            bufferReader.close();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		return output.toString();
-	}
+        return output.toString();
+    }
 
-	private static MusicPiece stringToMusicPiece(String input) {
-		// Create a stream of tokens using the lexer.
-		CharStream stream = new ANTLRInputStream(input);
-		ABCMusicLexer lexer = new ABCMusicLexer(stream);
-		lexer.reportErrorsAsExceptions();
-		TokenStream tokens = new CommonTokenStream(lexer);
-		// List<? extends Token> actualTokens = lexer.getAllTokens();
+    public static MusicPiece stringToMusicPiece(String input) {
+        // Create a stream of tokens using the lexer.
+        CharStream stream = new ANTLRInputStream(input);
+        ABCMusicLexer lexer = new ABCMusicLexer(stream);
+        lexer.reportErrorsAsExceptions();
+        TokenStream tokens = new CommonTokenStream(lexer);
+        // List<? extends Token> actualTokens = lexer.getAllTokens();
 
-		// Feed the tokens into the parser.
-		ABCMusicParser parser = new ABCMusicParser(tokens);
-		parser.reportErrorsAsExceptions();
+        // Feed the tokens into the parser.
+        ABCMusicParser parser = new ABCMusicParser(tokens);
+        parser.reportErrorsAsExceptions();
 
-		// Generate the parse tree using the starter rule.
-		ParseTree tree;
-		tree = parser.abc_tune(); // "abc_tune" is the starter rule.
-		// ((RuleContext) tree).inspect(parser);
+        // Generate the parse tree using the starter rule.
+        ParseTree tree;
+        tree = parser.abc_tune(); // "abc_tune" is the starter rule.
+        // ((RuleContext) tree).inspect(parser);
 
-		// Walk the tree with the listener.
-		ParseTreeWalker walker = new ParseTreeWalker();
-		Listener listener = new Listener();
-		walker.walk(listener, tree);
-		return listener.getMusic();
-	}
+        // Walk the tree with the listener.
+        ParseTreeWalker walker = new ParseTreeWalker();
+        Listener listener = new Listener();
+        walker.walk(listener, tree);
+        return listener.getMusic();
+    }
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-	}
+    }
 }
