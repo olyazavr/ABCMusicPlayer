@@ -39,7 +39,7 @@ public class Main {
 
         // Find the ticks and tempo to give to the midi player
         int ticksPerBeat = music.calculateTicksPerBeat();
-        int tempo = music.getPlayerTempo();
+        int tempo = music.getPlayerTempo(ticksPerBeat);
 
         // Try to play this, it may throw if it can't read the MIDI
         try {

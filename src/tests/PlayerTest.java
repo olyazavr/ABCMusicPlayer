@@ -12,7 +12,7 @@ import player.Main;
  * @category no_didit
  */
 public class PlayerTest {
- 
+
     @Test
     public void playabcTest() {
         Main.play("sample_abc/abc_song.abc");
@@ -36,13 +36,13 @@ public class PlayerTest {
     @Test
     public void paddyTest() {
         Main.play("sample_abc/paddy.abc");
-    } 
+    }
 
     @Test
     public void piece1Test() {
         Main.play("sample_abc/piece1.abc");
     }
-    
+
     @Test
     public void piece2Test() {
         Main.play("sample_abc/piece2.abc");
@@ -66,6 +66,16 @@ public class PlayerTest {
     @Test
     public void waxies_dargleTest() {
         Main.play("sample_abc/waxies_dargle.abc");
+    }
+    
+    @Test
+    public void finalFantasyTest() {
+        Main.play("sample_abc/final_fantasy_III.abc");
+    }
+    
+    @Test
+    public void californicationTest() {
+        Main.play("sample_abc/californication.abc");
     }
 
 }

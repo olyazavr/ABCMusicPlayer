@@ -7,7 +7,7 @@ import sound.MusicPlayer;
 import utils.NumberTheory;
 
 /**
- * ADT that represents the complete music piece. It has a Signature and and list
+ * ADT that represents the complete music piece. It has a Signature and a list
  * of Voices. The Voices then have the notes and lyrics.
  * 
  */
@@ -45,8 +45,8 @@ public class MusicPiece implements MusicPart {
         return LCM;
     }
     
-    public int getPlayerTempo(){
-    	return signature.getPlayerTempo();
+    public int getPlayerTempo(int ticksPerBeat){
+    	return signature.getPlayerTempo(ticksPerBeat);
     }
 
 
