@@ -42,32 +42,34 @@ public class Fraction {
 	 *            is an int followed by a "/" followed by another int.
 	 */
 	public Fraction(String frac) {
-		int n=1, d=2;
-		boolean noNumerator=false;
-		boolean noDenominator=false;
-		boolean parsedNumerator=false;
+		int n = 1, d = 2;
+		boolean noNumerator = false;
+		boolean noDenominator = false;
+		boolean parsedNumerator = false;
 		String[] elementsFrac = frac.trim().split("/");
-		for (String s:elementsFrac){
+		for (String s : elementsFrac) {
 			if (s.matches("")) {
-				if (noNumerator){ // if "" was already met 
-					if (noDenominator){ // if "" was met twice then we have the case //=1/4
-						d*=2;
+				if (noNumerator) { // if "" was already met
+					if (noDenominator) { // if "" was met twice then we have the
+											// case //=1/4
+						d *= 2;
 					} else {
-					noDenominator=true; // second "" stands for denominator
+						noDenominator = true; // second "" stands for
+												// denominator
 					}
 				} else {
-					noNumerator=true; // first "" stands for numerator
-				}				
-			} else if (s.matches("[0-9]")){
-				if (parsedNumerator || noNumerator){
-					d=Integer.parseInt(s);
+					noNumerator = true; // first "" stands for numerator
+				}
+			} else if (s.matches("[0-9]")) {
+				if (parsedNumerator || noNumerator) {
+					d = Integer.parseInt(s);
 				} else {
-					n=Integer.parseInt(s);
-					parsedNumerator=true;
-				} 
+					n = Integer.parseInt(s);
+					parsedNumerator = true;
+				}
 			}
 		}
-		
+
 		int gcd = NumberTheory.gcd(n, d);
 		this.numerator = n / gcd;
 		this.denominator = d / gcd;
@@ -89,9 +91,8 @@ public class Fraction {
 	 * @return a String representation of this Fraction.
 	 */
 	public String toString() {
-		int thisGcd = gcd(numerator, denominator);
 
-		return (numerator / thisGcd + "/" + denominator / thisGcd);
+		return (numerator + "/" + denominator);
 	}
 
 	/**

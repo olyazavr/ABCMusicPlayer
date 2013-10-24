@@ -89,17 +89,29 @@ public class Pitch implements MusicSymbol {
     }
 
     /**
-     * TODO: I don't think I'm implementing this correctly. This is just a
-     * skeleton. It should be fitted to whatever format we need later on, ie.
-     * this.accidental is a value but we may put a conditional which prints a #
-     * if it's a 1 or b if it's a -2
+     * Converts the pitch to ABC format string
      */
     public String toString() {
-        StringBuilder readablePitch = new StringBuilder();
-        readablePitch.append(this.accidental);
-        readablePitch.append(this.value);
-        readablePitch.append(this.length);
-        return readablePitch.toString();
+    	String accidentalString,valueString,lengthString;
+    	if (accidental==0){
+    		accidentalString="";
+    	} else if (accidental==1) {
+    		accidentalString="^";
+    	} else  {
+    		accidentalString="_";
+    	}
+    	valueString= new String("");
+    	valueString+=value;
+    	if (octave==1){
+    		valueString=valueString.toLowerCase();
+    	} else if (octave==2){
+    		valueString+="'";
+    	} else if (octave==-1){
+    		valueString+=",";
+    	}
+    	lengthString=length.toString();
+    	
+        return accidentalString+valueString+lengthString;
     }
 
     public int hashCode() {
