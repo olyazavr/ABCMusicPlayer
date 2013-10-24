@@ -10,14 +10,19 @@ public class MusicPlayer {
 	private int currentTick;
 	private final int ticksPerBeat;
 
-	public MusicPlayer(int tempo, int ticksPerBeat)
-			throws MidiUnavailableException, InvalidMidiDataException {
+	public MusicPlayer(int tempo, int ticksPerBeat) {
 		LyricListener listener = new LyricListener() {
 			public void processLyricEvent(String text) {
 				System.out.println(text);
 			}
-		};
-		this.player = new SequencePlayer(tempo, ticksPerBeat, listener);
+		};		
+		try {
+			this.player = new SequencePlayer(tempo, ticksPerBeat, listener);
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+		} catch (InvalidMidiDataException e) {
+			e.printStackTrace();
+		}
 		this.currentTick = 0;
 		this.ticksPerBeat = ticksPerBeat;
 	}
@@ -25,11 +30,11 @@ public class MusicPlayer {
 	public void addNote(int note, Fraction noteLength) {
 		player.addNote(note, currentTick,
 				currentTick
-						+ noteLength.multiply(ticksPerBeat).getDenominator());
+						+ noteLength.multiply(ticksPerBeat).getNumerator());
 	}
 
 	public void addTime(Fraction length) {
-		currentTick += length.multiply(ticksPerBeat).getDenominator();
+		currentTick += length.multiply(ticksPerBeat).getNumerator();
 	}
 
 	public void addLyric(String lyric) {
@@ -40,8 +45,12 @@ public class MusicPlayer {
 		currentTick = 0;
 	}
 
-	public void play() throws MidiUnavailableException {
-		player.play();
+	public void play() {
+		try {
+			player.play();
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

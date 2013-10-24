@@ -30,7 +30,7 @@ public class Rest implements MusicSymbol {
     }
 
     public int calculateTicksPerBeat() {
-        return length.getNumerator();
+        return length.getDenominator();
     }
 
     public boolean equals(Object _that) {

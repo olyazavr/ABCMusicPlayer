@@ -62,5 +62,13 @@ public class Voice implements MusicPart {
         Voice that = (Voice) _that;
         return this.measures.equals(that.measures) && this.name.equals(that.name);
     }
+    
+    public String toString(){
+    	String voiceString=new String(" ");
+    	for (Measure m: measures){
+    		voiceString+=m.toString();
+    	}
+    	return voiceString+"]";
+    }
 
 }

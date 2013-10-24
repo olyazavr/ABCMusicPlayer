@@ -10,6 +10,7 @@ import org.junit.Test;
 import player.Chord;
 import player.Lyric;
 import player.Measure;
+import player.MusicPiece;
 import player.MusicSymbol;
 import player.Pitch;
 import player.Rest;
@@ -167,6 +168,13 @@ public class MusicADTBasicTest {
      */
     @Test
     public void testEqualsMusicPieceTest() {
+        Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
+                new Fraction(1, 8), "C", Arrays.asList("one"));
+        Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
+                new Fraction(1, 8), "C", Arrays.asList("one"));
+        Signature sig3 = new Signature("title2", "composer1", new Fraction(2, 2), new Fraction(1, 2),
+                new Fraction(1, 8), "Am", Arrays.asList("one"));
+
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
@@ -183,9 +191,13 @@ public class MusicADTBasicTest {
         Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure3));
         Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure2));
 
-        assertEquals(voice1, voice1); // reflexive
-        assertEquals(voice1, voice2);
-        assertNotEquals(voice1, voice3);
+        MusicPiece music1 = new MusicPiece(sig1, Arrays.asList(voice1, voice2, voice3));
+        MusicPiece music2 = new MusicPiece(sig2, Arrays.asList(voice2, voice1, voice3));
+        MusicPiece music3 = new MusicPiece(sig3, Arrays.asList(voice3, voice2, voice3));
+
+        assertEquals(music1, music1); // reflexive
+        assertEquals(music1, music2);
+        assertNotEquals(music1, music3);
     }
 
 }

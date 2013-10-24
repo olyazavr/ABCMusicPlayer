@@ -82,5 +82,14 @@ public class Measure implements MusicPart {
         Measure that = (Measure) _that;
         return this.notes.equals(that.notes) && this.lyrics.equals(that.lyrics);
     }
+    
+    public String toString(){
+    	String measureString=new String(" ");
+    	for (MusicSymbol s:notes){
+    		measureString+=s.toString();
+    		measureString+=" ";
+    	}
+    	return measureString+"|";
+    }
 
 }

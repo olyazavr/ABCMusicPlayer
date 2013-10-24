@@ -128,9 +128,8 @@ public class Fraction {
 	 */
 	public Fraction multiply(Fraction f) {
 
-		// This calculation is fairly straight-forward.
-		int num = this.numerator * f.numerator;
-		int den = this.denominator * f.denominator;
+		int num = this.numerator * f.getNumerator();
+		int den = this.denominator * f.getDenominator();
 
 		return new Fraction(num, den);
 	}
@@ -160,20 +159,6 @@ public class Fraction {
 
 	public int getDenominator() {
 		return this.denominator;
-	}
-
-	/**
-	 * Computes the greatest common divisor (gcd) of the two inputs.
-	 * 
-	 * @param x
-	 *            is assumed positive
-	 * @param y
-	 *            is assumed non-negative
-	 * @return the gcd of x and y
-	 */
-	static private int gcd(int x, int y) {
-		/* Remove the following line. */
-		return 1;
 	}
 
 	// Returns true iff the current object and f store the same value.

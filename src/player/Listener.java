@@ -282,6 +282,8 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitTuplet(ABCMusicParser.TupletContext ctx) {
+    	//stack to store changed notes
+    	Stack<MusicSymbol> currentStack= new Stack<MusicSymbol>();
         // determines if duplet, triplet, quadruplet
         int tupletNumber = new Integer(ctx.getText().substring(1, 2));
 
@@ -303,12 +305,16 @@ public class Listener extends ABCMusicBaseListener {
             MusicSymbol musicSymbol = musicSymbolStack.pop();
             if (musicSymbol instanceof Pitch) {
                 Pitch newMusicSymbol = ((Pitch) musicSymbol).multiplyLength(multiplicationFactor);
-                musicSymbolStack.push(newMusicSymbol);
+                currentStack.push(newMusicSymbol);
 
             } else if (musicSymbol instanceof Chord) {
                 Chord newMusicSymbol = ((Chord) musicSymbol).multiplyLength(multiplicationFactor);
-                musicSymbolStack.push(newMusicSymbol);
+                currentStack.push(newMusicSymbol);
             }
+        }
+        //put changed notes back in the stack
+        for (int i = 0; i < tupletNumber; ++i) {
+        	musicSymbolStack.push(currentStack.pop());
         }
     }
 

@@ -56,7 +56,7 @@ public class Signature {
 
     public int getPlayerTempo(int ticksPerBeat) {
         Fraction beatPerTicks = new Fraction(1, ticksPerBeat);
-        return tempo.multiply(length.getDenominator()).multiply(beatPerTicks).getNumerator();
+        return tempo.multiply(length.getDenominator()).getNumerator();
     }
 
     public boolean equals(Object _that) {
