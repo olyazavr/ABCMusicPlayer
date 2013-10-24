@@ -33,9 +33,9 @@ public class Chord implements MusicSymbol {
 
         for (Pitch pitch : notes) {
             pitch.addNote(player, new String());
+            player.addTime(pitch.getLength().multiply(-1));
         }
-        player.addTime(notes.get(0).getLength().multiply(1 - notes.size()));
-
+        player.addTime(notes.get(0).getLength());
         if (!syllable.isEmpty()) {
             player.addLyric(syllable);
         }

@@ -2,17 +2,16 @@ package utils;
 
 public class NumberTheory {
 	public static int gcd(int a, int b) {
-		if (a == 0) {
-			return b;
+		int t=0; int A=a; int B=b;
+		if (A==0){
+			return 1;
 		}
-		if (a < b) {
-			return gcd(b, a);
+		while (B!=0){
+			t=B;
+			B=A%B;
+			A=t;
 		}
-		if (a % b == 0) {
-			return b;
-		} else {
-			return gcd(a, a % b);
-		}
+		return A;
 	}
 
 	public static int lcm(int a, int b) {
