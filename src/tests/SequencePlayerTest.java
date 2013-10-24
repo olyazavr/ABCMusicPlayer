@@ -149,7 +149,7 @@ public class SequencePlayerTest {
 	            }
 	        };
 	
-	        player = new SequencePlayer(100, 2, listener);	
+	        player = new SequencePlayer(100, 1, listener);	
 	
 	        player.addNote(new Pitch('D').toMidiNote(), 4, 6);
 	        

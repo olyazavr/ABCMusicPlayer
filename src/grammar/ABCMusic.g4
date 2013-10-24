@@ -66,7 +66,6 @@ LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ','
 NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 PAREN: '(';
-PIPE: '|';
 LBRAC: '[';
 RBRAC: ']';
 LREPEAT: '|:';
@@ -74,6 +73,7 @@ RREPEAT: ':|';
 ONE_REPEAT : '[1';
 TWO_REPEAT: '[2';
 END_NOTES: '|]' | '||';
+PIPE: '|';
 
 /*
  * These are the parser rules. They define the structures used by the parser.

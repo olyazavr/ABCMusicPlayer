@@ -50,8 +50,8 @@ public class Listener extends ABCMusicBaseListener {
      * Keep a list of measures that could possibly be repeated from the
      * beginning or from after a repeat, or from after an end notes symbol
      */
-    private List<Measure> repeatedMeasures = new ArrayList<Measure>();
-
+    private Map<String, List<Measure>> voiceRepeatMeasures = new HashMap<String, List<Measure>>();
+        
     /**
      * do nothing, because the top of the stack should have the node already in
      * it
@@ -68,7 +68,7 @@ public class Listener extends ABCMusicBaseListener {
     public void enterMeasure(ABCMusicParser.MeasureContext ctx) {
         // clear and restart repeatedMeasures
         if (ctx.LREPEAT() != null) {
-            repeatedMeasures.clear();
+            voiceRepeatMeasures.get(currentVoice).clear();
         }
     }
 
@@ -98,23 +98,25 @@ public class Listener extends ABCMusicBaseListener {
 
         // don't repeat if there's a one-repeat
         if (ctx.ONE_REPEAT() == null) {
-            repeatedMeasures.add(measure);
+            voiceRepeatMeasures.get(currentVoice).add(measure);
         }
 
-        // add all the recorded repeatedMeasures if there's a repeat
-        if (ctx.RREPEAT() != null) {
-            currentVoiceStack.addAll(repeatedMeasures);
-            System.out.println("adding " + repeatedMeasures.size() + " repeated Measures");
-            repeatedMeasures.clear();
-        }
 
         // clear and restart repeatedMeasures
         if (ctx.END_NOTES() != null) {
-            repeatedMeasures.clear();
+        	voiceRepeatMeasures.get(currentVoice).clear();
         }
 
         System.out.println("adding Measure with " + musicSymbols.size() + " notes");
         currentVoiceStack.push(measure);
+        
+          
+        // add all the recorded repeatedMeasures if there's a repeat
+        if (ctx.RREPEAT() != null) {
+            currentVoiceStack.addAll(voiceRepeatMeasures.get(currentVoice));
+            System.out.println("adding " + voiceRepeatMeasures.get(currentVoice).size() + " repeated Measures");
+            voiceRepeatMeasures.get(currentVoice).clear();
+        }
     }
 
     /**

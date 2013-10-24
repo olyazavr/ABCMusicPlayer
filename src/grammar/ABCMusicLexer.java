@@ -19,8 +19,8 @@ public class ABCMusicLexer extends Lexer {
 	public static final int
 		WHITESPACE=1, DIGIT=2, NEWLINE=3, INDEX=4, TITLE=5, COMPOSER=6, LENGTH=7, 
 		METER=8, TEMPO=9, VOICE=10, KEY=11, LYRIC=12, NOTE=13, REST=14, PAREN=15, 
-		PIPE=16, LBRAC=17, RBRAC=18, LREPEAT=19, RREPEAT=20, ONE_REPEAT=21, TWO_REPEAT=22, 
-		END_NOTES=23;
+		LBRAC=16, RBRAC=17, LREPEAT=18, RREPEAT=19, ONE_REPEAT=20, TWO_REPEAT=21, 
+		END_NOTES=22, PIPE=23;
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
 	};
@@ -28,13 +28,14 @@ public class ABCMusicLexer extends Lexer {
 	public static final String[] tokenNames = {
 		"<INVALID>",
 		"WHITESPACE", "DIGIT", "NEWLINE", "INDEX", "TITLE", "COMPOSER", "LENGTH", 
-		"METER", "TEMPO", "VOICE", "KEY", "LYRIC", "NOTE", "REST", "'('", "'|'", 
-		"'['", "']'", "'|:'", "':|'", "'[1'", "'[2'", "END_NOTES"
+		"METER", "TEMPO", "VOICE", "KEY", "LYRIC", "NOTE", "REST", "'('", "'['", 
+		"']'", "'|:'", "':|'", "'[1'", "'[2'", "END_NOTES", "'|'"
 	};
 	public static final String[] ruleNames = {
 		"WHITESPACE", "DIGIT", "NEWLINE", "INDEX", "TITLE", "COMPOSER", "LENGTH", 
-		"METER", "TEMPO", "VOICE", "KEY", "LYRIC", "NOTE", "REST", "PAREN", "PIPE", 
-		"LBRAC", "RBRAC", "LREPEAT", "RREPEAT", "ONE_REPEAT", "TWO_REPEAT", "END_NOTES"
+		"METER", "TEMPO", "VOICE", "KEY", "LYRIC", "NOTE", "REST", "PAREN", "LBRAC", 
+		"RBRAC", "LREPEAT", "RREPEAT", "ONE_REPEAT", "TWO_REPEAT", "END_NOTES", 
+		"PIPE"
 	};
 
 
@@ -124,8 +125,8 @@ public class ABCMusicLexer extends Lexer {
 		"\n\16\3\17\3\17\7\17\u0192\n\17\f\17\16\17\u0195\13\17\3\17\3\17\6\17"+
 		"\u0199\n\17\r\17\16\17\u019a\3\17\6\17\u019e\n\17\r\17\16\17\u019f\3\17"+
 		"\5\17\u01a3\n\17\3\17\5\17\u01a6\n\17\3\20\3\20\3\21\3\21\3\22\3\22\3"+
-		"\23\3\23\3\24\3\24\3\24\3\25\3\25\3\25\3\26\3\26\3\26\3\27\3\27\3\27\3"+
-		"\30\3\30\3\30\3\30\5\30\u01c0\n\30\2\31\3\3\2\5\4\1\7\5\1\t\6\1\13\7\1"+
+		"\23\3\23\3\23\3\24\3\24\3\24\3\25\3\25\3\25\3\26\3\26\3\26\3\27\3\27\3"+
+		"\27\3\27\5\27\u01be\n\27\3\30\3\30\2\31\3\3\2\5\4\1\7\5\1\t\6\1\13\7\1"+
 		"\r\b\1\17\t\1\21\n\1\23\13\1\25\f\1\27\r\1\31\16\1\33\17\1\35\20\1\37"+
 		"\21\1!\22\1#\23\1%\24\1\'\25\1)\26\1+\27\1-\30\1/\31\1\3\2&\5\13\13\""+
 		"\"\'\'\3\62;\4\f\f\17\17\3\62;\4\f\f\17\17\13\"#%%(+..\60\60\62;AAC\\"+
@@ -141,7 +142,7 @@ public class ABCMusicLexer extends Lexer {
 		"]\3\2\2\2\r{\3\2\2\2\17\u0099\3\2\2\2\21\u00bd\3\2\2\2\23\u00e6\3\2\2"+
 		"\2\25\u011c\3\2\2\2\27\u0136\3\2\2\2\31\u0156\3\2\2\2\33\u016f\3\2\2\2"+
 		"\35\u018f\3\2\2\2\37\u01a7\3\2\2\2!\u01a9\3\2\2\2#\u01ab\3\2\2\2%\u01ad"+
-		"\3\2\2\2\'\u01af\3\2\2\2)\u01b2\3\2\2\2+\u01b5\3\2\2\2-\u01b8\3\2\2\2"+
+		"\3\2\2\2\'\u01b0\3\2\2\2)\u01b3\3\2\2\2+\u01b6\3\2\2\2-\u01bd\3\2\2\2"+
 		"/\u01bf\3\2\2\2\61\63\t\2\2\2\62\61\3\2\2\2\63\64\3\2\2\2\64\62\3\2\2"+
 		"\2\64\65\3\2\2\2\65\66\3\2\2\2\66\67\b\2\2\2\67\4\3\2\2\28:\t\3\2\298"+
 		"\3\2\2\2:;\3\2\2\2;9\3\2\2\2;<\3\2\2\2<\6\3\2\2\2=>\t\4\2\2>\b\3\2\2\2"+
@@ -256,18 +257,18 @@ public class ABCMusicLexer extends Lexer {
 		"\2\2\u01a1\u01a3\7\61\2\2\u01a2\u01a1\3\2\2\2\u01a2\u01a3\3\2\2\2\u01a3"+
 		"\u01a6\3\2\2\2\u01a4\u01a6\7\61\2\2\u01a5\u0193\3\2\2\2\u01a5\u019d\3"+
 		"\2\2\2\u01a5\u01a4\3\2\2\2\u01a5\u01a6\3\2\2\2\u01a6\36\3\2\2\2\u01a7"+
-		"\u01a8\7*\2\2\u01a8 \3\2\2\2\u01a9\u01aa\7~\2\2\u01aa\"\3\2\2\2\u01ab"+
-		"\u01ac\7]\2\2\u01ac$\3\2\2\2\u01ad\u01ae\7_\2\2\u01ae&\3\2\2\2\u01af\u01b0"+
-		"\7~\2\2\u01b0\u01b1\7<\2\2\u01b1(\3\2\2\2\u01b2\u01b3\7<\2\2\u01b3\u01b4"+
-		"\7~\2\2\u01b4*\3\2\2\2\u01b5\u01b6\7]\2\2\u01b6\u01b7\7\63\2\2\u01b7,"+
-		"\3\2\2\2\u01b8\u01b9\7]\2\2\u01b9\u01ba\7\64\2\2\u01ba.\3\2\2\2\u01bb"+
-		"\u01bc\7~\2\2\u01bc\u01c0\7_\2\2\u01bd\u01be\7~\2\2\u01be\u01c0\7~\2\2"+
-		"\u01bf\u01bb\3\2\2\2\u01bf\u01bd\3\2\2\2\u01c0\60\3\2\2\2E\2\64;CJPU["+
-		"ahnsy\177\u0086\u008c\u0091\u0097\u009d\u00a4\u00aa\u00b0\u00b5\u00bb"+
-		"\u00c1\u00c8\u00d1\u00d7\u00d9\u00de\u00e4\u00ea\u00f1\u00f7\u00fd\u0102"+
-		"\u0109\u010f\u0114\u011a\u0120\u0127\u012e\u0134\u013a\u0141\u0146\u0149"+
-		"\u014e\u0154\u015a\u0162\u0164\u0169\u016f\u0175\u017b\u0182\u0187\u018a"+
-		"\u018d\u0193\u019a\u019f\u01a2\u01a5\u01bf";
+		"\u01a8\7*\2\2\u01a8 \3\2\2\2\u01a9\u01aa\7]\2\2\u01aa\"\3\2\2\2\u01ab"+
+		"\u01ac\7_\2\2\u01ac$\3\2\2\2\u01ad\u01ae\7~\2\2\u01ae\u01af\7<\2\2\u01af"+
+		"&\3\2\2\2\u01b0\u01b1\7<\2\2\u01b1\u01b2\7~\2\2\u01b2(\3\2\2\2\u01b3\u01b4"+
+		"\7]\2\2\u01b4\u01b5\7\63\2\2\u01b5*\3\2\2\2\u01b6\u01b7\7]\2\2\u01b7\u01b8"+
+		"\7\64\2\2\u01b8,\3\2\2\2\u01b9\u01ba\7~\2\2\u01ba\u01be\7_\2\2\u01bb\u01bc"+
+		"\7~\2\2\u01bc\u01be\7~\2\2\u01bd\u01b9\3\2\2\2\u01bd\u01bb\3\2\2\2\u01be"+
+		".\3\2\2\2\u01bf\u01c0\7~\2\2\u01c0\60\3\2\2\2E\2\64;CJPU[ahnsy\177\u0086"+
+		"\u008c\u0091\u0097\u009d\u00a4\u00aa\u00b0\u00b5\u00bb\u00c1\u00c8\u00d1"+
+		"\u00d7\u00d9\u00de\u00e4\u00ea\u00f1\u00f7\u00fd\u0102\u0109\u010f\u0114"+
+		"\u011a\u0120\u0127\u012e\u0134\u013a\u0141\u0146\u0149\u014e\u0154\u015a"+
+		"\u0162\u0164\u0169\u016f\u0175\u017b\u0182\u0187\u018a\u018d\u0193\u019a"+
+		"\u019f\u01a2\u01a5\u01bd";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

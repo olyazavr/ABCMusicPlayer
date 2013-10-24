@@ -27,6 +27,16 @@ public class PlayerTest {
     public void fur_eliseTest() {
         Main.play("sample_abc/fur_elise.abc");
     }
+    
+    @Test
+    public void fur_elise_partTest() {
+        Main.play("sample_abc/fur_elise_part.abc");
+    }
+    
+    @Test
+    public void sample_repeat_Test() {
+        Main.play("sample_abc/sample_repeat.abc");
+    }
 
     @Test
     public void inventionTest() {
