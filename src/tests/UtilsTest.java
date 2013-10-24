@@ -115,7 +115,15 @@ public class UtilsTest {
 	public void fractionFullStringConstructorTest() {
 		Fraction frac1 = new Fraction(3,8);
 		// empty constructor yields Fraction(0,1)
-		Fraction frac2 = new Fraction(3/8);
+		Fraction frac2 = new Fraction("3/8");
+		assertTrue(frac1.equals(frac2));
+	}
+	
+	@Test
+	public void fractionFullStringBarsTest() {
+		Fraction frac1 = new Fraction(31,2);
+		// empty constructor yields Fraction(0,1)
+		Fraction frac2 = new Fraction("31/");
 		assertTrue(frac1.equals(frac2));
 	}
 	

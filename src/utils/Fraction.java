@@ -43,33 +43,18 @@ public class Fraction {
 	 */
 	public Fraction(String frac) {
 		int n = 1, d = 2;
-		boolean noNumerator = false;
-		boolean noDenominator = false;
-		boolean parsedNumerator = false;
-		String[] elementsFrac = frac.trim().split("/");
-		for (String s : elementsFrac) {
-			if (s.matches("")) {
-				if (noNumerator) { // if "" was already met
-					if (noDenominator) { // if "" was met twice then we have the
-											// case //=1/4
-						d *= 2;
-					} else {
-						noDenominator = true; // second "" stands for
-												// denominator
-					}
-				} else {
-					noNumerator = true; // first "" stands for numerator
-				}
-			} else if (s.matches("[0-9]")) {
-				if (parsedNumerator || noNumerator) {
-					d = Integer.parseInt(s);
-				} else {
-					n = Integer.parseInt(s);
-					parsedNumerator = true;
-				}
+		if (!frac.equals("/")){
+			if (frac.charAt(0)=='/'){
+				d=Integer.parseInt(frac.substring(1));
+			} else if (frac.charAt(frac.length()-1)=='/'){
+				n=Integer.parseInt(frac.substring(0,frac.length()-1));
+			} else {
+				String[] elementsFrac = frac.trim().split("/");
+				n=Integer.parseInt(elementsFrac[0]);
+				d=Integer.parseInt(elementsFrac[1]);
 			}
 		}
-
+		
 		int gcd = NumberTheory.gcd(n, d);
 		this.numerator = n / gcd;
 		this.denominator = d / gcd;

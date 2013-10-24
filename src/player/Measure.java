@@ -84,8 +84,12 @@ public class Measure implements MusicPart {
     }
     
     public String toString(){
-    	String measureString=new String("");
-    	return measureString;
+    	String measureString=new String(" ");
+    	for (MusicSymbol s:notes){
+    		measureString+=s.toString();
+    		measureString+=" ";
+    	}
+    	return measureString+"|";
     }
 
 }
