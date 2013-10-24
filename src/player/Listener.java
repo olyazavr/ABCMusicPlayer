@@ -371,7 +371,7 @@ public class Listener extends ABCMusicBaseListener {
 
             } else if (s.equals("_")) { // flat
                 accidental -= 2;
-            } else if (s.matches("[1-9] | '/'")) {
+            } else if (s.matches("[1-9/]")) {
                 // note length
                 lengthString += s;
             }
@@ -379,6 +379,7 @@ public class Listener extends ABCMusicBaseListener {
 
         // if we found length, set it
         if (!lengthString.isEmpty()) {
+            System.out.println(lengthString);
             length = new Fraction(lengthString);
         }
 
