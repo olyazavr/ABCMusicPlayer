@@ -338,6 +338,8 @@ public class Listener extends ABCMusicBaseListener {
         String text = ctx.getText();
         char value = 'A';
         Fraction length = new Fraction(1, 1);
+        // to calculate real length later, since we split all characters
+        String lengthString = "";
         int octave = 0;
         int accidental = 0;
         // this is for storing accidentals for the measure
@@ -369,7 +371,15 @@ public class Listener extends ABCMusicBaseListener {
 
             } else if (s.equals("_")) { // flat
                 accidental -= 2;
+            } else if (s.matches("[1-9] | '/'")) {
+                // note length
+                lengthString += s;
             }
+        }
+
+        // if we found length, set it
+        if (!lengthString.isEmpty()) {
+            length = new Fraction(lengthString);
         }
 
         // if the note doesn't set its own accidental, try taking the
