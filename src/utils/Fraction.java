@@ -42,26 +42,29 @@ public class Fraction {
 	 *            is an int followed by a "/" followed by another int.
 	 */
 	public Fraction(String frac) {
-		int n, d;
-
-		String[] parsedFrac = frac.split("/");
-		if (parsedFrac.length == 1) {
-			if (parsedFrac[0].equals(" ")) {
-				n = new Integer(1);
-			} else {
-				n = new Integer(parsedFrac[0]);
+		int n=1, d=2;
+		boolean noNumerator=false;
+		boolean noDenominator=false;
+		String currentNumber=new String("");
+		String[] elementsFrac = frac.trim().split("/");
+		for (String s:elementsFrac){
+			if (s.matches("")) {
+				if (noNumerator){ // if "" was already met 
+					if (noDenominator){ // if "" was met twice then we have the case //=1/4
+						d*=2;
+					} else {
+					noDenominator=true; // second "" stands for denominator
+					}
+				} else {
+					noNumerator=true; // first "" stands for numerator
+				}				
+			} else if (s.matches("[0-9]")){
+				if (! noNumerator){
+					n=Integer.parseInt(s);
+				} else {
+					d=Integer.parseInt(s);
+				}
 			}
-			d = new Integer(1);
-		}
-		else {
-			if (parsedFrac[0].equals(" ")) {
-				n = new Integer(1);
-			}
-			else {
-                n = new Integer(parsedFrac[0]); // TODO: this is a problem.
-                                                // fails on / and /2
-			}
-			d = new Integer(parsedFrac[1]);
 		}
 		
 		int gcd = NumberTheory.gcd(n, d);
