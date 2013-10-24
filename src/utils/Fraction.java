@@ -39,7 +39,9 @@ public class Fraction {
 	 * Constructs a Fraction parsed from a String input.
 	 * 
 	 * @param frac
-	 *            is an int followed by a "/" followed by another int.
+	 *            is an int followed by a "/" followed by another int or is an
+	 *            int followed by a "/" or is a "/" followed by an int or is a
+	 *            "/"
 	 */
 	public Fraction(String frac) {
 		int n, d;
@@ -52,29 +54,21 @@ public class Fraction {
 				n = new Integer(parsedFrac[0]);
 			}
 			d = new Integer(1);
-		}
-		else {
+		} else if (frac.equals("/")) {
+			n = 1;
+			d = 2;
+		} else {
 			if (parsedFrac[0].equals(" ")) {
 				n = new Integer(1);
-			}
-			else {
-                n = new Integer(parsedFrac[0]); // TODO: this is a problem.
-                                                // fails on / and /2
+			} else {
+				n = new Integer(parsedFrac[0]);
 			}
 			d = new Integer(parsedFrac[1]);
 		}
-		
+
 		int gcd = NumberTheory.gcd(n, d);
 		this.numerator = n / gcd;
 		this.denominator = d / gcd;
-	}
-
-	/**
-	 * Constructs a Fraction 0/1.
-	 */
-	public Fraction() {
-		this.numerator = 0;
-		this.denominator = 1;
 	}
 
 	/**
@@ -174,9 +168,6 @@ public class Fraction {
 	// Returns true iff the current object and f store the same value.
 	public boolean equals(Fraction f) {
 
-		if (this.numerator == f.numerator && this.denominator == f.denominator)
-			return true;
-		else
-			return false;
+		return (this.numerator == f.numerator && this.denominator == f.denominator);
 	}
 }

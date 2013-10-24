@@ -77,5 +77,11 @@ public class PlayerTest {
     public void californicationTest() {
         Main.play("sample_abc/californication.abc");
     }
+    
+    @Test
+    public void heyJudeTest() {
+        Main.play("sample_abc/heyJude.abc");
+    }
+
 
 }
