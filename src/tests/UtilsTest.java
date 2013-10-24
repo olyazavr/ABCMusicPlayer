@@ -114,7 +114,8 @@ public class UtilsTest {
 	@Test
 	public void fractionFullStringConstructorTest() {
 		Fraction frac1 = new Fraction(3,8);
-		Fraction frac2 = new Fraction("3/8");
+		// empty constructor yields Fraction(0,1)
+		Fraction frac2 = new Fraction(3/8);
 		assertTrue(frac1.equals(frac2));
 	}
 	
