@@ -162,19 +162,7 @@ public class Fraction {
 		return this.denominator;
 	}
 
-	/**
-	 * Computes the greatest common divisor (gcd) of the two inputs.
-	 * 
-	 * @param x
-	 *            is assumed positive
-	 * @param y
-	 *            is assumed non-negative
-	 * @return the gcd of x and y
-	 */
-	static private int gcd(int x, int y) {
-		/* Remove the following line. */
-		return 1;
-	}
+
 
 	// Returns true iff the current object and f store the same value.
 	public boolean equals(Fraction f) {

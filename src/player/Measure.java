@@ -84,7 +84,8 @@ public class Measure implements MusicPart {
     }
     
     public String toString(){
-    	String MeasureString=
+    	String measureString=new String("");
+    	return measureString;
     }
 
 }
