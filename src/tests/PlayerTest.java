@@ -9,6 +9,11 @@ import player.Main;
  * sure they don't crash. These files have all kinds of crazy stuff (chords,
  * repeats, comments, lyrics, etc)
  * 
+ * Testing strategy: This tests all of our project. From the file reader to
+ * lexer to parser to listener to ADT creation to actually playing the song.
+ * These tests only test for not throwing exceptions, but these are a nice way
+ * to see where the code is breaking.
+ * 
  * @category no_didit
  */
 public class PlayerTest {

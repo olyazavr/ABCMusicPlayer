@@ -26,6 +26,10 @@ import utils.Fraction;
  * kinds of notes (chords, notes with repeats, tuplets, notes with different
  * octaves, notes with accidentals).
  * 
+ * Testing strategy: Test first the simple cases, then increasingly more
+ * complicated and more prone to parsing error cases. Make sure all objects
+ * consist of the right objects/components and in the right order.
+ * 
  */
 public class ParserTest {
 
