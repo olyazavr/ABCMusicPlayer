@@ -51,7 +51,11 @@ public class Fraction {
 			} else {
 				String[] elementsFrac = frac.trim().split("/");
 				n=Integer.parseInt(elementsFrac[0]);
-				d=Integer.parseInt(elementsFrac[1]);
+				if (elementsFrac.length!=1){
+					d=Integer.parseInt(elementsFrac[1]);
+				} else {
+					d=1;
+				}
 			}
 		}
 		
@@ -113,9 +117,8 @@ public class Fraction {
 	 */
 	public Fraction multiply(Fraction f) {
 
-		// This calculation is fairly straight-forward.
-		int num = this.numerator * f.numerator;
-		int den = this.denominator * f.denominator;
+		int num = this.numerator * f.getNumerator();
+		int den = this.denominator * f.getDenominator();
 
 		return new Fraction(num, den);
 	}
