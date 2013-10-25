@@ -263,7 +263,7 @@ public class LyricsParserTest {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.lyric(); // "lyric" is the starter rule.
-		((RuleContext) tree).inspect(parser);
+//		((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 
