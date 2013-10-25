@@ -64,7 +64,7 @@ KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
 LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z0-9] | '.' | '!' | '?')+ ' '* [\n\r]+;
 COMMENT : '%' ('-' | '^' | '=' | '_'  | ' ' | '|' | '\'' | '(' | ')' | ']' | '[' | ':' |'_' | '*' | '~' | ',' | '/' | [a-zA-Z0-9] | '.' | '!' | '?')*  [\n\r]+;
 NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
-REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
+REST : ('z'|'Z') ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 DUPLET: '(' '2';
 TRIPLET: '(' '3';
 QUAD: '(' '4';
@@ -107,7 +107,7 @@ measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NE
 note_element : note | rest | chord | duplet | triplet | quadruplet;
 note: NOTE;
 rest: REST;
-chord : LBRAC note+ RBRAC;
+chord : LBRAC (note|rest)+ RBRAC;
 lyric: LYRIC;
 
 duplet: DUPLET (note|chord) (note|chord);
