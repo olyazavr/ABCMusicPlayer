@@ -61,7 +61,7 @@ public class Fraction {
 	}
 
 	/**
-	 * Constructs a Fraction 0/1.
+	 * Constructs a default Fraction 0/1.
 	 */
 	public Fraction() {
 		this.numerator = 0;
@@ -70,14 +70,24 @@ public class Fraction {
 
 	/**
 	 * Converts this fraction to a string format: "numerator/denominator."
-	 * Fractions are printed in reduced form (part of your assignment is to make
-	 * this statement true).
+	 * Fractions are printed in reduced form and are simplified for abc 
+	 * format, e.g. "1/1"="";
 	 * 
 	 * @return a String representation of this Fraction.
 	 */
 	public String toString() {
-
-		return (numerator + "/" + denominator);
+		String numeratorString, denominatorString, barString;
+		numeratorString=""+numerator;
+		denominatorString=""+denominator;
+		barString="/";
+		if (denominator==1){
+			denominatorString="";
+			barString=""; 
+		}
+		if (numerator==1){
+			numeratorString="";
+		}
+		return numeratorString+  barString+denominatorString;
 	}
 
 	/**
