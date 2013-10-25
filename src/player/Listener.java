@@ -349,7 +349,6 @@ public class Listener extends ABCMusicBaseListener {
         int accidental = 0;
         // this is for storing accidentals for the measure
         String noteOctave = "";
-        boolean natural = false;
 
         // split everything so we can deal with modifiers
         String[] splitNote = text.trim().split("");
@@ -373,8 +372,7 @@ public class Listener extends ABCMusicBaseListener {
                 octave--;
 
             } else if (s.equals("=")) { // natural
-                accidental = 0;
-                natural = true;
+                accidental = 5; // let 5 represent natural
 
             } else if (s.equals("^")) { // sharp
                 accidental++;
@@ -395,7 +393,7 @@ public class Listener extends ABCMusicBaseListener {
 
         // if the note doesn't set its own accidental and is not natural, try
         // taking the measure's accidental, and then the key's accidental
-        if (accidental == 0 && !natural) {
+        if (accidental == 0) {
             if (accidentals.containsKey(noteOctave)) {
                 accidental += accidentals.get(noteOctave);
             } else {
@@ -418,6 +416,9 @@ public class Listener extends ABCMusicBaseListener {
             List<String> adjust = Scales.movePitch(value, -1);
             value = adjust.get(0).charAt(0);
             octave += new Integer(adjust.get(1));
+            accidental = 0;
+        } else if (accidental == 5) {
+            // this is a natural, but we had to represent it somehow
             accidental = 0;
         }
 

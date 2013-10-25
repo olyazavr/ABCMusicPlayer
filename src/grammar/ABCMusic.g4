@@ -47,7 +47,7 @@ package grammar;
  * lexed together with their modifiers. Tuplet and chord (, [, and ] symbols are lexed 
  * separately from their notes.
  * Repeats and pipes are lexed on their own.
- * Tabs, spaces, and comments are ignored.
+ * Tabs and spaces are ignored.
  *
  */
  
