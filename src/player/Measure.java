@@ -41,32 +41,6 @@ public class Measure implements MusicPart {
 		}
 	}
 
-	/**
-	 * Returns the number of notes in this measure, excluding rests. Use this
-	 * for ensuring the right number of syllables.
-	 * 
-	 * @return number of notes
-	 */
-	public int notesPerMeasure() {
-		int counter = 0;
-		for (MusicSymbol note : notes) {
-			if (!(note instanceof Rest)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
-
-	/**
-	 * Checks whether or not Lyrics is full (contains enough syllables to fit
-	 * each note)
-	 * 
-	 * @return if Lyrics is full
-	 */
-	public boolean hasEnoughLyrics() {
-		return lyrics.getNumberOfSyllables() == notesPerMeasure();
-	}
-
     @Override
 	public int calculateTicksPerBeat() {
 		int LCM = 1;

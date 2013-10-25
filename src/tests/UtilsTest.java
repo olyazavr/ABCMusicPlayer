@@ -84,18 +84,55 @@ public class UtilsTest {
 	 * contain a number before and after the point
 	 */
 	@Test
-	public void toStringFractionTest() {
-		// TODO
+	public void fractionToStringStandardTest() {
+		Fraction frac1 = new Fraction(4,7);
+		String frac2 = "4/7";
+		assertTrue(frac1.toString().equals(frac2));
+	}
+	
+	@Test
+	public void fractionToStringNonReducedFormTest() {
+		Fraction frac1 = new Fraction(12,18);
+		String frac2 = "2/3";
+		assertTrue(frac1.toString().equals(frac2));
+	}
+	
+	@Test
+	public void fractionToStringABCformatOneTest() {
+		Fraction frac1 = new Fraction(1,1);
+		String frac2 = "";
+		assertTrue(frac1.toString().equals(frac2));
+	}
+	@Test
+	public void fractionToStringABCformatNumeratorOneTest() {
+		Fraction frac1 = new Fraction(1,8);
+		String frac2 = "/8";
+		assertTrue(frac1.toString().equals(frac2));
 	}
 
 	/**
-	 * Test all class objects for the hashCode methods by creating both Number
-	 * and Variable instances and testing that equal Expressions yield the same
+	 * Test all Fraction objects for the hashCode methods,  testing that equal Fractions yield the same
 	 * hashCode.
 	 */
 	@Test
-	public void hashCodeAdditionPublicTest() {
-		// TODO
+	public void hashCodePublicTheSameTest() {
+		Fraction frac1 = new Fraction(3,8);
+		Fraction frac2 = new Fraction(3,8);
+		assertTrue(frac1.hashCode()==frac2.hashCode());
+	}
+	
+	@Test
+	public void hashCodePublicEqualTest() {
+		Fraction frac1 = new Fraction(4,12);
+		Fraction frac2 = new Fraction(1,3);
+		assertTrue(frac1.hashCode()==frac2.hashCode());
+	}
+	
+	@Test
+	public void hashCodePublicNotEqualTest() {
+		Fraction frac1 = new Fraction(14,12);
+		Fraction frac2 = new Fraction(11,3);
+		assertTrue(frac1.hashCode()!=frac2.hashCode());
 	}
 
 	/**
@@ -114,26 +151,29 @@ public class UtilsTest {
 	@Test
 	public void fractionFullStringConstructorTest() {
 		Fraction frac1 = new Fraction(3,8);
-		// empty constructor yields Fraction(0,1)
 		Fraction frac2 = new Fraction("3/8");
 		assertTrue(frac1.equals(frac2));
 	}
 	
+		
 	@Test
-	public void fractionFullStringBarsTest() {
+	public void fractionOnlyBarStringConstructorTest() {
+		Fraction frac1 = new Fraction(1,2);
+		Fraction frac2 = new Fraction("/");
+		assertTrue(frac1.equals(frac2));
+	}
+	
+	@Test
+	public void fractionNoDenominatorConstructorTest() {
 		Fraction frac1 = new Fraction(31,2);
-		// empty constructor yields Fraction(0,1)
 		Fraction frac2 = new Fraction("31/");
 		assertTrue(frac1.equals(frac2));
 	}
 	
 	@Test
-	public void fractionOnlyBarStringConstructorTest() {
-		
-	}
-	
-	@Test
-	public void fractionPartialStringConstructorTest() {
-		
+	public void fractionNoNumeratorConstructorTest() {
+		Fraction frac1 = new Fraction(1,8);
+		Fraction frac2 = new Fraction("/8");
+		assertTrue(frac1.equals(frac2));	
 	}
 }

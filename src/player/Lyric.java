@@ -41,15 +41,6 @@ public class Lyric {
         return syllables.get(i);
     }
 
-    /**
-     * Returns how many syllables this Lyric contains
-     * 
-     * @return number of syllables
-     */
-    public int getNumberOfSyllables() {
-        return syllables.size();
-    }
-
     @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type

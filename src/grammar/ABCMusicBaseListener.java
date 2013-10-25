@@ -18,8 +18,14 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterAbc_music(ABCMusicParser.Abc_musicContext ctx) { }
 	@Override public void exitAbc_music(ABCMusicParser.Abc_musicContext ctx) { }
 
+	@Override public void enterDuplet(ABCMusicParser.DupletContext ctx) { }
+	@Override public void exitDuplet(ABCMusicParser.DupletContext ctx) { }
+
 	@Override public void enterOther_fields(ABCMusicParser.Other_fieldsContext ctx) { }
 	@Override public void exitOther_fields(ABCMusicParser.Other_fieldsContext ctx) { }
+
+	@Override public void enterQuadruplet(ABCMusicParser.QuadrupletContext ctx) { }
+	@Override public void exitQuadruplet(ABCMusicParser.QuadrupletContext ctx) { }
 
 	@Override public void enterAbc_header(ABCMusicParser.Abc_headerContext ctx) { }
 	@Override public void exitAbc_header(ABCMusicParser.Abc_headerContext ctx) { }
@@ -51,8 +57,8 @@ public class ABCMusicBaseListener implements ABCMusicListener {
 	@Override public void enterField_number(ABCMusicParser.Field_numberContext ctx) { }
 	@Override public void exitField_number(ABCMusicParser.Field_numberContext ctx) { }
 
-	@Override public void enterTuplet(ABCMusicParser.TupletContext ctx) { }
-	@Override public void exitTuplet(ABCMusicParser.TupletContext ctx) { }
+	@Override public void enterTriplet(ABCMusicParser.TripletContext ctx) { }
+	@Override public void exitTriplet(ABCMusicParser.TripletContext ctx) { }
 
 	@Override public void enterRest(ABCMusicParser.RestContext ctx) { }
 	@Override public void exitRest(ABCMusicParser.RestContext ctx) { }
