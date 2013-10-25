@@ -90,6 +90,7 @@ public class Listener extends ABCMusicBaseListener {
             lyrics = new Lyric(new ArrayList<String>());
         }
         musicSymbolStack.clear();
+        accidentals.clear(); // clear the accidentals for this measure
 
         Measure measure = new Measure(musicSymbols, lyrics);
 

@@ -94,36 +94,36 @@ public class Pitch implements MusicSymbol {
      * Return a string in the following format:
      * 
      * accidentals, if any, followed by the actual note value, followed by
-     * octaves, if any, followed by duration, if not just 1
+     * octaves, if any, followed by duration
      * 
      * Sharps are ^, flats are _, octave up is ' (the first raised octave is
-     * just lower case letters, but the rest have apostrophes), octave down is a
+     * just lower case letters, but the next has apostrophes), octave down is a
      * comma, and duration is a fraction.
      * 
      * @return the string representation of a pitch
      */
     @Override
     public String toString() {
-    	String accidentalString,valueString,lengthString;
-    	if (accidental==0){
-    		accidentalString="";
-    	} else if (accidental==1) {
-    		accidentalString="^";
-    	} else  {
-    		accidentalString="_";
-    	}
-    	valueString= new String("");
-    	valueString+=value;
-    	if (octave==1){
-    		valueString=valueString.toLowerCase();
-    	} else if (octave==2){
-    		valueString+="'";
-    	} else if (octave==-1){
-    		valueString+=",";
-    	}
-    	lengthString=length.toString();
-    	
-        return accidentalString+valueString+lengthString;
+        String accidentalString, valueString, lengthString;
+        if (accidental == 0) {
+            accidentalString = "";
+        } else if (accidental == 1) {
+            accidentalString = "^";
+        } else {
+            accidentalString = "_";
+        }
+        valueString = new String("");
+        valueString += value;
+        if (octave == 1) {
+            valueString = valueString.toLowerCase();
+        } else if (octave == 2) {
+            valueString = valueString.toLowerCase() + "'";
+        } else if (octave == -1) {
+            valueString += ",";
+        }
+        lengthString = length.toString();
+
+        return accidentalString + valueString + lengthString;
     }
 
     @Override

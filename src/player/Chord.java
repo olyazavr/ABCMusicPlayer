@@ -89,7 +89,7 @@ public class Chord implements MusicSymbol {
             readableChords.append(note);
             // if it's the last note, don't add a space
             if (!note.equals(this.notes.get(this.notes.size() - 1))) {
-                readableChords.append("");
+                readableChords.append(" ");
             }
         }
         readableChords.append("]");
