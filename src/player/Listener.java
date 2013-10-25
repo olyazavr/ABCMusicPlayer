@@ -51,7 +51,7 @@ public class Listener extends ABCMusicBaseListener {
      * beginning or from after a repeat, or from after an end notes symbol
      */
     private Map<String, List<Measure>> voiceRepeatMeasures = new HashMap<String, List<Measure>>();
-        
+    
     /**
      * do nothing, because the top of the stack should have the node already in
      * it
@@ -241,6 +241,8 @@ public class Listener extends ABCMusicBaseListener {
             Stack<Measure> stack = new Stack<Measure>();
             v.add("defaultVoice");
             voices.put("defaultVoice", stack);
+            List<Measure> list=new ArrayList<Measure>();
+            voiceRepeatMeasures.put(currentVoice, list);
         }
 
         Signature signature = new Signature(t, c, l, m, q, key, v);
