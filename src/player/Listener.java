@@ -274,11 +274,11 @@ public class Listener extends ABCMusicBaseListener {
         String[] chordsSplit = chordText.split("[A-Ga-g]");
         int numNotes = chordsSplit.length - 1;
 
-        List<Pitch> notes = new ArrayList<Pitch>(numNotes);
+        List<MusicSymbol> notes = new ArrayList<MusicSymbol>(numNotes);
 
         // pop notes and add them to a list
         for (int i = 0; i < numNotes; ++i) {
-            notes.add((Pitch) musicSymbolStack.pop());
+            notes.add(musicSymbolStack.pop());
         }
 
         Chord chord = new Chord(notes);

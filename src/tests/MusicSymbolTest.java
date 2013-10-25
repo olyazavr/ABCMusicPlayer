@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import player.Chord;
+import player.MusicSymbol;
 import player.Pitch;
 import player.Rest;
 import utils.Fraction;
@@ -68,13 +69,14 @@ public class MusicSymbolTest {
      */
     @Test
     public void equalsChordTest() {
-        Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
-        Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
-        Pitch pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
-        Pitch pitch4 = new Pitch(new Fraction(1), 'D', 0, -2);
+        MusicSymbol pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
+        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
+        MusicSymbol pitch4 = new Pitch(new Fraction(1), 'D', 0, -2);
+        MusicSymbol rest1 = new Rest(new Fraction(2, 3));
 
-        Chord chord1 = new Chord(Arrays.asList(pitch1, pitch2, pitch3));
-        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch1, pitch4));
+        Chord chord1 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1));
+        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch1, pitch4, rest1));
         Chord chord3 = new Chord(Arrays.asList(pitch1, pitch3, pitch4));
 
         assertEquals(chord1, chord1); // reflexive
@@ -111,15 +113,16 @@ public class MusicSymbolTest {
      */
     @Test
     public void hashCodeChordTest() {
-        Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
-        Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
-        Pitch pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
-        Pitch pitch4 = new Pitch(new Fraction(1), 'D', 0, -2);
+        MusicSymbol pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
+        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
+        MusicSymbol pitch4 = new Pitch(new Fraction(1), 'D', 0, -2);
+        MusicSymbol rest1 = new Rest(new Fraction(2, 3));
 
-        // make sure that even if we use different pitch object that amount to
-        // the same, they evaluate to the same thing
-        Chord chord1 = new Chord(Arrays.asList(pitch1, pitch2, pitch3));
-        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch1, pitch4));
+        // make sure that even if we use different MusicSymbol object that
+        // amount to the same, they evaluate to the same thing
+        Chord chord1 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1));
+        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch1, pitch4, rest1));
 
         assertEquals(chord1.hashCode(), chord1.hashCode()); // reflexive
         assertEquals(chord1.hashCode(), chord2.hashCode());
@@ -158,15 +161,16 @@ public class MusicSymbolTest {
      */
     @Test
     public void toStringChordTest() {
-        Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
-        Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
-        Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+        MusicSymbol pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
+        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+        MusicSymbol rest1 = new Rest(new Fraction(2, 3));
 
         Chord chord1 = new Chord(Arrays.asList(pitch2));
-        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3));
+        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1));
 
         assertEquals("[^a'1/2]", chord1.toString());
-        assertEquals("[_d2/3 ^a'1/2 C,1/1]", chord2.toString());
+        assertEquals("[_d2/3 ^a'1/2 C,1/1 z2/3]", chord2.toString());
     }
 
     /**
@@ -207,19 +211,21 @@ public class MusicSymbolTest {
      */
     @Test
     public void multiplyLengthChordTest() {
-        Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
-        Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
-        Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+        MusicSymbol pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
+        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+        MusicSymbol rest1 = new Rest(new Fraction(2, 3));
 
         Chord chord1 = new Chord(Arrays.asList(pitch2));
-        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3));
+        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1));
 
-        Pitch pitch4 = new Pitch(new Fraction(1, 6), 'D', 1, -2); // pitch1*1/4
-        Pitch pitch5 = new Pitch(new Fraction(1, 8), 'A', 2, 1); // pitch2*1/4
-        Pitch pitch6 = new Pitch(new Fraction(1, 4), 'C', -1, 0); // pitch3*1/4
+        MusicSymbol pitch4 = new Pitch(new Fraction(1, 6), 'D', 1, -2); // pitch1*1/4
+        MusicSymbol pitch5 = new Pitch(new Fraction(1, 8), 'A', 2, 1); // pitch2*1/4
+        MusicSymbol pitch6 = new Pitch(new Fraction(1, 4), 'C', -1, 0); // pitch3*1/4
+        MusicSymbol rest2 = new Rest(new Fraction(1, 6)); // rest1*1/4
 
         Chord chord3 = new Chord(Arrays.asList(pitch2));
-        Chord chord4 = new Chord(Arrays.asList(pitch4, pitch5, pitch6));
+        Chord chord4 = new Chord(Arrays.asList(pitch4, pitch5, pitch6, rest2));
 
         // we will never multiply by negatives or zero
         assertEquals(chord3, chord1.multiplyLength(new Fraction(1)));
