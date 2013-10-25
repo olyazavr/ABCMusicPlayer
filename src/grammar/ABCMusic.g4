@@ -51,7 +51,7 @@ package grammar;
  *
  */
  
-WHITESPACE : [ \t%]+ -> skip ;
+WHITESPACE : [ \t]+ -> skip ;
 DIGIT: [0-9]+;
 NEWLINE: [\n\r];
 INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
@@ -62,14 +62,15 @@ METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r]+;
 TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
 VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
 KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
-LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z0-9] | '.' | '!' | '?')+ ' '* [\n\r];
+LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | '\-' | [a-zA-Z0-9] | '.' | '!' | '?')+ ' '* [\n\r]+;
+COMMENT : '%' ('-' | '^' | '=' | '_'  | ' ' | '|' | '\'' | '(' | ')' | ']' | '[' | ':' |'_' | '*' | '~' | ',' | '/' | [a-zA-Z0-9] | '.' | '!' | '?')*  [\n\r]+;
 NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 PAREN: '(';
 LBRAC: '[';
 RBRAC: ']';
-LREPEAT: '|:';
-RREPEAT: ':|';
+LREPEAT: '|:' | '||:';
+RREPEAT: ':|' | ':||';
 ONE_REPEAT : '[1';
 TWO_REPEAT: '[2';
 END_NOTES: '|]' | '||';
@@ -91,7 +92,7 @@ abc_header : field_number field_title other_fields* field_key;
 
 field_number : INDEX;
 field_title : TITLE;
-other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice;
+other_fields : field_composer | field_default_length | field_meter | field_tempo | field_voice | COMMENT;
 field_composer : COMPOSER;
 field_default_length : LENGTH;
 field_meter : METER;
@@ -99,7 +100,7 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE*)+;
+abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
 measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
 
 note_element : note | rest | chord | tuplet;

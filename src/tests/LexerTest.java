@@ -18,9 +18,8 @@ import org.junit.Test;
  * Testing strategy: Test first the simple cases, then increasingly more
  * complicated and more prone to parsing error cases. Make sure all tokens are
  * correctly lexed and behave the way they should even with whitespace and
- * newlines. Comments should be entirely thrown out, and notes (but not chords
- * or tuplets) should be lexed along with their modifiers. Header lines should
- * be lexed as their own tokens.
+ * newlines. Notes (but not chords or tuplets) should be lexed along with their
+ * modifiers. Header lines and comments should be lexed as their own tokens.
  * 
  */
 public class LexerTest {
@@ -78,13 +77,13 @@ public class LexerTest {
     @Test
     public void chordsTupletsTest() {
         // Test chords and tuplets, where (, [, and ], are lexed separately from
-        // their notes (comments are ignored by the lexer)
+        // their notes
         String input = "X:8628 \n T:Prelude BWV 846 no. 1 \n C:Johann Sebastian Bach "
                 + "\n M:4/4 \n L:1/16 \n Q:1/4=70 \n V:1 \n K:C \n "
                 + "% \n V:1 \n (2AB B dfdB dBGB DFED|[E16G16c16]|] \n";
         verifyLexer(input,
                 new String[] { "X:8628 \n", "T:Prelude BWV 846 no. 1 \n", "C:Johann Sebastian Bach \n", "M:4/4 \n",
-                        "L:1/16 \n", "Q:1/4=70 \n", "V:1 \n", "K:C \n", "\n", "V:1 \n",
+                        "L:1/16 \n", "Q:1/4=70 \n", "V:1 \n", "K:C \n", "% \n", "V:1 \n",
                         "(", "2", "A", "B", "B", "d", "f", "d", "B", "d", "B", "G", "B", "D", "F", "E",
                         "D", "|", "[", "E16", "G16", "c16", "]", "|]", "\n"
                 });
