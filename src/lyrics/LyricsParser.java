@@ -192,7 +192,7 @@ public class LyricsParser extends Parser {
 		int _la;
 		try {
 			int _alt;
-			setState(41);
+			setState(44);
 			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
@@ -213,7 +213,7 @@ public class LyricsParser extends Parser {
 					}
 				}
 
-				setState(30); 
+				setState(33); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 				do {
@@ -222,13 +222,20 @@ public class LyricsParser extends Parser {
 						{
 						{
 						setState(26); syllable();
-						setState(28);
-						switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
-						case 1:
-							{
-							setState(27); match(WHITESPACE);
+						setState(30);
+						_errHandler.sync(this);
+						_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+						while ( _alt!=2 && _alt!=-1 ) {
+							if ( _alt==1 ) {
+								{
+								{
+								setState(27); match(WHITESPACE);
+								}
+								} 
 							}
-							break;
+							setState(32);
+							_errHandler.sync(this);
+							_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 						}
 						}
 						}
@@ -236,15 +243,15 @@ public class LyricsParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(32); 
+					setState(35); 
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 				} while ( _alt!=2 && _alt!=-1 );
-				setState(35);
+				setState(38);
 				switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 				case 1:
 					{
-					setState(34); match(PIPE);
+					setState(37); match(PIPE);
 					}
 					break;
 				}
@@ -254,12 +261,12 @@ public class LyricsParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(37); match(PIPE);
-				setState(39);
+				setState(40); match(PIPE);
+				setState(42);
 				switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 				case 1:
 					{
-					setState(38); match(WHITESPACE);
+					setState(41); match(WHITESPACE);
 					}
 					break;
 				}
@@ -305,26 +312,26 @@ public class LyricsParser extends Parser {
 		enterRule(_localctx, 4, RULE_syllable);
 		int _la;
 		try {
-			setState(59);
+			setState(62);
 			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(43); match(WORD);
-				setState(45);
+				setState(46); match(WORD);
+				setState(48);
 				_la = _input.LA(1);
 				if (_la==WHITESPACE) {
 					{
-					setState(44); match(WHITESPACE);
+					setState(47); match(WHITESPACE);
 					}
 				}
 
-				setState(47); match(HYPHEN);
-				setState(49);
+				setState(50); match(HYPHEN);
+				setState(52);
 				_la = _input.LA(1);
 				if (_la==EXTENDERS) {
 					{
-					setState(48); match(EXTENDERS);
+					setState(51); match(EXTENDERS);
 					}
 				}
 
@@ -334,38 +341,38 @@ public class LyricsParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(51); match(WORD);
-				setState(52); match(DOUBHYPHEN);
+				setState(54); match(WORD);
+				setState(55); match(DOUBHYPHEN);
 				}
 				break;
 
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(53); match(WORD);
-				setState(54); match(UNION_OPER);
+				setState(56); match(WORD);
+				setState(57); match(UNION_OPER);
 				}
 				break;
 
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(55); match(WORD);
-				setState(56); match(EXTENDERS);
+				setState(58); match(WORD);
+				setState(59); match(EXTENDERS);
 				}
 				break;
 
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(57); match(WORD);
+				setState(60); match(WORD);
 				}
 				break;
 
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(58); match(STARS);
+				setState(61); match(STARS);
 				}
 				break;
 			}
@@ -382,24 +389,25 @@ public class LyricsParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\2\3\13@\4\2\t\2\4\3\t\3\4\4\t\4\3\2\6\2\n\n\2\r\2\16\2\13\3\2\7\2\17"+
+		"\2\3\13C\4\2\t\2\4\3\t\3\4\4\t\4\3\2\6\2\n\n\2\r\2\16\2\13\3\2\7\2\17"+
 		"\n\2\f\2\16\2\22\13\2\3\2\5\2\25\n\2\3\3\5\3\30\n\3\3\3\5\3\33\n\3\3\3"+
-		"\3\3\5\3\37\n\3\6\3!\n\3\r\3\16\3\"\3\3\5\3&\n\3\3\3\3\3\5\3*\n\3\5\3"+
-		",\n\3\3\4\3\4\5\4\60\n\4\3\4\3\4\5\4\64\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\5\4>\n\4\3\4\2\5\2\4\6\2\2M\2\24\3\2\2\2\4+\3\2\2\2\6=\3\2\2\2"+
-		"\b\n\5\4\3\2\t\b\3\2\2\2\n\13\3\2\2\2\13\t\3\2\2\2\13\f\3\2\2\2\f\20\3"+
-		"\2\2\2\r\17\7\n\2\2\16\r\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\20\21\3\2"+
-		"\2\2\21\25\3\2\2\2\22\20\3\2\2\2\23\25\7\1\2\2\24\t\3\2\2\2\24\23\3\2"+
-		"\2\2\25\3\3\2\2\2\26\30\7\t\2\2\27\26\3\2\2\2\27\30\3\2\2\2\30\32\3\2"+
-		"\2\2\31\33\7\n\2\2\32\31\3\2\2\2\32\33\3\2\2\2\33 \3\2\2\2\34\36\5\6\4"+
-		"\2\35\37\7\n\2\2\36\35\3\2\2\2\36\37\3\2\2\2\37!\3\2\2\2 \34\3\2\2\2!"+
-		"\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#%\3\2\2\2$&\7\t\2\2%$\3\2\2\2%&\3\2\2"+
-		"\2&,\3\2\2\2\')\7\t\2\2(*\7\n\2\2)(\3\2\2\2)*\3\2\2\2*,\3\2\2\2+\27\3"+
-		"\2\2\2+\'\3\2\2\2,\5\3\2\2\2-/\7\3\2\2.\60\7\n\2\2/.\3\2\2\2/\60\3\2\2"+
-		"\2\60\61\3\2\2\2\61\63\7\6\2\2\62\64\7\b\2\2\63\62\3\2\2\2\63\64\3\2\2"+
-		"\2\64>\3\2\2\2\65\66\7\3\2\2\66>\7\5\2\2\678\7\3\2\28>\7\4\2\29:\7\3\2"+
-		"\2:>\7\b\2\2;>\7\3\2\2<>\7\7\2\2=-\3\2\2\2=\65\3\2\2\2=\67\3\2\2\2=9\3"+
-		"\2\2\2=;\3\2\2\2=<\3\2\2\2>\7\3\2\2\2\17\13\20\24\27\32\36\"%)+/\63=";
+		"\3\3\7\3\37\n\3\f\3\16\3\"\13\3\6\3$\n\3\r\3\16\3%\3\3\5\3)\n\3\3\3\3"+
+		"\3\5\3-\n\3\5\3/\n\3\3\4\3\4\5\4\63\n\4\3\4\3\4\5\4\67\n\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\5\4A\n\4\3\4\2\5\2\4\6\2\2P\2\24\3\2\2\2\4.\3\2\2"+
+		"\2\6@\3\2\2\2\b\n\5\4\3\2\t\b\3\2\2\2\n\13\3\2\2\2\13\t\3\2\2\2\13\f\3"+
+		"\2\2\2\f\20\3\2\2\2\r\17\7\n\2\2\16\r\3\2\2\2\17\22\3\2\2\2\20\16\3\2"+
+		"\2\2\20\21\3\2\2\2\21\25\3\2\2\2\22\20\3\2\2\2\23\25\7\1\2\2\24\t\3\2"+
+		"\2\2\24\23\3\2\2\2\25\3\3\2\2\2\26\30\7\t\2\2\27\26\3\2\2\2\27\30\3\2"+
+		"\2\2\30\32\3\2\2\2\31\33\7\n\2\2\32\31\3\2\2\2\32\33\3\2\2\2\33#\3\2\2"+
+		"\2\34 \5\6\4\2\35\37\7\n\2\2\36\35\3\2\2\2\37\"\3\2\2\2 \36\3\2\2\2 !"+
+		"\3\2\2\2!$\3\2\2\2\" \3\2\2\2#\34\3\2\2\2$%\3\2\2\2%#\3\2\2\2%&\3\2\2"+
+		"\2&(\3\2\2\2\')\7\t\2\2(\'\3\2\2\2()\3\2\2\2)/\3\2\2\2*,\7\t\2\2+-\7\n"+
+		"\2\2,+\3\2\2\2,-\3\2\2\2-/\3\2\2\2.\27\3\2\2\2.*\3\2\2\2/\5\3\2\2\2\60"+
+		"\62\7\3\2\2\61\63\7\n\2\2\62\61\3\2\2\2\62\63\3\2\2\2\63\64\3\2\2\2\64"+
+		"\66\7\6\2\2\65\67\7\b\2\2\66\65\3\2\2\2\66\67\3\2\2\2\67A\3\2\2\289\7"+
+		"\3\2\29A\7\5\2\2:;\7\3\2\2;A\7\4\2\2<=\7\3\2\2=A\7\b\2\2>A\7\3\2\2?A\7"+
+		"\7\2\2@\60\3\2\2\2@8\3\2\2\2@:\3\2\2\2@<\3\2\2\2@>\3\2\2\2@?\3\2\2\2A"+
+		"\7\3\2\2\2\17\13\20\24\27\32 %(,.\62\66@";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

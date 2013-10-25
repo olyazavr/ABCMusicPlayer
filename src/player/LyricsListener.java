@@ -23,86 +23,86 @@ public class LyricsListener extends LyricsBaseListener {
 	@Override
 	public void exitSyllable(LyricsParser.SyllableContext ctx) {
 
+		int skip = 1;
 		// get the working measure list, there must be a measure so it's safe to
 		// ask for the last index by calling the size of the stack
-		ArrayList<String> workingList = ((ArrayList<String>) arrayOfArrays.get(arrayOfArrays
-				.size() - 1));
-		// one case of a syllable may contain a space, find it
-		String[] preSyllable = ctx.getText().split(" ");
+		ArrayList<String> workingList = ((ArrayList<String>) arrayOfArrays
+				.get(arrayOfArrays.size() - 1));
 
-		// this is the case with one space
-		if (preSyllable.length == 2) {
-			// we add the word that is before the space, and a blank string
-			// after the space
-			workingList.add(preSyllable[0]);
+		String syllable = ctx.getText();
+
+		if (workingList.size() > 0) {
+			// bring up the last syllable in the working measure
+			String lastElem = workingList.get(workingList.size() - 1);
+			if (!lastElem.equals("") && (lastElem.charAt(lastElem.length() - 1)) == ' '
+					|| lastElem.contains("\\-")) {
+				// remove the last syllable and add a new one composed of
+				// two words with a space or dash in between (these are to
+				// be played under the same note)
+				workingList.remove(workingList.size() - 1);
+				if (syllable.contains("~")) {
+					String newSyllable = syllable.replace("~", " ");
+					workingList.add(lastElem + newSyllable);
+				} else {
+					String newSyllable = syllable.replace("\\-", "-");
+					workingList.add(lastElem + newSyllable);
+				}
+				skip = 0;
+			}
+		}
+
+		if (syllable.contains(" -")) {
+
+			String toAdd = syllable.replace(" -", "");
+			workingList.add(toAdd);
+			workingList.add("-");
+		}
+
+		// case of word and tilde
+		else if (syllable.contains("~") && skip == 1) {
+
+			String syllableSpace = syllable.replace("~", " ");
+			workingList.add(syllableSpace);
+		}
+
+		// case of word and hyphen returns the word plus the dash and will
+		// have a word after this dash added in the next iteration of
+		// syllable
+		else if (syllable.contains("\\-") && skip == 1) {
+			String syllableDash = syllable.replace("\\-", "-");
+			workingList.add(syllableDash);
+		}
+
+		// case of star just returns an empty string
+		else if (syllable.contains("*")) {
 			workingList.add("");
 		}
 
-		// every other case
-		else {
-			String syllable = preSyllable[0];
+		else if (syllable.contains("_")) {
+			// count how many underscores appear
+			int count = syllable.length() - syllable.replace("_", "").length();
+			// now see if there are dashes
+			if (syllable.contains("-")) {
 
-			if (workingList.size() > 0) {
-				// bring up the last syllable in the working measure
-				String lastElem = workingList.get(workingList.size() - 1);
-				if (lastElem.contains(" ") || lastElem.contains("\\-")) {
-					// remove the last syllable and add a new one composed of
-					// two words with a space or dash in between (these are to
-					// be played under the same note)
-					workingList.remove(workingList.size() - 1);
-					workingList.add(lastElem + syllable);
+				workingList.add(syllable.split("-")[0]);
+				for (int i = 0; i < count; i++) {
+					// an extension of a syllable will be shown by empty
+					// strings
+					workingList.add("");
 				}
 			}
+		}
 
-			// case of word and tilde
-			if (syllable.contains("~")) {
+		// double dash case returns the word before the dashes and an empty
+		// string
+		else if (syllable.contains("--")) {
+			String noDash = syllable.replace("--", "");
+			workingList.add(noDash);
+			workingList.add("");
+		}
 
-				String syllableSpace = syllable.replace("~", " ");
-				workingList.add(syllableSpace);
-			}
-
-			// case of word and hyphen returns the word plus the dash and will
-			// have a word after this dash added in the next iteration of
-			// syllable
-			else if (syllable.contains("\\-")) {
-				String syllableDash = syllable.replace("\\-", "-");
-				workingList.add(syllableDash);
-			}
-
-			// case of star just returns an empty string
-			else if (syllable.contains("*")) {
-				workingList.add("");
-			}
-
-			else if (syllable.contains("_")) {
-				// count how many underscores appear
-				int count = syllable.length()
-						- syllable.replace("_", "").length();
-				// now see if there are dashes
-				if (syllable.contains("-")) {
-
-					workingList.add(syllable.split("-")[0]);
-					for (int i = 0; i < count; i++) {
-						// an extension of a syllable will be shown by empty
-						// strings
-						workingList.add("");
-					}
-				}
-			}
-
-			// double dash case returns the word before the dashes and an empty
-			// string
-			else if (syllable.contains("--")) {
-				String noDash = syllable.replace("--", "");
-				workingList.add(noDash);
-				workingList.add("");
-			}
-
-			// last case of a hyphen it should just be stripped and the word at
-			// the beginning be added
-			else if (syllable.contains("-")) {
-				workingList.add(syllable.replace("-", ""));
-			}
+		else if (skip == 1) {
+			workingList.add(syllable);
 		}
 	}
 

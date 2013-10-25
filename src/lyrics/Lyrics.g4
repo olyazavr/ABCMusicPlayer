@@ -83,7 +83,7 @@ LINESPACE : [\t\n\r]+ -> skip ;
  */
 
 lyric   : measure+ WHITESPACE* | EOF;
-measure : PIPE? WHITESPACE? (syllable WHITESPACE?)+ PIPE?| PIPE WHITESPACE?;
+measure : PIPE? WHITESPACE? (syllable WHITESPACE*)+ PIPE?| PIPE WHITESPACE?;
 
 syllable :  WORD WHITESPACE? HYPHEN EXTENDERS?| 
             WORD DOUBHYPHEN| 

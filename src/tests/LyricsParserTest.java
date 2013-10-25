@@ -1,5 +1,9 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import lyrics.LyricsLexer;
 import lyrics.LyricsParser;
 
@@ -197,10 +201,45 @@ public class LyricsParserTest {
 	 */
 
 	@Test
-	public void simpleTest() {
-		String input = "A2! | * a *** a-b a--b a -b || ";
+	public void simpleABCTest() {
+		String input = "A B C D E F G  H I J K L  M  N  O   P";
 		verifyWalk(input);
-		
+
+	}
+
+	/**
+	 * Complex test involving EVERY valid combination
+	 */
+	@Test
+	public void listenerAllTest() {
+		String input = "It's done.| Your e-ner-gy is de-crea-sing |"
+				+ "with e-very blow___. | " + "I~'m sa-tis-fied now.| "
+				+ "* In fact,-* you're not -even| " + "a cha~llen~ge to me| "
+				+ "* * *** anymore. | "
+				+ "It woul -dn't be-fair for-me-to-continue| "
+				+ "fighting. * * *| " + "You-have-cha~lleng\\-ed and-lost| "
+				+ "to-- a-fighter who is| "
+				+ "sup-erior to-you,-- and-to-make| "
+				+ "it-worse:-- he-was * just-a-mon-key, right?| "
+				+ "It would~be mea~ning~less to| " + "fight you now;| "
+				+ "you're-too scared and-a-shamed.| "
+				+ "Live with the shock.| " + "* * * * *| " + "Keep it| "
+				+ "bottled up| " + "inside of you.| " + "Good-bye, Frieza| "
+				+ ", * | " + "may you live-the| " + "rest of-your-life| "
+				+ "in peace...... -Goku";
+		assertEquals(
+				"[[It's, done.], [Your, e-, ner-, gy, is, de-, crea-, sing], "
+				+ "[with, e-, very, .], [I 'm, sa-, tis-, fied, now.], "
+				+ "[, In, fact,-, , you're, not, -, even], [a, cha llen ge, to, me], "
+				+ "[, , , anymore.], [It, woul, -, dn't, be-, fair, for-, me-, to-, continue], "
+				+ "[fighting., , , ], [You-, have-, cha lleng-, ed, and-, lost], "
+				+ "[to, , a-, fighter, who, is], [sup-, erior, to-, you,, , and-, to-, make], "
+				+ "[it-, worse:, , he-, was, , just-, a-, mon-, key,, right?], "
+				+ "[It, would be, mea ning less, to], [fight, you, now;], "
+				+ "[you're-, too, scared, and-, a-, shamed.], [Live, with, the, shock.], "
+				+ "[, , , , ], [Keep, it], [bottled, up], [inside, of, you.], [Good-, bye,, Frieza], "
+				+ "[,, ], [may, you, live-, the], [rest, of-, your-, life], [in, peace......, -, Goku]]",
+				verifyWalk(input).toString());
 	}
 
 	/**
@@ -210,7 +249,7 @@ public class LyricsParserTest {
 	 * @param input
 	 *            to be fed to the lexer/parser
 	 */
-	private void verifyWalk(String input) {
+	private ArrayList<ArrayList<String>> verifyWalk(String input) {
 		// Create a stream of tokens using the lexer.
 		CharStream stream = new ANTLRInputStream(input);
 		LyricsLexer lexer = new LyricsLexer(stream);
@@ -224,14 +263,14 @@ public class LyricsParserTest {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.lyric(); // "lyric" is the starter rule.
-//		((RuleContext) tree).inspect(parser);
+		((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 
 		ParseTreeWalker walker = new ParseTreeWalker();
 		LyricsListener listener = new LyricsListener();
 		walker.walk(listener, tree);
-		System.out.println(listener.getLyric());
+		return listener.getLyric();
 	}
 
 }
