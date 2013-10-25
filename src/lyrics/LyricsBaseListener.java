@@ -15,12 +15,6 @@ public class LyricsBaseListener implements LyricsListener {
 	@Override public void enterMeasure(LyricsParser.MeasureContext ctx) { }
 	@Override public void exitMeasure(LyricsParser.MeasureContext ctx) { }
 
-	@Override public void enterCluster(LyricsParser.ClusterContext ctx) { }
-	@Override public void exitCluster(LyricsParser.ClusterContext ctx) { }
-
-	@Override public void enterSyllable_cluster(LyricsParser.Syllable_clusterContext ctx) { }
-	@Override public void exitSyllable_cluster(LyricsParser.Syllable_clusterContext ctx) { }
-
 	@Override public void enterSyllable(LyricsParser.SyllableContext ctx) { }
 	@Override public void exitSyllable(LyricsParser.SyllableContext ctx) { }
 

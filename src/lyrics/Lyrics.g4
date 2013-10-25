@@ -60,47 +60,34 @@ LINESPACE : [\t\n\r]+ -> skip ;
  * A well constructed lyric will be parsed as follows
  * 
  * lyric:
- *		no empty lyric
- *		can have multiple measures and any amount of trailing whitespace at the end
+ *      can have multiple measures and any amount of trailing whitespace at the end
  * measure:
- *		can be an entire lyric if no PIPEs are found
- *		can be empty or a cluster (the first word in the cluster determines the first token)
- * cluster:
- *		can ONLY start with a syllable or a STARS so clusters will always be one of these
- * 			two cluster types
- *		single syllable, single HYPHEN, and single STAR can be considered a full cluster
- *		only HYPHEN+ allowed, only STAR+ allowed; no combination without the use of syllable_clusters
- *		one WHITESPACE is allowed at the end of every cluster
- * syllable_cluster:
- *		begins with a syllable
- *		if followed by HYPHEN|WHITESPACE HYPHEN|EXTENDER|UNION_OPER it will end with a syllable_cluster|
- *			its corresponding matching token with the exception of WHITESPACE HYPHEN which will also be 
- *			redirected to hyphen_cluster 
- *		will end with a syllable or an EXTENDER, and/or a WHITESPACE (in some cases a cluster will be reached
- * 			because a WHITESPACE is needed)
- *		may end in HYPHEN
- * hyphen_cluster:
- *		may begin with a syllable_cluster, or a HYPHEN and a cluster
- *		can end with a HYPHEN and a WHITESPACE
- * 		can end with a WHITESPACE by becoming a syllable_cluster which can end in a cluster which can
- * 		end in a WHITESPACE
- * 		may end in a HYPHEN
- * stars_cluster:
- * 		must be the only thing in a cluster so will begin and end in STARS
- *		must end with a STAR or WHITESPACE
- * extender_cluster:
- * 		may begin with a HYPHEN followed by a cluster
- *		will end with an EXTENDER and/or a WHITESPACE
+ *      can be an entire lyric if no PIPEs are found
+ *      can be empty or a cluster (the first word in the cluster determines the first token)
+ *      if it begins with a PIPE, it may have at most one WHITESPACE
+ *      if it ends with a PIPE, an optional WHITESPACE may be used to separate the last syllable
+ * syllable:
+ *      can ONLY start with a WORD or a STARS
+ *      single syllable and single STARS can be considered a full cluster
+ *      no combination of WORD and STARS are allowed in the same syllable
+ *      one WHITESPACE is allowed at the end of every syllable
+ *      if starting with a WORD it must be followed by: 
+ *          a HYPHEN and/or EXTENDERS
+ *          a WHITESPACE and HYPHEN and/or EXTENDERS
+ *          a DOUBHYPHEN
+ *          a UNION_OPER  
+ *          EXTENDERS
+ * Anything outside of these rules will be considered an incorrectly inputted lyric and will
+ * throw an exception/fail silently with an unexpected outcome
+ *      
  */
 
-lyric	: measure+ WHITESPACE* EOF;
-measure	: PIPE? WHITESPACE? cluster+ WHITESPACE PIPE?| PIPE? WHITESPACE? cluster+ WHITESPACE? PIPE | PIPE WHITESPACE?;
-cluster	: (syllable_cluster | STARS );
+lyric   : measure+ WHITESPACE* | EOF;
+measure : PIPE? WHITESPACE? (syllable WHITESPACE?)+ PIPE?| PIPE WHITESPACE?;
 
-syllable_cluster : 	syllable WHITESPACE? HYPHEN (syllable_cluster|EXTENDERS)| 
-				   	syllable DOUBHYPHEN (syllable_cluster|EXTENDERS)| 
-				   	syllable UNION_OPER syllable_cluster| 
-					syllable EXTENDERS | 
-					syllable;
-
-syllable : WORD;
+syllable :  WORD WHITESPACE? HYPHEN EXTENDERS?| 
+            WORD DOUBHYPHEN| 
+            WORD UNION_OPER| 
+            WORD EXTENDERS| 
+            WORD|
+            STARS;

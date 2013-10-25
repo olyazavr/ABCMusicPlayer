@@ -1,11 +1,10 @@
 package player;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import lyrics.LyricsBaseListener;
 import lyrics.LyricsParser;
-
-import org.antlr.v4.runtime.ParserRuleContext;
 
 /**
  * Walks the tree, creates a Lyric object
@@ -15,6 +14,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
  */
 public class LyricsListener extends LyricsBaseListener {
 	private Stack<Object> stack = new Stack<Object>();
+	private int measureNum = 0;
 
 //	@Override
 //	public void enterEveryRule(ParserRuleContext ctx) {
@@ -38,35 +38,21 @@ public class LyricsListener extends LyricsBaseListener {
 
 	@Override
 	public void enterMeasure(LyricsParser.MeasureContext ctx) {
+		stack.add(new ArrayList<String>());
 	}
 
 	@Override
 	public void exitMeasure(LyricsParser.MeasureContext ctx) {
 	}
 
-	@Override
-	public void enterCluster(LyricsParser.ClusterContext ctx) {
-	}
-
-	@Override
-	public void exitCluster(LyricsParser.ClusterContext ctx) {
-	}
-
-	@Override
-	public void enterSyllable_cluster(LyricsParser.Syllable_clusterContext ctx) {
-	}
-
-	@Override
-	public void exitSyllable_cluster(LyricsParser.Syllable_clusterContext ctx) {
-	}
-
+	
 	@Override
 	public void enterSyllable(LyricsParser.SyllableContext ctx) {
 	}
 
 	@Override
 	public void exitSyllable(LyricsParser.SyllableContext ctx) {
-
+		System.out.println(ctx.getText());
 	}
 
 	/**

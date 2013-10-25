@@ -12,12 +12,6 @@ public interface LyricsListener extends ParseTreeListener {
 	void enterMeasure(LyricsParser.MeasureContext ctx);
 	void exitMeasure(LyricsParser.MeasureContext ctx);
 
-	void enterCluster(LyricsParser.ClusterContext ctx);
-	void exitCluster(LyricsParser.ClusterContext ctx);
-
-	void enterSyllable_cluster(LyricsParser.Syllable_clusterContext ctx);
-	void exitSyllable_cluster(LyricsParser.Syllable_clusterContext ctx);
-
 	void enterSyllable(LyricsParser.SyllableContext ctx);
 	void exitSyllable(LyricsParser.SyllableContext ctx);
 }
