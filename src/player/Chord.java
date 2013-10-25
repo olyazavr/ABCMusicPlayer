@@ -8,28 +8,27 @@ import utils.Fraction;
 import utils.NumberTheory;
 
 /**
- * ADT that represents a chord. It contains a list of Pitches, which are all
- * played at the same time. No rests or Tuplets are allowed.
+ * ADT that represents a chord. It contains a list of MusicSymbols, which are
+ * all played at the same time. No tuplets are allowed.
  * 
  */
 public class Chord implements MusicSymbol {
-    private final List<Pitch> notes;
+    private final List<MusicSymbol> notes;
 
     /**
      * Creates a Chord object with notes
      * 
      * @param notes
-     *            list of Pitches in the Chord (no Rests or tuplets or other
-     *            Chords)
+     *            list of MusicSymbols in the Chord (no tuplets or other Chords)
      */
-    public Chord(List<Pitch> notes) {
-        this.notes = new ArrayList<Pitch>(notes);
+    public Chord(List<MusicSymbol> notes) {
+        this.notes = new ArrayList<MusicSymbol>(notes);
     }
 
     @Override
     public void addNote(MusicPlayer player, String syllable) {
 
-        for (Pitch pitch : notes) {
+        for (MusicSymbol pitch : notes) {
             pitch.addNote(player, new String());
             player.addTime(pitch.getLength().multiply(-1));
         }
