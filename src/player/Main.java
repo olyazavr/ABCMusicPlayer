@@ -6,9 +6,6 @@ import grammar.ABCMusicParser;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -42,11 +39,11 @@ public class Main {
         int tempo = music.getPlayerTempo(ticksPerBeat);
 
         // Try to play this, it may throw if it can't read the MIDI
-        
-            MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
-            music.addNotes(player);
-            player.play();
-        
+
+        MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
+        music.addNotes(player);
+        player.play();
+
     }
 
     private static String readFileToString(String file) {

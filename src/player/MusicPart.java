@@ -33,6 +33,7 @@ public interface MusicPart extends Music {
      * 
      * @return integer representing number of ticks per beat.
      */
+    @Override
     public int calculateTicksPerBeat();
 
     /**

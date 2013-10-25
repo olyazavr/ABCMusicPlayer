@@ -30,12 +30,14 @@ public class Voice implements MusicPart {
         this.measures = new ArrayList<Measure>(measures);
     }
 
+    @Override
     public void addNotes(MusicPlayer player) {
         for (Measure measure : measures) {
             measure.addNotes(player);
         }
     }
 
+    @Override
     public int calculateTicksPerBeat() {
         int LCM = 1;
         for (Measure measure : measures) {
@@ -44,15 +46,6 @@ public class Voice implements MusicPart {
         return LCM;
     }
 
-    /**
-     * Tests the equality of one Voice to to another, such that two expressions
-     * with equal attributes (observationally indistinguishable) are considered
-     * equal
-     * 
-     * @param _that
-     *            Voice to compare to
-     * @return whether or not the two Voices are equal
-     */
     @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
@@ -63,12 +56,18 @@ public class Voice implements MusicPart {
         return this.measures.equals(that.measures) && this.name.equals(that.name);
     }
     
+    @Override
     public String toString(){
     	String voiceString=new String(" ");
     	for (Measure m: measures){
     		voiceString+=m.toString();
     	}
     	return voiceString+"]";
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode() + measures.hashCode();
     }
 
 }

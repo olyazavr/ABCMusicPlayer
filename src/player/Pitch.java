@@ -67,6 +67,7 @@ public class Pitch implements MusicSymbol {
         return new Pitch(newLength, value, octave, accidental);
     }
 
+    // TODO: Document this shit
     public Fraction getLength() {
         return length;
     }
@@ -75,6 +76,7 @@ public class Pitch implements MusicSymbol {
         return length.getDenominator();
     }
 
+    @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Pitch)) {
@@ -89,8 +91,18 @@ public class Pitch implements MusicSymbol {
     }
 
     /**
-     * Converts the pitch to ABC format string
+     * Return a string in the following format:
+     * 
+     * accidentals, if any, followed by the actual note value, followed by
+     * octaves, if any, followed by duration, if not just 1
+     * 
+     * Sharps are ^, flats are _, octave up is ' (the first raised octave is
+     * just lower case letters, but the rest have apostrophes), octave down is a
+     * comma, and duration is a fraction.
+     * 
+     * @return the string representation of a pitch
      */
+    @Override
     public String toString() {
     	String accidentalString,valueString,lengthString;
     	if (accidental==0){
@@ -114,6 +126,7 @@ public class Pitch implements MusicSymbol {
         return accidentalString+valueString+lengthString;
     }
 
+    @Override
     public int hashCode() {
         return this.value + this.length.hashCode() + this.octave
                 + this.accidental;

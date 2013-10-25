@@ -22,6 +22,7 @@ public class Rest implements MusicSymbol {
 
     }
 
+    @Override
     public void addNote(MusicPlayer player, String syllable) {
         player.addTime(length);
         if (!syllable.isEmpty()) {
@@ -29,10 +30,12 @@ public class Rest implements MusicSymbol {
         }
     }
 
+    @Override
     public int calculateTicksPerBeat() {
         return length.getDenominator();
     }
 
+    @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Rest)) {
@@ -46,11 +49,15 @@ public class Rest implements MusicSymbol {
 
     /**
      * Returns a string for a rest which is a "z" followed by its length
+     * 
+     * @return the string representation of a rest
      */
+    @Override
     public String toString() {
         return "z" + this.length.toString();
     }
 
+    @Override
     public int hashCode() {
         return this.length.hashCode();
     }

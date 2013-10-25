@@ -30,6 +30,7 @@ public class Measure implements MusicPart {
 		this.lyrics = lyrics;
 	}
 
+    @Override
 	public void addNotes(MusicPlayer player) {
 		String syllable = new String();
 		for (int i = 0; i < notes.size(); i++) {
@@ -66,6 +67,7 @@ public class Measure implements MusicPart {
 		return lyrics.getNumberOfSyllables() == notesPerMeasure();
 	}
 
+    @Override
 	public int calculateTicksPerBeat() {
 		int LCM = 1;
 		for (MusicSymbol symbol : notes) {
@@ -74,6 +76,7 @@ public class Measure implements MusicPart {
 		return LCM;
 	}
 
+    @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Measure)) {
@@ -83,6 +86,12 @@ public class Measure implements MusicPart {
         return this.notes.equals(that.notes) && this.lyrics.equals(that.lyrics);
     }
     
+    /**
+     * Returns the notes, with spaces, followed by a pipe
+     * 
+     * @return the string representation of a Measure
+     */
+    @Override
     public String toString(){
     	String measureString=new String(" ");
     	for (MusicSymbol s:notes){
@@ -90,6 +99,11 @@ public class Measure implements MusicPart {
     		measureString+=" ";
     	}
     	return measureString+"|";
+    }
+
+    @Override
+    public int hashCode() {
+        return notes.hashCode() + lyrics.hashCode();
     }
 
 }

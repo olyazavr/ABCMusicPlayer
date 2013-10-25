@@ -26,9 +26,7 @@ public class Chord implements MusicSymbol {
         this.notes = new ArrayList<Pitch>(notes);
     }
 
-    /**
-     * TODO: description of method
-     */
+    @Override
     public void addNote(MusicPlayer player, String syllable) {
 
         for (Pitch pitch : notes) {
@@ -41,6 +39,7 @@ public class Chord implements MusicSymbol {
         }
     }
 
+    @Override
     public int calculateTicksPerBeat() {
         int LCM = 1;
         for (Pitch pitch : notes) {
@@ -64,6 +63,7 @@ public class Chord implements MusicSymbol {
         return new Chord(newNotes);
     }
 
+    @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Chord)) {
@@ -78,7 +78,10 @@ public class Chord implements MusicSymbol {
     /**
      * Returns a string of chords in the format: "[" followed by notes with
      * spaces between them and ending with a "]"
+     * 
+     * @return the string representation of the Chord
      */
+    @Override
     public String toString() {
         StringBuilder readableChords = new StringBuilder();
         readableChords.append("[");
@@ -93,6 +96,7 @@ public class Chord implements MusicSymbol {
         return readableChords.toString();
     }
 
+    @Override
     public int hashCode() {
         return this.notes.hashCode();
     }

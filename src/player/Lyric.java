@@ -19,14 +19,14 @@ public class Lyric {
     public Lyric(List<String> syllables) {
         this.syllables = new ArrayList<String>(syllables);
     }
-    
+
     /**
      * Checks whether the lyrics are empty
+     * 
      * @return true if is empty, false otherwise
      */
-    
-    public boolean isEmpty(){
-    	return syllables.isEmpty();
+    public boolean isEmpty() {
+        return syllables.isEmpty();
     }
 
     /**
@@ -40,6 +40,16 @@ public class Lyric {
         return syllables.get(i);
     }
 
+    /**
+     * Returns how many syllables this Lyric contains
+     * 
+     * @return number of syllables
+     */
+    public int getNumberOfSyllables() {
+        return syllables.size();
+    }
+
+    @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Lyric)) {
@@ -51,21 +61,17 @@ public class Lyric {
         return this.syllables.equals(that.syllables);
     }
 
+    /**
+     * Returns ??
+     */
+    @Override
     public String toString() {
         return syllables.toString();
     }
 
+    @Override
     public int hashCode() {
         return this.syllables.hashCode();
-    }
-
-    /**
-     * Returns how many syllables this Lyric contains
-     * 
-     * @return number of syllables
-     */
-    public int getNumberOfSyllables() {
-        return syllables.size();
     }
 
 }

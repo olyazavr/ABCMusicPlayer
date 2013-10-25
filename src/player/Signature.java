@@ -59,6 +59,16 @@ public class Signature {
         return tempo.multiply(length.getDenominator()).getNumerator();
     }
 
+    /**
+     * Tests the equality of one Signature to to another, such that two
+     * Signatures with equal attributes (observationally indistinguishable) are
+     * considered equal
+     * 
+     * @param _that
+     *            Signature to compare to
+     * @return whether or not the two Signatures are equal
+     */
+    @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof Signature)) {
@@ -76,18 +86,29 @@ public class Signature {
     }
 
     /**
-     * Header string output written in the order listed in the ABC Subset for
-     * 6.005
+     * Returns the string representation of the Signature in this format:
+     * 
+     * T: title \n C: composer \n M: meter \n L: length \n Q: tempo \n V:
+     * [voices] \n K: key
+     * 
+     * @return the string representation of a Signature
      */
+    @Override
     public String toString() {
-        return "T: " + this.title.toString() + "\n" + "C: "
-                + this.composer.toString() + "\n" + "M: "
-                + this.meter.toString() + "\n" + "L: " + this.length.toString()
-                + "\n" + "Q: " + this.tempo.toString() + "\n" + "V: "
-                + this.voices.toString() + "\n" + "K: " + this.key.toString()
-                + "\n";
+        return "T: " + this.title.toString() + " \n " + "C: "
+                + this.composer.toString() + " \n " + "M: "
+                + this.meter.toString() + " \n " + "L: " + this.length.toString()
+                + " \n " + "Q: " + this.tempo.toString() + " \n " + "V: "
+                + this.voices.toString() + " \n " + "K: " + this.key.toString();
     }
 
+    /**
+     * Calculates the hashcode for this Signature. HashCode for two equal
+     * Signatures will be identical.
+     * 
+     * @return the hashcode for the Signature
+     */
+    @Override
     public int hashCode() {
         return this.title.hashCode() + this.composer.hashCode()
                 + this.length.hashCode() + this.meter.hashCode()

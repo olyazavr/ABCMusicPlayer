@@ -32,15 +32,16 @@ public interface MusicSymbol extends Music {
      * 
      * @return integer representing number of ticks per beat.
      */
+    @Override
     public int calculateTicksPerBeat();
 
     /**
      * Tests the equality of one MusicSymbol to to another, such that two
-     * expressions with equal attributes (observationally indistinguishable) are
-     * considered equal
+     * MusicSymbols with equal attributes (observationally indistinguishable)
+     * are considered equal
      * 
      * @param _that
-     *            expression to compare to
+     *            MusicSymbols to compare to
      * @return whether or not the two MusicSymbols are equal
      */
     @Override

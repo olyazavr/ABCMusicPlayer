@@ -154,4 +154,9 @@ public class Fraction {
 		else
 			return false;
 	}
+
+    @Override
+    public int hashCode() {
+        return (int) evaluate();
+    }
 }

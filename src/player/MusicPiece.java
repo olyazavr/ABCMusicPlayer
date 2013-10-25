@@ -29,6 +29,7 @@ public class MusicPiece implements MusicPart {
         this.voices = new ArrayList<Voice>(voices);
     }
 
+    @Override
     public void addNotes(MusicPlayer player) {
         for (Voice voice : voices) {
             voice.addNotes(player);
@@ -49,7 +50,7 @@ public class MusicPiece implements MusicPart {
     	return signature.getPlayerTempo(ticksPerBeat);
     }
 
-
+    @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type
         if (!(_that instanceof MusicPiece)) {
@@ -62,10 +63,17 @@ public class MusicPiece implements MusicPart {
                 && this.voices.equals(that.voices);
     }
 
+    /**
+     * Returns the signature followed by a list of voices
+     * 
+     * @return the string representation of a MusicPiece
+     */
+    @Override
     public String toString() {
-        return signature.toString() + "\n" + voices.toString();
+        return signature.toString() + " \n " + voices.toString();
     }
 
+    @Override
     public int hashCode() {
         return this.signature.hashCode() + this.voices.hashCode();
     }
