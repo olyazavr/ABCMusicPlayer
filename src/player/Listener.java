@@ -426,8 +426,12 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitLyric(ABCMusicParser.LyricContext ctx) {
+        String lyricText = ctx.getText();
+        //remove the w:
+        lyricText = lyricText.substring(2).trim();
+        
         // Create a stream of tokens using the lexer.
-        CharStream stream = new ANTLRInputStream(ctx.getText());
+        CharStream stream = new ANTLRInputStream(lyricText);
         LyricsLexer lexer = new LyricsLexer(stream);
         lexer.reportErrorsAsExceptions();
         TokenStream tokens = new CommonTokenStream(lexer);
