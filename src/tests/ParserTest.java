@@ -47,7 +47,7 @@ public class ParserTest {
         List<Measure> measures = Arrays.asList(new Measure(notes, new Lyric(new ArrayList<String>())));
         List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
         List<String> voiceNames = Arrays.asList("defaultVoice");
-        MusicPiece expected = new MusicPiece(new Signature("Piece No. 1", "Unknown", new Fraction(1, 8), new Fraction(
+        MusicPiece expected = new MusicPiece(new Signature("Piece No.1", "Unknown", new Fraction(1, 8), new Fraction(
                 4, 4), new Fraction(100, 8), "C", voiceNames), voices);
 
         MusicPiece output = Main.stringToMusicPiece(input);
@@ -69,7 +69,7 @@ public class ParserTest {
         List<Measure> measures = Arrays.asList(new Measure(notes, new Lyric(new ArrayList<String>())));
         List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
         List<String> voiceNames = Arrays.asList("defaultVoice");
-        MusicPiece expected = new MusicPiece(new Signature("Piece No. 1", "Me", new Fraction(1, 4), new Fraction(
+        MusicPiece expected = new MusicPiece(new Signature("Piece No.1", "Me", new Fraction(1, 4), new Fraction(
                 4, 4), new Fraction(140, 4), "C", voiceNames), voices);
 
         MusicPiece output = Main.stringToMusicPiece(input);
@@ -98,7 +98,7 @@ public class ParserTest {
         List<Measure> measures = Arrays.asList(measure1, measure2);
         List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
         List<String> voiceNames = Arrays.asList("defaultVoice");
-        MusicPiece expected = new MusicPiece(new Signature("Piece No. 3", "Unknown", new Fraction(1, 8), new Fraction(
+        MusicPiece expected = new MusicPiece(new Signature("Piece No.3", "Unknown", new Fraction(1, 8), new Fraction(
                 3, 4), new Fraction(100, 8), "C", voiceNames), voices);
 
         MusicPiece output = Main.stringToMusicPiece(input);
@@ -188,8 +188,8 @@ public class ParserTest {
         Measure measure1 = new Measure(notes1, new Lyric(new ArrayList<String>()));
 
         // measure 2
-        List<Pitch> pitches = Arrays.asList(new Pitch(new Fraction(16), 'E', 0, 0), new Pitch(new Fraction(16), 'G', 0,
-                0), new Pitch(new Fraction(16), 'C', 1, 0));
+        List<Pitch> pitches = Arrays.asList(new Pitch(new Fraction(16), 'C', 1, 0), new Pitch(new Fraction(16), 'G', 0,
+                0), new Pitch(new Fraction(16), 'E', 0, 0));
         MusicSymbol chord = new Chord(pitches);
         List<MusicSymbol> notes2 = Arrays.asList(chord);
         Measure measure2 = new Measure(notes2, new Lyric(new ArrayList<String>()));

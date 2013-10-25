@@ -9,6 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import lyrics.LyricsLexer;
+import lyrics.LyricsParser;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import utils.Fraction;
 import utils.Scales;
 
@@ -28,7 +38,7 @@ public class Listener extends ABCMusicBaseListener {
      * Stacks to combine smaller objects into larger ones
      */
     private Stack<MusicSymbol> musicSymbolStack = new Stack<MusicSymbol>();
-    private Stack<Lyric> lyricStack = new Stack<Lyric>();
+    private List<ArrayList<String>> lyricStack = new ArrayList<ArrayList<String>>();
 
     /**
      * A way to locate each Voice stack from its name, and a variable to keep
@@ -51,7 +61,7 @@ public class Listener extends ABCMusicBaseListener {
      * beginning or from after a repeat, or from after an end notes symbol
      */
     private Map<String, List<Measure>> voiceRepeatMeasures = new HashMap<String, List<Measure>>();
-    
+
     /**
      * do nothing, because the top of the stack should have the node already in
      * it
@@ -79,16 +89,20 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
-        // Obtain the musicSymbols and Lyric to add to the new Measure
+        // Obtain the musicSymbols to add to the new Measure
         List<MusicSymbol> musicSymbols = new ArrayList<MusicSymbol>(musicSymbolStack);
 
-        // Lyics may be empty if the piece doesn't have words
-        Lyric lyrics;
-        if (!lyricStack.empty()) {
-            lyrics = lyricStack.pop();
-        } else {
-            lyrics = new Lyric(new ArrayList<String>());
+        // find the number of notes that aren't Rests
+        int numNotes = 0;
+        for (MusicSymbol note : musicSymbols) {
+            if (!(note instanceof Rest)) {
+                numNotes++;
+            }
         }
+
+        // get the Lyric!
+        Lyric lyrics = makeLyric(numNotes);
+
         musicSymbolStack.clear();
         accidentals.clear(); // clear the accidentals for this measure
 
@@ -104,12 +118,12 @@ public class Listener extends ABCMusicBaseListener {
 
         // clear and restart repeatedMeasures
         if (ctx.END_NOTES() != null) {
-        	voiceRepeatMeasures.get(currentVoice).clear();
+            voiceRepeatMeasures.get(currentVoice).clear();
         }
 
         System.out.println("adding Measure with " + musicSymbols.size() + " notes");
         currentVoiceStack.push(measure);
-        
+
         // add all the recorded repeatedMeasures if there's a repeat
         if (ctx.RREPEAT() != null) {
             currentVoiceStack.addAll(voiceRepeatMeasures.get(currentVoice));
@@ -152,15 +166,15 @@ public class Listener extends ABCMusicBaseListener {
             // get voice name sans the "V:" and set it to currentVoice
             String voiceName = ctx.getText().substring(2).trim();
             currentVoice = voiceName;
-            
+
             // add a new Voice stack and repeatMeasure list if needed
             Stack<Measure> voiceExists = voices.get(currentVoice);
-            if (voiceExists==null) { // add new Voice stack
+            if (voiceExists == null) { // add new Voice stack
                 Stack<Measure> stack = new Stack<Measure>();
-                List<Measure> list = new ArrayList<Measure>(); 
+                List<Measure> list = new ArrayList<Measure>();
                 System.out.println("adding Voice stack " + voiceName);
                 voices.put(voiceName, stack);
-                voiceRepeatMeasures.put(voiceName,list);
+                voiceRepeatMeasures.put(voiceName, list);
             }
         }
     }
@@ -237,7 +251,7 @@ public class Listener extends ABCMusicBaseListener {
             Stack<Measure> stack = new Stack<Measure>();
             v.add("defaultVoice");
             voices.put("defaultVoice", stack);
-            List<Measure> list=new ArrayList<Measure>();
+            List<Measure> list = new ArrayList<Measure>();
             voiceRepeatMeasures.put(currentVoice, list);
         }
 
@@ -273,44 +287,29 @@ public class Listener extends ABCMusicBaseListener {
 
     /**
      * Pop notes, modify their length, add new notes back. This way, they will
-     * be played as a Tuplet.
+     * be played as a Duplet.
      */
     @Override
-    public void exitTuplet(ABCMusicParser.TupletContext ctx) {
-    	//stack to store changed notes
-    	Stack<MusicSymbol> currentStack= new Stack<MusicSymbol>();
-        // determines if duplet, triplet, quadruplet
-        int tupletNumber = new Integer(ctx.getText().substring(1, 2));
+    public void exitDuplet(ABCMusicParser.DupletContext ctx) {
+        addTuplet(2);
+    }
 
-        // multiply duration of each note by 3/2 if duplet, 2/3 if triplet, 3/4
-        // if quadruplet
-        Fraction multiplicationFactor = new Fraction(3, 2);
-        if (tupletNumber == 3) {
-            multiplicationFactor = new Fraction(2, 3);
-        }
-        else if (tupletNumber == 4) {
-            multiplicationFactor = new Fraction(3, 4);
-        }
+    /**
+     * Pop notes, modify their length, add new notes back. This way, they will
+     * be played as a Triplet.
+     */
+    @Override
+    public void exitTriplet(ABCMusicParser.TripletContext ctx) {
+        addTuplet(3);
+    }
 
-        for (int i = 0; i < tupletNumber; ++i) {
-            // add to the stack the same note with its length multiplied by the
-            // multiplicationFactor
-
-            // Can be Pitch or Chord (not Rest)
-            MusicSymbol musicSymbol = musicSymbolStack.pop();
-            if (musicSymbol instanceof Pitch) {
-                Pitch newMusicSymbol = ((Pitch) musicSymbol).multiplyLength(multiplicationFactor);
-                currentStack.push(newMusicSymbol);
-
-            } else if (musicSymbol instanceof Chord) {
-                Chord newMusicSymbol = ((Chord) musicSymbol).multiplyLength(multiplicationFactor);
-                currentStack.push(newMusicSymbol);
-            }
-        }
-        //put changed notes back in the stack
-        for (int i = 0; i < tupletNumber; ++i) {
-        	musicSymbolStack.push(currentStack.pop());
-        }
+    /**
+     * Pop notes, modify their length, add new notes back. This way, they will
+     * be played as a Quadruplet.
+     */
+    @Override
+    public void exitQuadruplet(ABCMusicParser.QuadrupletContext ctx) {
+        addTuplet(4);
     }
 
     /**
@@ -419,7 +418,6 @@ public class Listener extends ABCMusicBaseListener {
 
         Pitch note = new Pitch(length, value, octave, accidental);
         musicSymbolStack.push(note);
-
     }
 
     /**
@@ -428,28 +426,130 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitLyric(ABCMusicParser.LyricContext ctx) {
-        System.out.println("skipping lyrics!");
-        /*
-         * System.out.println("entering lyric " + ctx.getText()); // Create a
-         * stream of tokens using the lexer. CharStream stream = new
-         * ANTLRInputStream(ctx.getText()); LyricsLexer lexer = new
-         * LyricsLexer(stream); lexer.reportErrorsAsExceptions(); TokenStream
-         * tokens = new CommonTokenStream(lexer); // List<? extends Token>
-         * actualTokens = lexer.getAllTokens();
-         * 
-         * // Feed the tokens into the parser. LyricsParser parser = new
-         * LyricsParser(tokens); parser.reportErrorsAsExceptions();
-         * 
-         * // Generate the parse tree using the starter rule. ParseTree tree;
-         * tree = parser.lyric(); // "abc_tune" is the starter rule. //
-         * ((RuleContext) tree).inspect(parser);
-         * 
-         * // Walk the tree with the listener. ParseTreeWalker walker = new
-         * ParseTreeWalker(); LyricsListener listener = new LyricsListener();
-         * walker.walk(listener, tree); Lyric lyric = listener.getLyric();
-         * 
-         * System.out.println("adding Lyric " + lyric); lyricStack.push(lyric);
-         */
+        // Create a stream of tokens using the lexer.
+        CharStream stream = new ANTLRInputStream(ctx.getText());
+        LyricsLexer lexer = new LyricsLexer(stream);
+        lexer.reportErrorsAsExceptions();
+        TokenStream tokens = new CommonTokenStream(lexer);
+        // List<? extends Token> actualTokens = lexer.getAllTokens();
+
+        // Feed the tokens into the parser.
+        LyricsParser parser = new LyricsParser(tokens);
+        parser.reportErrorsAsExceptions();
+
+        // Generate the parse tree using the starter rule.
+        ParseTree tree = parser.lyric(); // "lyric" is the starter rule.
+        // ((RuleContext) tree).inspect(parser);
+
+        // Walk the tree with the listener.
+        ParseTreeWalker walker = new ParseTreeWalker();
+        LyricsListener listener = new LyricsListener();
+        walker.walk(listener, tree);
+        ArrayList<ArrayList<String>> lyric = listener.getLyric();
+
+        System.out.println("adding Lyric " + lyric);
+        lyricStack.addAll(lyric);
+    }
+
+    /**
+     * Makes a Lyric object based on the content of lyricStack. There are 3
+     * cases:
+     * 
+     * 1) lyricStack has a number of ArrayLists. This happens when the syllables
+     * are separated by bars. Then, we make sure there are not too many or too
+     * little syllables (padding with spaces if needed).
+     * 
+     * 2) lyricStack has one ArrayList. This happens when syllables aren't
+     * separated, so they are given to us in one huge chunk. Then we grab the
+     * number we need, deleteing them from the stack.
+     * 
+     * 3) There are no syllables. This is when there are no words to a song. We
+     * just make an empty Lyric.
+     * 
+     * This mutates the lyricStack.
+     * 
+     * @param numNotes
+     *            number of notes in the measure that aren't Rests
+     * @return the new Lyric object with the right number of syllables
+     */
+    private Lyric makeLyric(int numNotes) {
+        if (lyricStack.size() > 1) {
+            // if the lyrics have bars, they will be separated into multiple
+            // ArrayLists
+            ArrayList<String> lyricList = lyricStack.get(0);
+            lyricStack.remove(0);
+
+            // pad the measure with spaces to fill up to numNotes
+            while (lyricList.size() < numNotes) {
+                lyricList.add(" ");
+            }
+            // remove excess syllables to fit into numNotes
+            while (lyricList.size() > numNotes) {
+                lyricList.remove(lyricList.size() - 1);
+            }
+
+            return new Lyric(lyricList);
+
+        } else if (lyricStack.size() == 1) {
+            // if no bars, we get a single ArrayList with all the syllables
+            ArrayList<String> lyricList = new ArrayList<String>();
+            ArrayList<String> lyricListFromStack = lyricStack.get(0);
+
+            // get the syllables we need and delete them from the stack
+            for (int i = 0; i <= numNotes; ++i) {
+                lyricList.add(lyricListFromStack.get(0));
+                lyricListFromStack.remove(0);
+            }
+            return new Lyric(lyricList);
+        }
+        // lyricStack may be empty if the piece doesn't have words
+        return new Lyric(new ArrayList<String>());
+    }
+
+    /**
+     * Pops notes in the tuplet out of the stack, multiplied their duration, and
+     * adds the new notes back to the stack. Only Pitches and Chords allowed in
+     * a tuplet.
+     * 
+     * Duration of each note is multiplied by 3/2 if duplet, 2/3 if triplet, 3/4
+     * if quadruplet
+     * 
+     * @param tupletNumber
+     *            2 for duplet, 3 for triplet, 4 for quadruplet
+     */
+    private void addTuplet(int tupletNumber) {
+        // stack to store changed notes
+        Stack<MusicSymbol> currentStack = new Stack<MusicSymbol>();
+
+        // multiply duration of each note by 3/2 if duplet, 2/3 if triplet, 3/4
+        // if quadruplet
+        Fraction multiplicationFactor = new Fraction(3, 2);
+        if (tupletNumber == 3) {
+            multiplicationFactor = new Fraction(2, 3);
+        }
+        else if (tupletNumber == 4) {
+            multiplicationFactor = new Fraction(3, 4);
+        }
+
+        for (int i = 0; i < tupletNumber; ++i) {
+            // add to the stack the same note with its length multiplied by the
+            // multiplicationFactor
+
+            // Can be Pitch or Chord (not Rest)
+            MusicSymbol musicSymbol = musicSymbolStack.pop();
+            if (musicSymbol instanceof Pitch) {
+                Pitch newMusicSymbol = ((Pitch) musicSymbol).multiplyLength(multiplicationFactor);
+                currentStack.push(newMusicSymbol);
+
+            } else if (musicSymbol instanceof Chord) {
+                Chord newMusicSymbol = ((Chord) musicSymbol).multiplyLength(multiplicationFactor);
+                currentStack.push(newMusicSymbol);
+            }
+        }
+        // put new notes back in the stack
+        for (int i = 0; i < tupletNumber; ++i) {
+            musicSymbolStack.push(currentStack.pop());
+        }
     }
 
     /**

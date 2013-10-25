@@ -1,9 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +24,7 @@ import utils.Fraction;
  * calculateTicksPerBeat() for the classes in the MusicPart interface.
  * 
  * Moreover, we test the particular methods of the classes that implement the
- * interface: Measure: hasEnoughLyrics() and MusicPiece: getPlayerTempo().
+ * interface: MusicPiece: getPlayerTempo().
  * 
  * Testing strategy: test each method and make sure it is true to its spec for
  * every valid type of input. equals() must return true on equal objects, and
@@ -283,35 +281,6 @@ public class MusicPartTest {
         assertEquals("T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one, two, three] \n K: C \n "
                 + "b'1/1 ^a1/1 z1/1 | b'1/1 ^a1/1 z1/1 |],  b'1/1 ^a1/1 z1/1 |],  b'1/1 ^a1/1 z1/1 | "
                 + "b'1/1 ^a1/1 z1/1 |]", music2.toString());
-    }
-
-    /**
-     * Test Measure's hasEnoughLyrics(), should return true if the number of
-     * notes (pitches or chords, not rests) matches the number of syllables,
-     * false otherwise
-     */
-    @Test
-    public void measureHasEnoughLyricsTest() {
-        MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
-        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
-        MusicSymbol rest1 = new Rest(new Fraction(1));
-
-        Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
-        Lyric lyric2 = new Lyric(Arrays.asList("C", " "));
-        Lyric lyric3 = new Lyric(new ArrayList<String>());
-
-        Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
-        Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2), lyric2);
-        Measure measure3 = new Measure(Arrays.asList(pitch3, pitch2, pitch1), lyric2);
-        Measure measure4 = new Measure(Arrays.asList(rest1, rest1, rest1), lyric3);
-        Measure measure5 = new Measure(Arrays.asList(pitch2, pitch1, rest1), lyric3);
-
-        assertTrue(measure1.hasEnoughLyrics()); // 2 pitches, 2 syllables
-        assertTrue(measure2.hasEnoughLyrics()); // 2 pitches, 2 syllables
-        assertFalse(measure3.hasEnoughLyrics()); // 3 pitches, 2 syllables
-        assertTrue(measure4.hasEnoughLyrics()); // no pitches, no syllables
-        assertFalse(measure5.hasEnoughLyrics()); // 2 pitches, no syllables
     }
 
 }

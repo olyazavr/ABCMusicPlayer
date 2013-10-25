@@ -14,7 +14,7 @@ import player.Lyric;
 
 /**
  * This is the test suite for Lyric's equals(), toString(), hashCode(),
- * isEmpty(), getSyllable(), and getNumberOfSyllables().
+ * isEmpty(), and getSyllable().
  * 
  * Testing strategy: test each method and make sure it is true to its spec for
  * every valid type of input. equals() must return true on equal objects, and
@@ -87,21 +87,6 @@ public class LyricTest {
         assertFalse(lyric1.isEmpty());
         assertFalse(lyric2.isEmpty()); // has a space
         assertTrue(lyric3.isEmpty()); // is actually empty
-    }
-
-    /**
-     * Test getNumberOfSyllables()
-     */
-    @Test
-    public void getNumberOfSyllablesTest() {
-        Lyric lyric1 = new Lyric(Arrays.asList("Psy", "chic", "spies", "from", "China", "Try", "to",
-                "steal", "your", "mind's", "elation.")); // Californication
-        Lyric lyric2 = new Lyric(Arrays.asList(" "));
-        Lyric lyric3 = new Lyric(new ArrayList<String>());
-
-        assertEquals(11, lyric1.getNumberOfSyllables());
-        assertEquals(1, lyric2.getNumberOfSyllables()); // has a space
-        assertEquals(0, lyric3.getNumberOfSyllables()); // is actually empty
     }
 
     /**

@@ -44,15 +44,14 @@ package grammar;
  * These are the lexical rules. They define the tokens used by the lexer.
  *
  * All of the header lines and comments are individual tokens, then the notes and rests are 
- * lexed together with their modifiers. Tuplet and chord (, [, and ] symbols are lexed 
- * separately from their notes.
+ * lexed together with their modifiers. Tuplet and chord (2, (3, (4, [, and ] symbols are 
+ * lexed separately from their notes.
  * Repeats and pipes are lexed on their own.
  * Tabs and spaces are ignored.
  *
  */
  
 WHITESPACE : [ \t]+ -> skip ;
-DIGIT: [0-9]+;
 NEWLINE: [\n\r];
 INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
 TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ ' '* [\n\r]+;
@@ -66,7 +65,9 @@ LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ','
 COMMENT : '%' ('-' | '^' | '=' | '_'  | ' ' | '|' | '\'' | '(' | ')' | ']' | '[' | ':' |'_' | '*' | '~' | ',' | '/' | [a-zA-Z0-9] | '.' | '!' | '?')*  [\n\r]+;
 NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
-PAREN: '(';
+DUPLET: '(' '2';
+TRIPLET: '(' '3';
+QUAD: '(' '4';
 LBRAC: '[';
 RBRAC: ']';
 LREPEAT: '|:' | '||:';
@@ -74,15 +75,15 @@ RREPEAT: ':|' | ':||';
 ONE_REPEAT : '[1';
 TWO_REPEAT: '[2';
 END_NOTES: '|]' | '||';
-PIPE: '|';
+PIPE: '|' | '[|';
 
 /*
  * These are the parser rules. They define the structures used by the parser.
  *
- * Each header field has its own rule. Notes, rests, tuplets, chords, and measures have 
- * their own respective rules. Repeats have their own rules as well, but to get the 
- * entire repeated measure, extract the token from measure.
- * A measure comsists of repeats, pipes, note elements, and has to end in a repeat,
+ * Each header field has its own rule. Notes, rests, duplets, triplets, quadruplet, 
+ * chords, and measures have their own respective rules. Repeats have their own 
+ * rules as well, but to get the entire repeated measure, extract the token from measure.
+ * A measure consists of repeats, pipes, note elements, and has to end in a repeat,
  * newline, pipe, or end note symbols.
  * Lyrics also have their own rule.
  *
@@ -103,9 +104,12 @@ field_key : KEY;
 abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
 measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
 
-note_element : note | rest | chord | tuplet;
+note_element : note | rest | chord | duplet | triplet | quadruplet;
 note: NOTE;
 rest: REST;
-tuplet : PAREN DIGIT (note|chord)+;
 chord : LBRAC note+ RBRAC;
 lyric: LYRIC;
+
+duplet: DUPLET (note|chord) (note|chord);
+triplet: TRIPLET (note|chord) (note|chord) (note|chord);
+quadruplet: QUAD (note|chord) (note|chord) (note|chord) (note|chord);
