@@ -200,6 +200,7 @@ public class LyricsParserTest {
 	public void simpleTest() {
 		String input = "A2! | * a *** a-b a--b a -b || ";
 		verifyWalk(input);
+		
 	}
 
 	/**
@@ -223,13 +224,14 @@ public class LyricsParserTest {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.lyric(); // "lyric" is the starter rule.
-		((RuleContext) tree).inspect(parser);
+//		((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 
 		ParseTreeWalker walker = new ParseTreeWalker();
 		LyricsListener listener = new LyricsListener();
 		walker.walk(listener, tree);
+		System.out.println(listener.getLyric());
 	}
 
 }

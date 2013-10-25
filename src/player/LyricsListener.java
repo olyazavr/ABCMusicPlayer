@@ -1,7 +1,7 @@
 package player;
 
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.List;
 
 import lyrics.LyricsBaseListener;
 import lyrics.LyricsParser;
@@ -13,48 +13,20 @@ import lyrics.LyricsParser;
  * 
  */
 public class LyricsListener extends LyricsBaseListener {
-	private Stack<Object> stack = new Stack<Object>();
-
-	// @Override
-	// public void enterEveryRule(ParserRuleContext ctx) {
-	// System.out.println("Enter: " + ctx.getClass().getSimpleName() + ": "
-	// + ctx.getText() + "END");
-	// }
-	//
-	// @Override
-	// public void exitEveryRule(ParserRuleContext ctx) {
-	// System.out.println("Exit: " + ctx.getClass().getSimpleName() + ": "
-	// + ctx.getText() + "END");
-	// }
-
-	@Override
-	public void enterLyric(LyricsParser.LyricContext ctx) {
-	}
-
-	@Override
-	public void exitLyric(LyricsParser.LyricContext ctx) {
-	}
+	private List<ArrayList<String>> arrayOfArrays = new ArrayList<ArrayList<String>>();
 
 	@Override
 	public void enterMeasure(LyricsParser.MeasureContext ctx) {
-		stack.add(new ArrayList<String>());
-	}
-
-	@Override
-	public void exitMeasure(LyricsParser.MeasureContext ctx) {
-	}
-
-	@Override
-	public void enterSyllable(LyricsParser.SyllableContext ctx) {
+		arrayOfArrays.add(new ArrayList<String>());
 	}
 
 	@Override
 	public void exitSyllable(LyricsParser.SyllableContext ctx) {
 
-		// get the working measure list
-		@SuppressWarnings("unchecked")
-		ArrayList<String> workingList = ((ArrayList<String>) stack
-				.lastElement());
+		// get the working measure list, there must be a measure so it's safe to
+		// ask for the last index by calling the size of the stack
+		ArrayList<String> workingList = ((ArrayList<String>) arrayOfArrays.get(arrayOfArrays
+				.size() - 1));
 		// one case of a syllable may contain a space, find it
 		String[] preSyllable = ctx.getText().split(" ");
 
@@ -66,17 +38,14 @@ public class LyricsListener extends LyricsBaseListener {
 			workingList.add("");
 		}
 
+		// every other case
 		else {
 			String syllable = preSyllable[0];
-			String syllableToPush;
 
 			if (workingList.size() > 0) {
 				// bring up the last syllable in the working measure
 				String lastElem = workingList.get(workingList.size() - 1);
 				if (lastElem.contains(" ") || lastElem.contains("\\-")) {
-					// remove the space or dash
-					String lastElemNoSpace = lastElem.substring(0,
-							lastElem.length() - 2);
 					// remove the last syllable and add a new one composed of
 					// two words with a space or dash in between (these are to
 					// be played under the same note)
@@ -85,23 +54,56 @@ public class LyricsListener extends LyricsBaseListener {
 				}
 			}
 
-			if (syllable.contains("*")) {
-				syllableToPush = "";
+			// case of word and tilde
+			if (syllable.contains("~")) {
+
+				String syllableSpace = syllable.replace("~", " ");
+				workingList.add(syllableSpace);
 			}
 
-			else if (syllable.contains("~")){
-
-				String syllableNoSymbol = syllable.replace("~"," ");
-				workingList.add(syllableNoSymbol);
+			// case of word and hyphen returns the word plus the dash and will
+			// have a word after this dash added in the next iteration of
+			// syllable
+			else if (syllable.contains("\\-")) {
+				String syllableDash = syllable.replace("\\-", "-");
+				workingList.add(syllableDash);
 			}
-			
-			else if(syllable.contains("\\-")) {
-				String syllableNoSymbol = syllable.replace("\\-"," ");
-				workingList.add(syllableNoSymbol);
+
+			// case of star just returns an empty string
+			else if (syllable.contains("*")) {
+				workingList.add("");
+			}
+
+			else if (syllable.contains("_")) {
+				// count how many underscores appear
+				int count = syllable.length()
+						- syllable.replace("_", "").length();
+				// now see if there are dashes
+				if (syllable.contains("-")) {
+
+					workingList.add(syllable.split("-")[0]);
+					for (int i = 0; i < count; i++) {
+						// an extension of a syllable will be shown by empty
+						// strings
+						workingList.add("");
+					}
+				}
+			}
+
+			// double dash case returns the word before the dashes and an empty
+			// string
+			else if (syllable.contains("--")) {
+				String noDash = syllable.replace("--", "");
+				workingList.add(noDash);
+				workingList.add("");
+			}
+
+			// last case of a hyphen it should just be stripped and the word at
+			// the beginning be added
+			else if (syllable.contains("-")) {
+				workingList.add(syllable.replace("-", ""));
 			}
 		}
-
-		// workingList.add(syllableToPush);
 	}
 
 	/**
@@ -109,8 +111,8 @@ public class LyricsListener extends LyricsBaseListener {
 	 * 
 	 * @return Lyric as measure lyric objects
 	 */
-	public Lyric getLyric() {
-		return (Lyric) stack.get(0);
+	public ArrayList<ArrayList<String>> getLyric() {
+		return (ArrayList<ArrayList<String>>) arrayOfArrays;
 	}
 
 }
