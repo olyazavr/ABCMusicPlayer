@@ -496,10 +496,16 @@ public class Listener extends ABCMusicBaseListener {
             ArrayList<String> lyricListFromStack = lyricStack.get(0);
 
             // get the syllables we need and delete them from the stack
-            for (int i = 0; i <= numNotes; ++i) {
+            for (int i = 0; i <= numNotes && !lyricListFromStack.isEmpty(); ++i) {
                 lyricList.add(lyricListFromStack.get(0));
                 lyricListFromStack.remove(0);
             }
+
+            // pad the measure with spaces to fill up to numNotes
+            while (lyricList.size() < numNotes) {
+                lyricList.add(" ");
+            }
+
             return new Lyric(lyricList);
         }
         // lyricStack may be empty if the piece doesn't have words
