@@ -216,14 +216,14 @@ public class MusicPartTest {
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
         MusicSymbol rest1 = new Rest(new Fraction(1));
-        MusicSymbol chord1 = new Chord(Arrays.asList((Pitch) pitch1, (Pitch) pitch2));
+        MusicSymbol chord1 = new Chord(Arrays.asList(pitch1, pitch2, rest1));
 
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
         Measure measure2 = new Measure(Arrays.asList(pitch1, chord1), lyric1);
 
         assertEquals(" b'1/1 ^a1/1 z1/1 |", measure1.toString());
-        assertEquals(" b'1/1 [b'1/1 ^a1/1] |", measure2.toString());
+        assertEquals(" b'1/1 [b'1/1 ^a1/1 z1/1] |", measure2.toString());
     }
 
     /**
@@ -235,7 +235,7 @@ public class MusicPartTest {
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
         MusicSymbol rest1 = new Rest(new Fraction(1));
-        MusicSymbol chord1 = new Chord(Arrays.asList((Pitch) pitch1, (Pitch) pitch2));
+        MusicSymbol chord1 = new Chord(Arrays.asList(pitch1, pitch2));
 
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, pitch1, rest1), lyric1);

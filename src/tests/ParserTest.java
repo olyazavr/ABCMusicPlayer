@@ -174,7 +174,7 @@ public class ParserTest {
         // Tuplets are turned into Pitches wih modified duration
         String input = "X:8628 \r\n T:Prelude BWV 846 no. 1 \r\n C:Johann Sebastian Bach "
                 + "\r\n M:4/4 \r\n L:1/16 \r\n Q:1/4=70 \r\n K:C \r\n "
-                + "% \r\n (2AB B dfdB dBGB DFED|[E16G16c16]|] \r\n";
+                + "% \r\n (2AB B dfdB dBGB DFED|[Z16G16c16]|] \r\n";
 
         // measure 1
         MusicSymbol pitch = new Pitch(new Fraction(3, 2), 'A', 0, 0);
@@ -188,7 +188,7 @@ public class ParserTest {
         Measure measure1 = new Measure(notes1, new Lyric(new ArrayList<String>()));
 
         // measure 2
-        List<Pitch> pitches = Arrays.asList(new Pitch(new Fraction(16), 'C', 1, 0), new Pitch(new Fraction(16), 'G', 0,
+        List<MusicSymbol> pitches = Arrays.asList(new Rest(new Fraction(16)), new Pitch(new Fraction(16), 'G', 0,
                 0), new Pitch(new Fraction(16), 'E', 0, 0));
         MusicSymbol chord = new Chord(pitches);
         List<MusicSymbol> notes2 = Arrays.asList(chord);
