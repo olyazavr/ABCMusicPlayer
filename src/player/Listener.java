@@ -102,7 +102,6 @@ public class Listener extends ABCMusicBaseListener {
             voiceRepeatMeasures.get(currentVoice).add(measure);
         }
 
-
         // clear and restart repeatedMeasures
         if (ctx.END_NOTES() != null) {
         	voiceRepeatMeasures.get(currentVoice).clear();
@@ -111,7 +110,6 @@ public class Listener extends ABCMusicBaseListener {
         System.out.println("adding Measure with " + musicSymbols.size() + " notes");
         currentVoiceStack.push(measure);
         
-          
         // add all the recorded repeatedMeasures if there's a repeat
         if (ctx.RREPEAT() != null) {
             currentVoiceStack.addAll(voiceRepeatMeasures.get(currentVoice));
@@ -147,7 +145,6 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void enterField_voice(ABCMusicParser.Field_voiceContext ctx) {
-
         // we could either be in the header or in the body. We only care for the
         // body. If we are not in the header, the stack should have something in
         // it already.
@@ -164,10 +161,8 @@ public class Listener extends ABCMusicBaseListener {
                 System.out.println("adding Voice stack " + voiceName);
                 voices.put(voiceName, stack);
                 voiceRepeatMeasures.put(voiceName,list);
-                
             }
         }
-
     }
 
     /**
@@ -319,7 +314,7 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     /**
-     * Add Rest.
+     * Add Rest
      */
     @Override
     public void exitRest(ABCMusicParser.RestContext ctx) {
@@ -388,7 +383,6 @@ public class Listener extends ABCMusicBaseListener {
 
         // if we found length, set it
         if (!lengthString.isEmpty()) {
-            System.out.println(lengthString);
             length = new Fraction(lengthString);
         }
 
@@ -398,7 +392,7 @@ public class Listener extends ABCMusicBaseListener {
             if (accidentals.containsKey(noteOctave)) {
                 accidental += accidentals.get(noteOctave);
             } else {
-                accidental += Scales.adjustKey(noteOctave, key);
+                accidental += Scales.adjustKey(String.valueOf(value), key);
             }
         } else {
             accidentals.put(noteOctave, accidental);

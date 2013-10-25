@@ -255,25 +255,25 @@ public class MusicPartTest {
 
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
-        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
         MusicSymbol rest1 = new Rest(new Fraction(1));
 
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
-        Lyric lyric2 = new Lyric(Arrays.asList("A!!", "B123"));
 
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
-        Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric2);
-        Measure measure3 = new Measure(Arrays.asList(pitch2, pitch3, pitch1), lyric1);
+        Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
 
-        Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure3));
-        Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure3));
+        Voice voice1 = new Voice("name1", Arrays.asList(measure1));
+        Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure2));
         Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure2));
 
-        MusicPiece music1 = new MusicPiece(sig1, Arrays.asList(voice1, voice2, voice3));
+        MusicPiece music1 = new MusicPiece(sig1, Arrays.asList(voice1));
         MusicPiece music2 = new MusicPiece(sig2, Arrays.asList(voice2, voice1, voice3));
 
-        assertEquals(music1.hashCode(), music1.hashCode()); // reflexive
-        assertEquals(music1.hashCode(), music2.hashCode());
+        assertEquals(
+                "T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one] \n K: C \n "
+                        + "b'1/1 ^a1/1 z1/1 |]",
+                music1.toString());
+        assertEquals("", music2.toString());
     }
 
 }

@@ -45,9 +45,9 @@ public class MusicPiece implements MusicPart {
         }
         return LCM;
     }
-    
-    public int getPlayerTempo(int ticksPerBeat){
-    	return signature.getPlayerTempo(ticksPerBeat);
+
+    public int getPlayerTempo(int ticksPerBeat) {
+        return signature.getPlayerTempo(ticksPerBeat);
     }
 
     @Override
@@ -64,13 +64,17 @@ public class MusicPiece implements MusicPart {
     }
 
     /**
-     * Returns the signature followed by a list of voices
+     * Returns the signature followed by the voices' measures
      * 
      * @return the string representation of a MusicPiece
      */
     @Override
     public String toString() {
-        return signature.toString() + " \n " + voices.toString();
+        String voicesString = voices.toString();
+        // remove the [ and ] from the voices string
+        voicesString.substring(1, voicesString.length() - 1);
+
+        return signature.toString() + " \n " + voicesString;
     }
 
     @Override

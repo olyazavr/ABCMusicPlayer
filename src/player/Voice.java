@@ -56,11 +56,17 @@ public class Voice implements MusicPart {
         return this.measures.equals(that.measures) && this.name.equals(that.name);
     }
     
+    /**
+     * Represents the Voice as measures with an end of notes |] symbol at the
+     * end
+     * 
+     * @return the string representation of the Voice
+     */
     @Override
     public String toString(){
-    	String voiceString=new String(" ");
+        StringBuilder voiceString = new StringBuilder("");
     	for (Measure m: measures){
-    		voiceString+=m.toString();
+            voiceString.append(m.toString());
     	}
     	return voiceString+"]";
     }
