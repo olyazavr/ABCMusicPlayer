@@ -1,7 +1,7 @@
 package player;
 
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.Queue;
 
 import lyrics.LyricsBaseListener;
 import lyrics.LyricsParser;
@@ -13,7 +13,7 @@ import lyrics.LyricsParser;
  * 
  */
 public class LyricsListener extends LyricsBaseListener {
-	private Stack<Object> stack = new Stack<Object>();
+	private Queue<Object> queue = new Queue<Object>();
 	private int measureNum = 0;
 
 //	@Override
@@ -53,6 +53,7 @@ public class LyricsListener extends LyricsBaseListener {
 	@Override
 	public void exitSyllable(LyricsParser.SyllableContext ctx) {
 		System.out.println(ctx.getText());
+		stack.pop()
 	}
 
 	/**
