@@ -90,8 +90,6 @@ public class Measure implements MusicPart {
      * Returns the notes, with spaces, followed by a pipe. Lyrics are not
      * printed.
      * 
-     * TODO: should we put lyrics?
-     * 
      * @return the string representation of a Measure
      */
     @Override

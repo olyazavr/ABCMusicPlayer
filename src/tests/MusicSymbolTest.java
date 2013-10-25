@@ -17,13 +17,17 @@ import utils.Fraction;
  * calculateTicksPerBeat() for the classes in the MusicSymbol interface.
  * 
  * Moreover, we test the particular methods of the classes that implement the
- * interface: Chord: multiplyLength(), Pitch: multiplyLength(), getLength().
+ * interface: Pitch: multiplyLength(), getLength(), Chord: multiplyLength().
  * 
  * Testing strategy: test each method and make sure it is true to its spec for
  * every valid type of input. equals() must return true on equal objects, and
  * false on unequal objects. toString() must provide the appropriate string
  * representation of the object. hashCode() must return a hashcode that is the
  * same for equal objects.
+ * 
+ * For Pitch, make sure everything works correctly regardless of how many
+ * modifiers there are (partition on that), and same for Rest (it only has
+ * duration). For Chord, partition on the number of Pitches it has.
  * 
  */
 
@@ -33,7 +37,7 @@ public class MusicSymbolTest {
      * Test Pitch equals()
      */
     @Test
-    public void testEqualsPitchTest() {
+    public void equalsPitchTest() {
         Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
         Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
         Pitch pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
@@ -49,7 +53,7 @@ public class MusicSymbolTest {
      * Test Rest equals()
      */
     @Test
-    public void testEqualsRestTest() {
+    public void equalsRestTest() {
         Rest rest1 = new Rest(new Fraction(1));
         Rest rest2 = new Rest(new Fraction(1));
         Rest rest3 = new Rest(new Fraction(2, 3));
@@ -63,7 +67,7 @@ public class MusicSymbolTest {
      * Test Chord equals()
      */
     @Test
-    public void testEqualsChordTest() {
+    public void equalsChordTest() {
         Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
         Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
         Pitch pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
@@ -82,7 +86,7 @@ public class MusicSymbolTest {
      * Test Pitch hashCode()
      */
     @Test
-    public void testHashcodePitchTest() {
+    public void hashCodePitchTest() {
         Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
         Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
 
@@ -94,7 +98,7 @@ public class MusicSymbolTest {
      * Test Rest hashCode()
      */
     @Test
-    public void testHashcodeRestTest() {
+    public void hashCodeRestTest() {
         Rest rest1 = new Rest(new Fraction(1));
         Rest rest2 = new Rest(new Fraction(1));
 
@@ -106,7 +110,7 @@ public class MusicSymbolTest {
      * Test Chord hashCode()
      */
     @Test
-    public void testHashcodeChordTest() {
+    public void hashCodeChordTest() {
         Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
         Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
         Pitch pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
@@ -125,7 +129,7 @@ public class MusicSymbolTest {
      * Test Pitch toString()
      */
     @Test
-    public void testToStringPitchTest() {
+    public void toStringPitchTest() {
         // flat is _, sharp is ^, octave up is first lowercase and then with ',
         // octave down has ,
         Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
@@ -141,7 +145,7 @@ public class MusicSymbolTest {
      * Test Rest toString()
      */
     @Test
-    public void testToStringRestTest() {
+    public void toStringRestTest() {
         Rest rest1 = new Rest(new Fraction(1));
         Rest rest2 = new Rest(new Fraction(2, 3));
 
@@ -153,7 +157,7 @@ public class MusicSymbolTest {
      * Test Chord toString()
      */
     @Test
-    public void testToStringChordTest() {
+    public void toStringChordTest() {
         Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
         Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
         Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
@@ -163,6 +167,63 @@ public class MusicSymbolTest {
 
         assertEquals("[^a'1/2]", chord1.toString());
         assertEquals("[_d2/3 ^a'1/2 C,1/1]", chord2.toString());
+    }
+
+    /**
+     * Test Pitch's getLength(), should return the Fraction that represents its
+     * duration
+     */
+    @Test
+    public void getLengthPitchTest() {
+        Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
+        Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
+        Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+
+        assertEquals(new Fraction(2, 3), pitch1.getLength());
+        assertEquals(new Fraction(1, 2), pitch2.getLength());
+        assertEquals(new Fraction(1), pitch3.getLength());
+    }
+
+    /**
+     * Test Pitch's multiplyLength(), should return a Pitch with the length
+     * multiplied by the desired Fraction (modifiers not modified otherwise)
+     */
+    @Test
+    public void multiplyLengthPitchTest() {
+        Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
+        Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
+        Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+
+        // we will never multiply by negatives or zero
+        assertEquals(new Pitch(new Fraction(2, 3), 'D', 1, -2), pitch1.multiplyLength(new Fraction(1)));
+        assertEquals(new Pitch(new Fraction(1, 4), 'A', 2, 1), pitch2.multiplyLength(new Fraction(1, 2)));
+        assertEquals(new Pitch(new Fraction(1), 'C', -1, 0), pitch3.multiplyLength(new Fraction(4, 4)));
+    }
+
+    /**
+     * Test Chord's multiplyLength(), should return a Chord with its Pitches'
+     * lengths multiplied by the desired Fraction (no modifiers modified
+     * otherwise)
+     */
+    @Test
+    public void multiplyLengthChordTest() {
+        Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
+        Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
+        Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+
+        Chord chord1 = new Chord(Arrays.asList(pitch2));
+        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3));
+
+        Pitch pitch4 = new Pitch(new Fraction(1, 6), 'D', 1, -2); // pitch1*1/4
+        Pitch pitch5 = new Pitch(new Fraction(1, 8), 'A', 2, 1); // pitch2*1/4
+        Pitch pitch6 = new Pitch(new Fraction(1, 4), 'C', -1, 0); // pitch3*1/4
+
+        Chord chord3 = new Chord(Arrays.asList(pitch2));
+        Chord chord4 = new Chord(Arrays.asList(pitch4, pitch5, pitch6));
+
+        // we will never multiply by negatives or zero
+        assertEquals(chord3, chord1.multiplyLength(new Fraction(1)));
+        assertEquals(chord4, chord2.multiplyLength(new Fraction(1, 4)));
     }
 
 }

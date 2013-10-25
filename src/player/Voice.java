@@ -58,7 +58,7 @@ public class Voice implements MusicPart {
     
     /**
      * Represents the Voice as measures with an end of notes |] symbol at the
-     * end
+     * end. Lyrics are not printed.
      * 
      * @return the string representation of the Voice
      */

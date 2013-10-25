@@ -72,9 +72,9 @@ public class MusicPiece implements MusicPart {
     public String toString() {
         String voicesString = voices.toString();
         // remove the [ and ] from the voices string
-        voicesString.substring(1, voicesString.length() - 1);
+        voicesString = voicesString.substring(1, voicesString.length() - 1);
 
-        return signature.toString() + " \n " + voicesString;
+        return signature.toString() + " \n" + voicesString;
     }
 
     @Override

@@ -67,8 +67,13 @@ public class Pitch implements MusicSymbol {
         return new Pitch(newLength, value, octave, accidental);
     }
 
-    // TODO: Document this shit
+    /**
+     * Gets duration of the pitch
+     * 
+     * @return the Fraction that represents the note length
+     */
     public Fraction getLength() {
+        // Fraction is immutable, so this is ok
         return length;
     }
 

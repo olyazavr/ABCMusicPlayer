@@ -30,7 +30,8 @@ public class Lyric {
     }
 
     /**
-     * Simply returns the syllable at the index requested.
+     * Simply returns the syllable at the index requested. Requires that the
+     * index requested is less than the size of the syllables list.
      * 
      * @param i
      *            index of syllable to return
@@ -62,11 +63,17 @@ public class Lyric {
     }
 
     /**
-     * Returns ??
+     * Returns the syllables separated by spaces
+     * 
+     * @return the string representation of the Lyric
      */
     @Override
     public String toString() {
-        return syllables.toString();
+        StringBuilder lyricString = new StringBuilder("");
+        for (String s : syllables) {
+            lyricString.append(s + " ");
+        }
+        return lyricString.toString().trim();
     }
 
     @Override
