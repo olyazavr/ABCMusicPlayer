@@ -41,9 +41,6 @@ public class Chord implements MusicSymbol {
         }
     }
 
-    /**
-     * TODO: description of method
-     */
     public int calculateTicksPerBeat() {
         int LCM = 1;
         for (Pitch pitch : notes) {

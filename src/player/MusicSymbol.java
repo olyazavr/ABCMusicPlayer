@@ -27,6 +27,14 @@ public interface MusicSymbol extends Music {
     public void addNote(MusicPlayer player, String syllable);
 
     /**
+     * Calculates the required number of ticks per beat, so that each note can
+     * be represented as an integer number of ticks.
+     * 
+     * @return integer representing number of ticks per beat.
+     */
+    public int calculateTicksPerBeat();
+
+    /**
      * Tests the equality of one MusicSymbol to to another, such that two
      * expressions with equal attributes (observationally indistinguishable) are
      * considered equal

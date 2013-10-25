@@ -10,10 +10,11 @@ package player;
  **/
 
 /*
- * Representation Music = MusicPiece(signature:Signature, voices:List<Voice>) +
- * Voice(notes: List<MusicSymbol>, lyrics: Lyric) + Chord(notes: List<Pitch>)+ +
- * Lyric(syllables: List<String>) + Pitch(value: string, octave: int, length:
- * int) + Rest(length: int)
+ * Representation Music = MusicPiece(signature: Signature, voices: List<Voice>)
+ * + Measure(notes: List<MusicSymbol>, lyrics: Lyric) + Voice(name: String,
+ * measures: List<Measure>) + Chord(notes: List<Pitch>)+ + Lyric(syllables:
+ * List<String>) + Pitch(value: string, octave: int, length: int) + Rest(length:
+ * int)
  */
 
 public interface Music {
