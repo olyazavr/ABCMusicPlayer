@@ -166,7 +166,6 @@ public class Scales {
 		F.put("B", "flat");
 		SCALES.put("F", F);
 		DM.put("B", "flat");
-		;
 		SCALES.put("Dm", DM);
 	}
 
