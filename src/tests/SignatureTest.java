@@ -20,6 +20,9 @@ import utils.Fraction;
  * representation of the object. hashCode() must return a hashcode that is the
  * same for equal objects.
  * 
+ * There is very little to partition here, but we can partition on the number of
+ * voices the signature has (none is not an option).
+ * 
  */
 
 public class SignatureTest {
@@ -35,7 +38,7 @@ public class SignatureTest {
         Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig3 = new Signature("title2", "composer1", new Fraction(2, 2), new Fraction(1, 2),
-                new Fraction(1, 8), "Am", Arrays.asList("one"));
+                new Fraction(1, 8), "Am", Arrays.asList("one", "two"));
 
         assertEquals(sig1, sig1); // reflexive
         assertEquals(sig1, sig2);
@@ -64,9 +67,10 @@ public class SignatureTest {
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
-                new Fraction(1, 8), "C", Arrays.asList("one"));
+                new Fraction(1, 8), "C", Arrays.asList("one", "two", "three"));
 
         assertEquals("T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one] \n K: C", sig1.toString());
-        assertEquals(sig1.hashCode(), sig2.hashCode());
+        assertEquals("T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one, two, three] \n K: C",
+                sig2.toString());
     }
 }

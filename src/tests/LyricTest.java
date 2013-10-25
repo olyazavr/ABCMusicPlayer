@@ -22,6 +22,9 @@ import player.Lyric;
  * representation of the object. hashCode() must return a hashcode that is the
  * same for equal objects.
  * 
+ * Partition on complexity, and how many things the syllables list has (and the
+ * strange possibilities that the syllables can be, like spaces and strange
+ * characters).
  */
 
 public class LyricTest {
@@ -34,7 +37,7 @@ public class LyricTest {
     public void equalsTest() {
         Lyric lyric1 = new Lyric(Arrays.asList("A", "B123", " "));
         Lyric lyric2 = new Lyric(Arrays.asList("A", "B123", " "));
-        Lyric lyric3 = new Lyric(Arrays.asList("C", "B"));
+        Lyric lyric3 = new Lyric(new ArrayList<String>());
 
         assertEquals(lyric1, lyric1); // reflexive
         assertEquals(lyric1, lyric2);
@@ -99,7 +102,6 @@ public class LyricTest {
         assertEquals(11, lyric1.getNumberOfSyllables());
         assertEquals(1, lyric2.getNumberOfSyllables()); // has a space
         assertEquals(0, lyric3.getNumberOfSyllables()); // is actually empty
-                                                        // getSyllable
     }
 
     /**

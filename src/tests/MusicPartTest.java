@@ -34,6 +34,10 @@ import utils.Fraction;
  * representation of the object. hashCode() must return a hashcode that is the
  * same for equal objects.
  * 
+ * Partition on complexity and modifiers, make sure things that have lists can
+ * handle the lists being with only one object, none, or more than one (some
+ * things can't have none, however).
+ * 
  */
 
 public class MusicPartTest {
@@ -50,7 +54,7 @@ public class MusicPartTest {
 
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
         Lyric lyric2 = new Lyric(Arrays.asList("A!!", "B123"));
-        Lyric lyric3 = new Lyric(Arrays.asList("C", "B"));
+        Lyric lyric3 = new Lyric(new ArrayList<String>());
 
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
         Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric2);
