@@ -89,8 +89,8 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void californicationTest() {
-		Main.play("sample_abc/californication.abc");
+	public void dreamOnMusicTest() {
+		Main.play("songs_abc/dreamOnMusic.abc");
 	}
 
 	@Test
