@@ -34,7 +34,16 @@ public class Rest implements MusicSymbol {
     public int calculateTicksPerBeat() {
         return length.getDenominator();
     }
+    
+    public Fraction getLength() {
+        return length;
+    }
 
+    public Rest multiplyLength(Fraction factor) {
+        Fraction newLength = length.multiply(factor);
+        return new Rest(newLength);
+    }
+    
     @Override
     public boolean equals(Object _that) {
         // two objects can only be equal if they are of the same type

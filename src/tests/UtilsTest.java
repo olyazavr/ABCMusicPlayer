@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import player.Pitch;
 import utils.Fraction;
+import utils.NumberTheory;
 
 /**
  * This is the test suite for the Utils auxiliary functions. It starts by
@@ -176,4 +177,94 @@ public class UtilsTest {
 		Fraction frac2 = new Fraction("/8");
 		assertTrue(frac1.equals(frac2));	
 	}
+	
+	/*
+	 * Test the GCD method from NumberTheory class.
+	 * Strategy: test for cases
+	 * a>b,a<b
+	 * b|a, a|b
+	 * a=0
+	 * a,b=1
+	 * a,b- prime
+	 * (a,b)=1
+	 * (a,b)/=1
+	 */
+	
+	@Test
+	public void gcdEqualNumberTest() {
+		assertEquals(6,NumberTheory.gcd(6, 6));	
+	}
+	
+	@Test
+	public void gcdA1Test() {
+		assertEquals(1,NumberTheory.gcd(1, 16));	
+	}
+	
+	@Test
+	public void gcdPrimesNumbersTest() {
+		assertEquals(1,NumberTheory.gcd(13, 29));	
+	}
+	
+	@Test
+	public void gcdZeroTest() {
+		assertEquals(8,NumberTheory.gcd(0, 8));	
+	}
+	
+	@Test
+	public void gcdOneDividesTheOtherTest() {
+		assertEquals(18,NumberTheory.gcd(54, 18));	
+	}
+	
+	@Test
+	public void gcdDivisorNotOneTest() {
+		assertEquals(11,NumberTheory.gcd(22, 99));	
+	}
+	
+	@Test
+	public void gcdDivisorOneTest() {
+		assertEquals(1,NumberTheory.gcd(35, 8));	
+	}
+	
+	/*
+	 * Test the LCM method from NumberTheory class.
+	 * Strategy: test for cases
+	 * a>b,a<b
+	 * b|a, a|b
+	 * a,b=1
+	 * a,b>1
+	 * gcd(a,b)=1
+	 * gcd(a,b)/=1
+	 */
+	
+	@Test
+	public void lcmEqualNumberTest() {
+		assertEquals(6,NumberTheory.lcm(6, 6));	
+	}
+	
+	@Test
+	public void lcmA1Test() {
+		assertEquals(16,NumberTheory.lcm(1, 16));	
+	}
+	
+	@Test
+	public void lcmPrimesNumbersTest() {
+		assertEquals(377,NumberTheory.lcm(13, 29));	
+	}
+	
+		
+	@Test
+	public void lcmOneDividesTheOtherTest() {
+		assertEquals(54,NumberTheory.lcm(54, 18));	
+	}
+	
+	@Test
+	public void lcmDivisorNotOneTest() {
+		assertEquals(198,NumberTheory.lcm(22, 99));	
+	}
+	
+	@Test
+	public void lcmDivisorOneTest() {
+		assertEquals(280,NumberTheory.lcm(35, 8));	
+	}
+	
 }

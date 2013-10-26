@@ -55,25 +55,14 @@ public class Pitch implements MusicSymbol {
         }
     }
 
-    /**
-     * Creates a copy of the note with length multiplied by factor
-     * 
-     * @param factor
-     *            is a valid Fraction
-     * @return note with the new length
-     */
+    
     public Pitch multiplyLength(Fraction factor) {
         Fraction newLength = length.multiply(factor);
         return new Pitch(newLength, value, octave, accidental);
     }
 
-    /**
-     * Gets duration of the pitch
-     * 
-     * @return the Fraction that represents the note length
-     */
+   
     public Fraction getLength() {
-        // Fraction is immutable, so this is ok
         return length;
     }
 

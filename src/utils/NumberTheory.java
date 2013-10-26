@@ -4,7 +4,7 @@ public class NumberTheory {
 	public static int gcd(int a, int b) {
 		int t=0; int A=a; int B=b;
 		if (A==0){
-			return 1;
+			return b;
 		}
 		while (B!=0){
 			t=B;

@@ -43,18 +43,18 @@ public class Fraction {
 	 */
 	public Fraction(String frac) {
 		int n = 1, d = 1;
-		String fraction=frac.trim();
-		if (fraction.charAt(0)=='/'){
-			fraction="1"+fraction;
+		String fraction = frac.trim();
+		if (fraction.charAt(0) == '/') {
+			fraction = "1" + fraction;
 		}
-		if (fraction.charAt(fraction.length()-1)=='/'){
-			fraction+="2";
+		if (fraction.charAt(fraction.length() - 1) == '/') {
+			fraction += "2";
 		}
 		String[] elementsFrac = fraction.trim().split("/");
-		n = Integer.parseInt(elementsFrac[0]);	
-		if (elementsFrac.length==2){
-			d = Integer.parseInt(elementsFrac[1]);			
-		}		
+		n = Integer.parseInt(elementsFrac[0]);
+		if (elementsFrac.length == 2) {
+			d = Integer.parseInt(elementsFrac[1]);
+		}
 		int gcd = NumberTheory.gcd(n, d);
 		this.numerator = n / gcd;
 		this.denominator = d / gcd;
@@ -70,24 +70,34 @@ public class Fraction {
 
 	/**
 	 * Converts this fraction to a string format: "numerator/denominator."
-	 * Fractions are printed in reduced form and are simplified for abc 
-	 * format, e.g. "1/1"="";
+	 * Fractions are printed in reduced form and are simplified for abc format,
+	 * e.g. "1/1"="";
 	 * 
 	 * @return a String representation of this Fraction.
 	 */
 	public String toString() {
 		String numeratorString, denominatorString, barString;
-		numeratorString=""+numerator;
-		denominatorString=""+denominator;
-		barString="/";
-		if (denominator==1){
-			denominatorString="";
-			barString=""; 
+		numeratorString = "" + numerator;
+		denominatorString = "" + denominator;
+		barString = "/";
+		if (denominator == 1) {
+			denominatorString = "";
+			barString = "";
 		}
-		if (numerator==1){
-			numeratorString="";
+		if (numerator == 1) {
+			numeratorString = "";
 		}
-		return numeratorString+  barString+denominatorString;
+		return numeratorString + barString + denominatorString;
+	}
+
+	/**
+	 * Tells wheter the current fraction is smaller than the given one
+	 * 
+	 * @return a boolean
+	 */
+	public boolean lessEqual(Fraction f2) {
+
+		return (this.evaluate() <= f2.evaluate());
 	}
 
 	/**
@@ -165,8 +175,8 @@ public class Fraction {
 			return false;
 	}
 
-    @Override
-    public int hashCode() {
-        return (int) evaluate();
-    }
+	@Override
+	public int hashCode() {
+		return (int) evaluate();
+	}
 }
