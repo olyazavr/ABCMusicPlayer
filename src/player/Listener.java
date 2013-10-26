@@ -142,7 +142,6 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitLine(ABCMusicParser.LineContext ctx) {
-        System.out.println("exiting line");
         // loop through each measure's worth of MusicSymbols
         for (List<MusicSymbol> musicSymbols : musicSymbolPerMeasure) {
 
@@ -164,6 +163,8 @@ public class Listener extends ABCMusicBaseListener {
             Stack<Measure> currentStack = voices.get(currentVoice);
             currentStack.push(measure);
         }
+
+        musicSymbolPerMeasure.clear();
     }
 
     /**
