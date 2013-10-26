@@ -85,22 +85,38 @@ public class ParserTest {
                 + "w:Q R S *   T U V  W~(dou-ble u) | X Y Z \r\n ";
 
         // measure 1
-        List<MusicSymbol> notes1 = Arrays.asList(new Rest(new Fraction(4)), new Pitch(new Fraction(2), 'D', 0, 0));
-        List<String> syllables1 = Arrays.asList("A");
+        MusicSymbol pitch = new Pitch(new Fraction(1), 'A', 0, 0);
+        List<MusicSymbol> notes1 = Arrays.asList(pitch, new Pitch(new Fraction(1), 'A', 0, 0), new Pitch(
+                new Fraction(1), 'G', 0, 0), new Pitch(new Fraction(1), 'F', 0, 1));
+        List<String> syllables1 = Arrays.asList("Q", "R", "S", "");
         Measure measure1 = new Measure(notes1, new Lyric(syllables1));
 
         // measure 2
-        MusicSymbol pitch = new Pitch(new Fraction(4), 'G', 0, 0);
-        List<MusicSymbol> notes2 = Arrays.asList(pitch, new Pitch(new Fraction(1), 'B', 0, 0), new Pitch(
-                new Fraction(1), 'G', 0, 0));
-        List<String> syllables2 = Arrays.asList("ma-", "zing");
+        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'F', 0, 1);
+        List<MusicSymbol> notes2 = Arrays.asList(pitch2, new Pitch(new Fraction(1), 'F', 0, 1), new Pitch(
+                new Fraction(2), 'E', 0, 0));
+        List<String> syllables2 = Arrays.asList("T", "U", "V");
         Measure measure2 = new Measure(notes2, new Lyric(syllables2));
 
-        List<Measure> measures = Arrays.asList(measure1, measure2);
+        // measure 3
+        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'A', 0, 0);
+        List<MusicSymbol> notes3 = Arrays.asList(pitch3, new Pitch(new Fraction(1), 'A', 0, 0), new Pitch(
+                new Fraction(1), 'G', 0, 0), new Pitch(new Fraction(1), 'G', 0, 0));
+        List<String> syllables3 = Arrays.asList("W (dou-", "ble", "u)");
+        Measure measure3 = new Measure(notes3, new Lyric(syllables3));
+
+        // measure 4
+        MusicSymbol pitch4 = new Pitch(new Fraction(1), 'F', 0, 1);
+        List<MusicSymbol> notes4 = Arrays.asList(pitch4, new Pitch(new Fraction(1), 'F', 0, 1), new Pitch(
+                new Fraction(2), 'E', 0, 0));
+        List<String> syllables4 = Arrays.asList("X", "T", "Z");
+        Measure measure4 = new Measure(notes4, new Lyric(syllables4));
+
+        List<Measure> measures = Arrays.asList(measure1, measure2, measure3, measure4);
         List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
         List<String> voiceNames = Arrays.asList("defaultVoice");
-        MusicPiece expected = new MusicPiece(new Signature("Piece No.3", "Unknown", new Fraction(1, 8), new Fraction(
-                3, 4), new Fraction(100, 8), "C", voiceNames), voices);
+        MusicPiece expected = new MusicPiece(new Signature("Alphabet Song", "Traditional Kid's Song",
+                new Fraction(1, 4), new Fraction(4, 4), new Fraction(100, 4), "D", voiceNames), voices);
 
         MusicPiece output = Main.stringToMusicPiece(input);
 
