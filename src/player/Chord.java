@@ -37,18 +37,20 @@ public class Chord implements MusicSymbol {
 
 	@Override
 	public void addNote(MusicPlayer player, String syllable) {
-
+		//add the syllable if it exists for this note
+		if (!syllable.isEmpty()) {
+			player.addLyric(syllable);
+		}
+		
 		for (MusicSymbol note : notes) {
 			//add the note to the player
 			note.addNote(player, new String());
-			//substract the length to go back
+			//Subtract the length to go back
 			player.addTime(note.getLength().multiply(-1));
 		}
 		//add the actual length of the cord
 		player.addTime(length);
-		if (!syllable.isEmpty()) {
-			player.addLyric(syllable);
-		}
+		
 	}
 
 	@Override

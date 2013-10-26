@@ -39,7 +39,6 @@ public class Main {
         int tempo = music.getPlayerTempo(ticksPerBeat);
 
         // Try to play this, it may throw if it can't read the MIDI
-
         MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
         music.addNotes(player);
         player.play();

@@ -41,18 +41,20 @@ public class Pitch implements MusicSymbol {
         this.accidental = accidental;
     }
 
-    @Override
+   
     public void addNote(MusicPlayer player, String syllable) {
-
+    	 
+    	if (!syllable.isEmpty()) {
+             player.addLyric(syllable);
+         }
+    	 
         sound.Pitch pitch = new sound.Pitch(value);
         pitch = pitch.transpose(accidental).octaveTranspose(octave);
 
         player.addNote(pitch.toMidiNote(), length);
         player.addTime(length);
 
-        if (!syllable.isEmpty()) {
-            player.addLyric(syllable);
-        }
+       
     }
 
     
