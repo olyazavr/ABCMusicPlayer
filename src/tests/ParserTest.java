@@ -116,7 +116,7 @@ public class ParserTest {
 
         // measure 1, this is repeated
         List<MusicSymbol> notes1 = Arrays.asList(new Pitch(new Fraction(1), 'E', -2, 0), new Pitch(new Fraction(1),
-                'E', -1, 0), new Pitch(new Fraction(1), 'G', 0, 1), new Rest(new Fraction(1)),
+                'E', -1, 0), new Pitch(new Fraction(1), 'G', -1, 1), new Rest(new Fraction(1)),
                 new Rest(new Fraction(2)));
         Measure measure1 = new Measure(notes1, new Lyric(new ArrayList<String>()));
 
@@ -146,7 +146,7 @@ public class ParserTest {
 
         // measure 1, this is repeated
         List<MusicSymbol> notes1 = Arrays.asList(new Pitch(new Fraction(1), 'E', -2, 0), new Pitch(new Fraction(1),
-                'E', -1, 0), new Pitch(new Fraction(1), 'G', 0, 1), new Rest(new Fraction(1)),
+                'E', -1, 0), new Pitch(new Fraction(1), 'G', -1, 1), new Rest(new Fraction(1)),
                 new Rest(new Fraction(2)));
         Measure measure1 = new Measure(notes1, new Lyric(new ArrayList<String>()));
 
@@ -157,7 +157,7 @@ public class ParserTest {
 
         List<Measure> measures = Arrays.asList(measure1);
         List<Measure> measures2 = Arrays.asList(measure2);
-        List<Voice> voices = Arrays.asList(new Voice("1", measures), new Voice("2", measures2));
+        List<Voice> voices = Arrays.asList(new Voice("2", measures2), new Voice("1", measures));
         List<String> voiceNames = Arrays.asList("1", "2");
         MusicPiece expected = new MusicPiece(new Signature("Bagatelle No.25 in A, WoO.59", "Ludwig van Beethoven",
                 new Fraction(1, 16), new Fraction(
@@ -171,7 +171,7 @@ public class ParserTest {
     @Test
     public void chordsTupletsTest() {
         // Test chords and tuplets (comments are also present, but ignored)
-        // Tuplets are turned into Pitches wih modified duration
+        // Tuplets are turned into Pitches with modified duration
         String input = "X:8628 \r\n T:Prelude BWV 846 no. 1 \r\n C:Johann Sebastian Bach "
                 + "\r\n M:4/4 \r\n L:1/16 \r\n Q:1/4=70 \r\n K:C \r\n "
                 + "% \r\n (2AB B dfdB dBGB DFED|[Z16G16c16]|] \r\n";
@@ -188,8 +188,10 @@ public class ParserTest {
         Measure measure1 = new Measure(notes1, new Lyric(new ArrayList<String>()));
 
         // measure 2
-        List<MusicSymbol> pitches = Arrays.asList(new Rest(new Fraction(16)), new Pitch(new Fraction(16), 'G', 0,
-                0), new Pitch(new Fraction(16), 'E', 0, 0));
+        // notes inside chords get added backwards (doesn't matter because they
+        // all play at once)
+        List<MusicSymbol> pitches = Arrays.asList(new Pitch(new Fraction(16), 'C', 1, 0), new Pitch(new Fraction(16),
+                'G', 0, 0), new Rest(new Fraction(16)));
         MusicSymbol chord = new Chord(pitches);
         List<MusicSymbol> notes2 = Arrays.asList(chord);
         Measure measure2 = new Measure(notes2, new Lyric(new ArrayList<String>()));

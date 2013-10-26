@@ -83,9 +83,9 @@ public class MusicPartTest {
         Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric2);
         Measure measure3 = new Measure(Arrays.asList(pitch2, pitch3, pitch1), lyric1);
 
-        Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure3));
-        Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure3));
-        Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure2));
+        Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure1));
+        Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure2));
+        Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure3));
 
         assertEquals(voice1, voice1); // reflexive
         assertEquals(voice1, voice2);
@@ -116,9 +116,9 @@ public class MusicPartTest {
         Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric2);
         Measure measure3 = new Measure(Arrays.asList(pitch2, pitch3, pitch1), lyric1);
 
-        Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure3));
-        Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure3));
-        Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure2));
+        Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure1));
+        Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure2));
+        Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure3));
 
         MusicPiece music1 = new MusicPiece(sig1, Arrays.asList(voice1, voice2, voice3));
         MusicPiece music2 = new MusicPiece(sig2, Arrays.asList(voice2, voice1, voice3));
@@ -222,8 +222,8 @@ public class MusicPartTest {
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
         Measure measure2 = new Measure(Arrays.asList(pitch1, chord1), lyric1);
 
-        assertEquals(" b'1/1 ^a1/1 z1/1 |", measure1.toString());
-        assertEquals(" b'1/1 [b'1/1 ^a1/1 z1/1] |", measure2.toString());
+        assertEquals(" b' ^a z |", measure1.toString());
+        assertEquals(" b' [b' ^a z] |", measure2.toString());
     }
 
     /**
@@ -244,8 +244,8 @@ public class MusicPartTest {
         Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure2));
         Voice voice2 = new Voice("name2", Arrays.asList(measure1));
 
-        assertEquals(" b'1/1 ^a1/1 b'1/1 z1/1 | _d1/1 [b'1/1 ^a1/1] [b'1/1 ^a1/1] |]", voice1.toString());
-        assertEquals(" b'1/1 ^a1/1 b'1/1 z1/1 |]", voice2.toString());
+        assertEquals("name1: b' ^a b' z | _d [b' ^a] [b' ^a] |]", voice1.toString());
+        assertEquals("name2: b' ^a b' z |]", voice2.toString());
     }
 
     /**
@@ -265,22 +265,21 @@ public class MusicPartTest {
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
 
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
-        Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
+        Measure measure2 = new Measure(Arrays.asList(pitch1, rest1, pitch2), lyric1);
 
         Voice voice1 = new Voice("name1", Arrays.asList(measure1));
         Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure2));
-        Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure2));
+        Voice voice3 = new Voice("name2", Arrays.asList(measure2, measure2));
 
         MusicPiece music1 = new MusicPiece(sig1, Arrays.asList(voice1));
         MusicPiece music2 = new MusicPiece(sig2, Arrays.asList(voice2, voice1, voice3));
 
         assertEquals(
-                "T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one] \n K: C \n "
-                        + "b'1/1 ^a1/1 z1/1 |]",
+                "T: title1 \n C: composer1 \n M: /2 \n L: /2 \n Q: /8 \n V: [one] \n K: C \n"
+                        + "name1: b' ^a z |]",
                 music1.toString());
-        assertEquals("T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one, two, three] \n K: C \n "
-                + "b'1/1 ^a1/1 z1/1 | b'1/1 ^a1/1 z1/1 |],  b'1/1 ^a1/1 z1/1 |],  b'1/1 ^a1/1 z1/1 | "
-                + "b'1/1 ^a1/1 z1/1 |]", music2.toString());
+        assertEquals("T: title1 \n C: composer1 \n M: /2 \n L: /2 \n Q: /8 \n V: [one, two, three] \n K: C \n"
+                + "name1: b' ^a z | b' z ^a |], name1: b' ^a z |], name2: b' z ^a | b' z ^a |]", music2.toString());
     }
 
 }

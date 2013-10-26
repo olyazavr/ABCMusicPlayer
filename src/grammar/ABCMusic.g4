@@ -80,12 +80,13 @@ PIPE: '|' | '[|';
 /*
  * These are the parser rules. They define the structures used by the parser.
  *
- * Each header field has its own rule. Notes, rests, duplets, triplets, quadruplet, 
- * chords, and measures have their own respective rules. Repeats have their own 
- * rules as well, but to get the entire repeated measure, extract the token from measure.
+ * The entire abc_tune is the abc_header and abc_music. 
+ * Each header field has its own rule, and they collectively make up abc_header.
+ * abc_music is either lines, voices, or comments. A line consists of measures and lyrics.
  * A measure consists of repeats, pipes, note elements, and has to end in a repeat,
- * newline, pipe, or end note symbols.
- * Lyrics also have their own rule.
+ * newline, pipe, or end note symbols. Repeats have their own rules as well, but to get 
+ * the entire repeated measure, extract the token from measure. Notes, rests, duplets, 
+ * triplets, quadruplets, and chords have their own respective rules. 
  *
  */
 abc_tune : abc_header abc_music NEWLINE* EOF;
@@ -101,7 +102,8 @@ field_tempo : TEMPO;
 field_voice : VOICE;
 field_key : KEY;
 
-abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | COMMENT)+;
+abc_music : (line | field_voice NEWLINE* | COMMENT)+;
+line: NEWLINE* measure+ NEWLINE* lyric? NEWLINE*;
 measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
 
 note_element : note | rest | chord | duplet | triplet | quadruplet;

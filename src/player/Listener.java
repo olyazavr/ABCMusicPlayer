@@ -38,6 +38,7 @@ public class Listener extends ABCMusicBaseListener {
      * Stacks to combine smaller objects into larger ones
      */
     private Stack<MusicSymbol> musicSymbolStack = new Stack<MusicSymbol>();
+    private Stack<List<MusicSymbol>> musicSymbolPerMeasure = new Stack<List<MusicSymbol>>();
     private List<ArrayList<String>> lyricStack = new ArrayList<ArrayList<String>>();
 
     /**
@@ -60,7 +61,7 @@ public class Listener extends ABCMusicBaseListener {
      * Keep a list of measures that could possibly be repeated from the
      * beginning or from after a repeat, or from after an end notes symbol
      */
-    private Map<String, List<Measure>> voiceRepeatMeasures = new HashMap<String, List<Measure>>();
+    private Map<String, List<List<MusicSymbol>>> voiceRepeatMeasures = new HashMap<String, List<List<MusicSymbol>>>();
 
     /**
      * do nothing, because the top of the stack should have the node already in
@@ -89,31 +90,20 @@ public class Listener extends ABCMusicBaseListener {
      */
     @Override
     public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
-        // Obtain the musicSymbols to add to the new Measure
+        // Obtain the musicSymbols for this measure
         List<MusicSymbol> musicSymbols = new ArrayList<MusicSymbol>(musicSymbolStack);
-
-        // find the number of notes that aren't Rests
-        int numNotes = 0;
-        for (MusicSymbol note : musicSymbols) {
-            if (!(note instanceof Rest)) {
-                numNotes++;
-            }
-        }
-
-        // get the Lyric!
-        Lyric lyrics = makeLyric(numNotes);
-
         musicSymbolStack.clear();
-        accidentals.clear(); // clear the accidentals for this measure
-
-        Measure measure = new Measure(musicSymbols, lyrics);
-
-        // Find the current Voice stack
-        Stack<Measure> currentVoiceStack = voices.get(currentVoice);
+        accidentals.clear(); // clear the accidentals for this measure\
 
         // don't repeat if there's a one-repeat
         if (ctx.ONE_REPEAT() == null) {
-            voiceRepeatMeasures.get(currentVoice).add(measure);
+            voiceRepeatMeasures.get(currentVoice).add(musicSymbols);
+        }
+
+        // add all the recorded repeatedMeasures if there's a repeat
+        if (ctx.RREPEAT() != null) {
+            musicSymbolPerMeasure.addAll(voiceRepeatMeasures.get(currentVoice));
+            voiceRepeatMeasures.get(currentVoice).clear();
         }
 
         // clear and restart repeatedMeasures
@@ -121,15 +111,8 @@ public class Listener extends ABCMusicBaseListener {
             voiceRepeatMeasures.get(currentVoice).clear();
         }
 
-        System.out.println("adding Measure with " + musicSymbols.size() + " notes");
-        currentVoiceStack.push(measure);
+        musicSymbolPerMeasure.add(musicSymbols);
 
-        // add all the recorded repeatedMeasures if there's a repeat
-        if (ctx.RREPEAT() != null) {
-            currentVoiceStack.addAll(voiceRepeatMeasures.get(currentVoice));
-            System.out.println("adding " + voiceRepeatMeasures.get(currentVoice).size() + " repeated Measures");
-            voiceRepeatMeasures.get(currentVoice).clear();
-        }
     }
 
     /**
@@ -150,8 +133,37 @@ public class Listener extends ABCMusicBaseListener {
         Signature signature = (Signature) finalStack.pop();
         MusicPiece musicPiece = new MusicPiece(signature, voicesList);
 
-        System.out.println("adding MusicPiece with " + voicesList.size() + " voices");
         finalStack.push(musicPiece);
+    }
+
+    /**
+     * Now that we have all the measures and the corresponding lyrics, we can
+     * make the Measure objects
+     */
+    @Override
+    public void exitLine(ABCMusicParser.LineContext ctx) {
+        System.out.println("exiting line");
+        // loop through each measure's worth of MusicSymbols
+        for (List<MusicSymbol> musicSymbols : musicSymbolPerMeasure) {
+
+            // find the number of notes that aren't Rests
+            int numNotes = 0;
+            for (MusicSymbol note : musicSymbols) {
+                if (!(note instanceof Rest)) {
+                    numNotes++;
+                }
+            }
+
+            // get the Lyric!
+            Lyric lyrics = makeLyric(numNotes);
+            // make the actual measure to push to the stack
+            Measure measure = new Measure(musicSymbols, lyrics);
+            System.out.println("New measure " + musicSymbols);
+            System.out.println("with lyrics " + lyrics);
+
+            Stack<Measure> currentStack = voices.get(currentVoice);
+            currentStack.push(measure);
+        }
     }
 
     /**
@@ -171,8 +183,7 @@ public class Listener extends ABCMusicBaseListener {
             Stack<Measure> voiceExists = voices.get(currentVoice);
             if (voiceExists == null) { // add new Voice stack
                 Stack<Measure> stack = new Stack<Measure>();
-                List<Measure> list = new ArrayList<Measure>();
-                System.out.println("adding Voice stack " + voiceName);
+                List<List<MusicSymbol>> list = new ArrayList<List<MusicSymbol>>();
                 voices.put(voiceName, stack);
                 voiceRepeatMeasures.put(voiceName, list);
             }
@@ -251,12 +262,11 @@ public class Listener extends ABCMusicBaseListener {
             Stack<Measure> stack = new Stack<Measure>();
             v.add("defaultVoice");
             voices.put("defaultVoice", stack);
-            List<Measure> list = new ArrayList<Measure>();
+            List<List<MusicSymbol>> list = new ArrayList<List<MusicSymbol>>();
             voiceRepeatMeasures.put(currentVoice, list);
         }
 
         Signature signature = new Signature(t, c, l, m, q, key, v);
-        System.out.println("adding Signature with key " + key);
         finalStack.push(signature);
     }
 
@@ -269,9 +279,9 @@ public class Listener extends ABCMusicBaseListener {
         // [ notes ]
         String chordText = ctx.getText();
 
-        // I need the number of notes, so I split around them, and the number of
-        // notes will be 1 less than the number of chunks
-        String[] chordsSplit = chordText.split("[A-Ga-g]");
+        // I need the number of pitches/rests, so I split around them, and the
+        // number of notes will be 1 less than the number of chunks
+        String[] chordsSplit = chordText.split("[A-Ga-gzZ]");
         int numNotes = chordsSplit.length - 1;
 
         List<MusicSymbol> notes = new ArrayList<MusicSymbol>(numNotes);
@@ -427,9 +437,9 @@ public class Listener extends ABCMusicBaseListener {
     @Override
     public void exitLyric(ABCMusicParser.LyricContext ctx) {
         String lyricText = ctx.getText();
-        //remove the w:
+        // remove the w:
         lyricText = lyricText.substring(2).trim();
-        
+
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(lyricText);
         LyricsLexer lexer = new LyricsLexer(stream);
@@ -451,7 +461,6 @@ public class Listener extends ABCMusicBaseListener {
         walker.walk(listener, tree);
         ArrayList<ArrayList<String>> lyric = listener.getLyric();
 
-        System.out.println("adding Lyric " + lyric);
         lyricStack.addAll(lyric);
     }
 

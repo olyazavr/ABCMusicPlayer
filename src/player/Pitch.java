@@ -92,7 +92,7 @@ public class Pitch implements MusicSymbol {
      * 
      * Sharps are ^, flats are _, octave up is ' (the first raised octave is
      * just lower case letters, but the next has apostrophes), octave down is a
-     * comma, and duration is a fraction.
+     * comma, and duration is a fraction, if it isn't 1.
      * 
      * @return the string representation of a pitch
      */
