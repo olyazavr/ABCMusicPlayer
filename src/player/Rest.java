@@ -24,10 +24,12 @@ public class Rest implements MusicSymbol {
 
     @Override
     public void addNote(MusicPlayer player, String syllable) {
-        player.addTime(length);
-        if (!syllable.isEmpty()) {
+    	if (!syllable.isEmpty()) {
             player.addLyric(syllable);
         }
+    	
+    	player.addTime(length);
+        
     }
 
     @Override

@@ -94,11 +94,6 @@ public class PlayerTest {
 	}
 
 	@Test
-	public void backInBlackTest() {
-		Main.play("songs_abc/backInBlack.abc");
-	}
-
-	@Test
 	public void heyJudeTest() {
 		Main.play("sample_abc/heyJude.abc");
 	}

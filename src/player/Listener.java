@@ -461,6 +461,7 @@ public class Listener extends ABCMusicBaseListener {
         LyricsListener listener = new LyricsListener();
         walker.walk(listener, tree);
         ArrayList<ArrayList<String>> lyric = listener.getLyric();
+        System.out.println("recieved lyrics " + lyric);
 
         lyricStack.addAll(lyric);
     }
@@ -487,43 +488,32 @@ public class Listener extends ABCMusicBaseListener {
      * @return the new Lyric object with the right number of syllables
      */
     private Lyric makeLyric(int numNotes) {
-        if (lyricStack.size() > 1) {
-            // if the lyrics have bars, they will be separated into multiple
-            // ArrayLists
-            ArrayList<String> lyricList = lyricStack.get(0);
-            lyricStack.remove(0);
-
-            // pad the measure with spaces to fill up to numNotes
-            while (lyricList.size() < numNotes) {
-                lyricList.add(" ");
-            }
-            // remove excess syllables to fit into numNotes
-            while (lyricList.size() > numNotes) {
-                lyricList.remove(lyricList.size() - 1);
-            }
-
-            return new Lyric(lyricList);
-
-        } else if (lyricStack.size() == 1) {
-            // if no bars, we get a single ArrayList with all the syllables
-            ArrayList<String> lyricList = new ArrayList<String>();
-            ArrayList<String> lyricListFromStack = lyricStack.get(0);
-
-            // get the syllables we need and delete them from the stack
-            for (int i = 0; i <= numNotes && !lyricListFromStack.isEmpty(); ++i) {
-                lyricList.add(lyricListFromStack.get(0));
-                lyricListFromStack.remove(0);
-            }
-
-            // pad the measure with spaces to fill up to numNotes
-            while (lyricList.size() < numNotes) {
-                lyricList.add(" ");
-            }
-
-            return new Lyric(lyricList);
+        if (lyricStack.size() == 0) {
+            // lyricStack may be empty if the piece doesn't have words
+            return new Lyric(new ArrayList<String>());
         }
-        // lyricStack may be empty if the piece doesn't have words
-        return new Lyric(new ArrayList<String>());
+        // if no bars, we get a single ArrayList with all the syllables
+        ArrayList<String> lyricList = new ArrayList<String>();
+        ArrayList<String> lyricListFromStack = lyricStack.get(0);
+
+        // get the syllables we need and delete them from the stack
+        for (int i = 0; i < numNotes && !lyricListFromStack.isEmpty(); ++i) {
+            lyricList.add(lyricListFromStack.get(0));
+            lyricListFromStack.remove(0);
+        }
+
+        // pad the measure with spaces to fill up to numNotes
+        while (lyricList.size() < numNotes) {
+            lyricList.add(" ");
+        }
+
+        // remove the list from the stack if we've gathered all its syllables
+        if (lyricListFromStack.isEmpty()) {
+            lyricStack.remove(0);
+        }
+
+        return new Lyric(lyricList);
+
     }
 
     /**
