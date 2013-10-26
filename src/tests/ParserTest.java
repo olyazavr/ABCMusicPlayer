@@ -80,8 +80,9 @@ public class ParserTest {
     @Test
     public void lyricsMultMeasuresTest() {
         // Tests lyrics and multiple measures
-        String input = "X: 3 \r\n T:Piece No.3 \r\n M:3/4 \r\n L:1/8 \r\n Q:1/8=100 \r\n K: C \r\n "
-                + "z4 D2 | G4 BG |] \r\n w: A | ma-zing | \r\n ";
+        String input = "X:1 \r\n T:Alphabet Song \r\n C:Traditional Kid's Song \r\n M:4/4 \r\n L:1/4 \r\n Q:1/4=100 \r\n K:D \r\n "
+                + "  A A G F | F F E2|A       A  G  G | F F E2| \r\n "
+                + "w:Q R S *   T U V  W~(dou-ble u) | X Y Z \r\n ";
 
         // measure 1
         List<MusicSymbol> notes1 = Arrays.asList(new Rest(new Fraction(4)), new Pitch(new Fraction(2), 'D', 0, 0));
