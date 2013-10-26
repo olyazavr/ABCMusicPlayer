@@ -65,7 +65,7 @@ LINESPACE : [\t\n\r]+ -> skip ;
  *      can be an entire lyric if no PIPEs are found
  *      can be empty or a cluster (the first word in the cluster determines the first token)
  *      if it begins with a PIPE, it may have at most one WHITESPACE
- *      if it ends with a PIPE, an optional WHITESPACE may be used to separate the last syllable
+ *      if it ends with a PIPE, an optional WHITESPACE* may be used to separate the last syllable
  * syllable:
  *      can ONLY start with a WORD or a STARS
  *      single syllable and single STARS can be considered a full cluster
@@ -83,7 +83,7 @@ LINESPACE : [\t\n\r]+ -> skip ;
  */
 
 lyric   : measure+ WHITESPACE* | EOF;
-measure : PIPE? WHITESPACE? (syllable WHITESPACE*)+ PIPE?| PIPE WHITESPACE?;
+measure : PIPE? WHITESPACE* (syllable WHITESPACE*)+ PIPE?| PIPE WHITESPACE*;
 
 syllable :  WORD WHITESPACE? HYPHEN EXTENDERS?| 
             WORD DOUBHYPHEN| 

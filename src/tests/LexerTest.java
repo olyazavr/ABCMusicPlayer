@@ -84,7 +84,7 @@ public class LexerTest {
         verifyLexer(input,
                 new String[] { "X:8628 \n", "T:Prelude BWV 846 no. 1 \n", "C:Johann Sebastian Bach \n", "M:4/4 \n",
                         "L:1/16 \n", "Q:1/4=70 \n", "V:1 \n", "K:C \n", "% \n", "V:1 \n",
-                        "(", "2", "A", "B", "B", "d", "f", "d", "B", "d", "B", "G", "B", "D", "F", "E",
+                        "(2", "A", "B", "B", "d", "f", "d", "B", "d", "B", "G", "B", "D", "F", "E",
                         "D", "|", "[", "E16", "G16", "c16", "]", "|]", "\n"
                 });
     }

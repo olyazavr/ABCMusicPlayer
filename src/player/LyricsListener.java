@@ -15,6 +15,10 @@ import lyrics.LyricsParser;
 public class LyricsListener extends LyricsBaseListener {
 	private List<ArrayList<String>> arrayOfArrays = new ArrayList<ArrayList<String>>();
 
+	@Override public void enterLyric(LyricsParser.LyricContext ctx) { 
+		System.out.println(ctx.getText());
+	}
+	
 	@Override
 	public void enterMeasure(LyricsParser.MeasureContext ctx) {
 		arrayOfArrays.add(new ArrayList<String>());
@@ -34,7 +38,8 @@ public class LyricsListener extends LyricsBaseListener {
 		if (workingList.size() > 0) {
 			// bring up the last syllable in the working measure
 			String lastElem = workingList.get(workingList.size() - 1);
-			if (!lastElem.equals("") && (lastElem.charAt(lastElem.length() - 1)) == ' '
+			if (!lastElem.equals("")
+					&& (lastElem.charAt(lastElem.length() - 1)) == ' '
 					|| lastElem.contains("\\-")) {
 				// remove the last syllable and add a new one composed of
 				// two words with a space or dash in between (these are to
@@ -42,10 +47,17 @@ public class LyricsListener extends LyricsBaseListener {
 				workingList.remove(workingList.size() - 1);
 				if (syllable.contains("~")) {
 					String newSyllable = syllable.replace("~", " ");
-					workingList.add(lastElem + newSyllable);
-				} else {
-					String newSyllable = syllable.replace("\\-", "-");
-					workingList.add(lastElem + newSyllable);
+					if (lastElem.contains("\\-")) {
+						String newLastElem = lastElem.replace("\\-", "-");
+						workingList.add(newLastElem + newSyllable);
+					} else {
+						workingList.add(lastElem + newSyllable);
+					}
+				}
+				
+				else {
+					String newLastElem = lastElem.replace("\\-", "-");
+					workingList.add(newLastElem + syllable);
 				}
 				skip = 0;
 			}
@@ -55,7 +67,7 @@ public class LyricsListener extends LyricsBaseListener {
 
 			String toAdd = syllable.replace(" -", "");
 			workingList.add(toAdd);
-			workingList.add("-");
+			workingList.add("");
 		}
 
 		// case of word and tilde
@@ -69,8 +81,8 @@ public class LyricsListener extends LyricsBaseListener {
 		// have a word after this dash added in the next iteration of
 		// syllable
 		else if (syllable.contains("\\-") && skip == 1) {
-			String syllableDash = syllable.replace("\\-", "-");
-			workingList.add(syllableDash);
+			// String syllableDash = syllable.replace("\\-", "-");
+			workingList.add(syllable);
 		}
 
 		// case of star just returns an empty string
@@ -96,7 +108,8 @@ public class LyricsListener extends LyricsBaseListener {
 		// double dash case returns the word before the dashes and an empty
 		// string
 		else if (syllable.contains("--")) {
-			String noDash = syllable.replace("--", "");
+			// remove the last dash
+			String noDash = syllable.substring(0,syllable.length() - 1);
 			workingList.add(noDash);
 			workingList.add("");
 		}

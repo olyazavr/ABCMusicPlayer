@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import lyrics.LyricsLexer;
 import lyrics.LyricsParser;
@@ -16,7 +18,16 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 
+import player.Lyric;
 import player.LyricsListener;
+import player.Main;
+import player.Measure;
+import player.MusicPiece;
+import player.MusicSymbol;
+import player.Pitch;
+import player.Signature;
+import player.Voice;
+import utils.Fraction;
 
 /**
  * Testing strategy: The first part of this test suite will test for compilation
@@ -33,11 +44,12 @@ import player.LyricsListener;
  *           one of these two types
  * @category single syllable and single STARS can be considered a full syllable
  * @category no combination of WORD and STARS are allowed in the same syllable
- * @category one WHITESPACE is allowed at the end of every syllable
+ * @category WHITESPACE* is allowed at the end of every syllable
  * @category starting with a WORD it must be followed by: a HYPHEN and a WORD or
  *           EXTENDERS, a WHITESPACE and HYPHEN and a WORD or EXTENDERS, a
  *           UNION_OPER and a WORD, or EXTENDERS
  */
+@SuppressWarnings("unused")
 public class LyricsParserTest {
 
 	/**
@@ -48,6 +60,12 @@ public class LyricsParserTest {
 	public void noSymbolsTest() {
 		String input = "A2 mazing grace";
 		verifyWalk(input);
+	}
+
+	@Test
+	public void simpleABCTest() {
+		String input = "Q R S *   T U V  W~(dou-ble u) | X Y Z";
+		System.out.println(verifyWalk(input).toString());
 	}
 
 	@Test
@@ -106,7 +124,7 @@ public class LyricsParserTest {
 	 * measure
 	 * 
 	 * @category can be an entire lyric if no PIPEs are found
-	 * @category can be empty or multiple syllables with WHITESPACE at the end
+	 * @category can be empty or multiple syllables with WHITESPACE* at the end
 	 */
 	@Test
 	public void measureEmptyTest() {
@@ -116,7 +134,7 @@ public class LyricsParserTest {
 
 	@Test
 	public void measureNonEmptyWhitespaceTest() {
-		String input = "| | | | |";
+		String input = "| |         | |    |";
 		verifyWalk(input);
 	}
 
@@ -197,18 +215,159 @@ public class LyricsParserTest {
 	}
 
 	/**
-	 * Listener tests: walker tests
+	 * Listener tests: walker tests.
+	 * 
+	 * Strategy: using the parser compiler test allSymbolsTest(), we will split
+	 * each measure and test for listener correctness by symbol type
 	 */
 
 	@Test
-	public void simpleABCTest() {
-		String input = "A B C D E F G  H I J K L  M  N  O   P";
-		verifyWalk(input);
+	public void simpleHypenTest() {
+		// Tests word HYPHEN word listener
+		String input = "hyphen-1-word-22 hyphen-test-a-a-a-a-a-a|";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("hyphen-");
+		expected.add("1-");
+		expected.add("word-");
+		expected.add("22");
+		expected.add("hyphen-");
+		expected.add("test-");
+		expected.add("a-");
+		expected.add("a-");
+		expected.add("a-");
+		expected.add("a-");
+		expected.add("a-");
+		expected.add("a");
 
+		assertEquals(expectedArray, verifyWalk(input));
 	}
 
+	@Test
+	public void simpleStarTest() {
+		// Tests STARS listener. All stars return empty strings
+		String input = "    * ** *** all stars    alone|";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("");
+		expected.add("");
+		expected.add("");
+		expected.add("all");
+		expected.add("stars");
+		expected.add("alone");
+
+		assertEquals(expectedArray, verifyWalk(input));
+	}
+
+	@Test
+	public void simpleUnionTest() {
+		// Tests STARS listener. All stars return empty strings
+		String input = "wordUnionWord~will    pass~...";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("wordUnionWord will");
+		expected.add("pass ...");
+
+		assertEquals(expectedArray, verifyWalk(input));
+	}
+
+	@Test
+	public void simpleEscapedHyphenTest() {
+		// Tests STARS listener. All stars return empty strings
+		String input = "Mary\\-Jane a\\-compound name\\-escapedHyphen ";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("Mary-Jane");
+		expected.add("a-compound");
+		expected.add("name-escapedHyphen");
+
+		assertEquals(expectedArray, verifyWalk(input));
+	}
+
+	@Test
+	public void simpleDoubleHyphenTest() {
+		// Tests DOUBLE HYPHENS which could end in a word or with a space.
+		// Regardless, they should return the word before them with a single
+		// dash, and an empty string after
+
+		String input = "wordDoubleHyphen--word three--syllables  endInDOUBHYPHEN--     a--b--v--dd";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("wordDoubleHyphen-");
+		expected.add("");
+		expected.add("word");
+		expected.add("three-");
+		expected.add("");
+		expected.add("syllables");
+		expected.add("endInDOUBHYPHEN-");
+		expected.add("");
+		expected.add("a-");
+		expected.add("");
+		expected.add("b-");
+		expected.add("");
+		expected.add("v-");
+		expected.add("");
+		expected.add("dd");
+
+		assertEquals(expectedArray, verifyWalk(input));
+	}
+	
+	@Test
+	public void simpleWhitespaceHyphenTest() {
+		// Tests WHITESPACE HYPHEN which acts as a double hyphen except the preceding word has no dash
+
+		String input = "wordWhitespace -hyphen also -threeSyllables";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("wordWhitespace");
+		expected.add("");
+		expected.add("hyphen");
+		expected.add("also");
+		expected.add("");
+		expected.add("threeSyllables");
+
+		assertEquals(expectedArray, verifyWalk(input));
+	}
+	
+	@Test
+	public void simpleHyphenExtenderTest() {
+		// Tests 
+
+		String input = "wordHyphenExtenders-___ dashIsSilent-_ extenders extend the space-_______ ";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("wordHyphenExtenders");
+		expected.add("");
+		expected.add("");
+		expected.add("");
+		expected.add("dashIsSilent");
+		expected.add("");
+		expected.add("extenders");
+		expected.add("extend");
+		expected.add("the");
+		expected.add("space");
+		expected.add("");
+		expected.add("");
+		expected.add("");
+		expected.add("");
+		expected.add("");
+		expected.add("");
+		expected.add("");
+
+		assertEquals(expectedArray, verifyWalk(input));
+	}
+	
+	
+
 	/**
-	 * Complex test involving EVERY valid combination
+	 * Complex test involving EVERY valid combination but only testing the string representation
 	 */
 	@Test
 	public void listenerAllTest() {
@@ -229,16 +388,16 @@ public class LyricsParserTest {
 				+ "in peace...... -Goku";
 		assertEquals(
 				"[[It's, done.], [Your, e-, ner-, gy, is, de-, crea-, sing], "
-				+ "[with, e-, very, .], [I 'm, sa-, tis-, fied, now.], "
-				+ "[, In, fact,-, , you're, not, -, even], [a, cha llen ge, to, me], "
-				+ "[, , , anymore.], [It, woul, -, dn't, be-, fair, for-, me-, to-, continue], "
-				+ "[fighting., , , ], [You-, have-, cha lleng-, ed, and-, lost], "
-				+ "[to, , a-, fighter, who, is], [sup-, erior, to-, you,, , and-, to-, make], "
-				+ "[it-, worse:, , he-, was, , just-, a-, mon-, key,, right?], "
-				+ "[It, would be, mea ning less, to], [fight, you, now;], "
-				+ "[you're-, too, scared, and-, a-, shamed.], [Live, with, the, shock.], "
-				+ "[, , , , ], [Keep, it], [bottled, up], [inside, of, you.], [Good-, bye,, Frieza], "
-				+ "[,, ], [may, you, live-, the], [rest, of-, your-, life], [in, peace......, -, Goku]]",
+						+ "[with, e-, very, .], [I 'm, sa-, tis-, fied, now.], "
+						+ "[, In, fact,-, , you're, not, -, even], [a, cha llen ge, to, me], "
+						+ "[, , , anymore.], [It, woul, -, dn't, be-, fair, for-, me-, to-, continue], "
+						+ "[fighting., , , ], [You-, have-, cha lleng-, ed, and-, lost], "
+						+ "[to, , a-, fighter, who, is], [sup-, erior, to-, you,, , and-, to-, make], "
+						+ "[it-, worse:, , he-, was, , just-, a-, mon-, key,, right?], "
+						+ "[It, would be, mea ning less, to], [fight, you, now;], "
+						+ "[you're-, too, scared, and-, a-, shamed.], [Live, with, the, shock.], "
+						+ "[, , , , ], [Keep, it], [bottled, up], [inside, of, you.], [Good-, bye,, Frieza], "
+						+ "[,, ], [may, you, live-, the], [rest, of-, your-, life], [in, peace......, -, Goku]]",
 				verifyWalk(input).toString());
 	}
 
@@ -263,7 +422,7 @@ public class LyricsParserTest {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.lyric(); // "lyric" is the starter rule.
-//		((RuleContext) tree).inspect(parser);
+		((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 
