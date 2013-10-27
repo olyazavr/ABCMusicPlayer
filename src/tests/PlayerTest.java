@@ -82,6 +82,7 @@ public class PlayerTest {
 	public void waxies_dargleTest() {
 		Main.play("sample_abc/waxies_dargle.abc");
 	}
+	
 
 	@Test
 	public void finalFantasyTest() {

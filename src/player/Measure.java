@@ -30,24 +30,27 @@ public class Measure implements MusicPart {
 		this.lyrics = lyrics;
 	}
 
-    @Override
+	@Override
 	public void addNotes(MusicPlayer player) {
 		String syllable = new String();
-		//lyrics counter
-		int j=0;
+		// lyrics counter
+		int j = 0;
 		for (int i = 0; i < notes.size(); i++) {
-			//if note is a rest, skip adding the lyric
-			if ( !( notes.get(i) instanceof Rest) ){
+			// if note is a rest, skip adding the lyric
+			if (!(notes.get(i) instanceof Rest)) {
 				if (!lyrics.isEmpty()) {
 					syllable = lyrics.getSyllable(j);
 				}
 				j++;
-			}			
+			} else {
+				// no syllable for rest
+				syllable = "";
+			}
 			notes.get(i).addNote(player, syllable);
 		}
 	}
 
-    @Override
+	@Override
 	public int calculateTicksPerBeat() {
 		int LCM = 1;
 		for (MusicSymbol symbol : notes) {
@@ -56,35 +59,35 @@ public class Measure implements MusicPart {
 		return LCM;
 	}
 
-    @Override
-    public boolean equals(Object _that) {
-        // two objects can only be equal if they are of the same type
-        if (!(_that instanceof Measure)) {
-            return false;
-        }
-        Measure that = (Measure) _that;
-        return this.notes.equals(that.notes) && this.lyrics.equals(that.lyrics);
-    }
-    
-    /**
-     * Returns the notes, with spaces, followed by a pipe. Lyrics are not
-     * printed.
-     * 
-     * @return the string representation of a Measure
-     */
-    @Override
-    public String toString(){
-    	String measureString=new String(" ");
-    	for (MusicSymbol s:notes){
-    		measureString+=s.toString();
-    		measureString+=" ";
-    	}
-    	return measureString+"|";
-    }
+	@Override
+	public boolean equals(Object _that) {
+		// two objects can only be equal if they are of the same type
+		if (!(_that instanceof Measure)) {
+			return false;
+		}
+		Measure that = (Measure) _that;
+		return this.notes.equals(that.notes) && this.lyrics.equals(that.lyrics);
+	}
 
-    @Override
-    public int hashCode() {
-        return notes.hashCode() + lyrics.hashCode();
-    }
+	/**
+	 * Returns the notes, with spaces, followed by a pipe. Lyrics are not
+	 * printed.
+	 * 
+	 * @return the string representation of a Measure
+	 */
+	@Override
+	public String toString() {
+		String measureString = new String(" ");
+		for (MusicSymbol s : notes) {
+			measureString += s.toString();
+			measureString += " ";
+		}
+		return measureString + "|";
+	}
+
+	@Override
+	public int hashCode() {
+		return notes.hashCode() + lyrics.hashCode();
+	}
 
 }
