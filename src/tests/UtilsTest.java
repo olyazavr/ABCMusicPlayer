@@ -78,38 +78,7 @@ public class UtilsTest {
 		
 	}
 
-	/*
-	 * Test all class objects for the toString method by creating both Number
-	 * and Variable instances. Note that all Numbers are floats so will return
-	 * answers in the form of number point number, meaning floats will always
-	 * contain a number before and after the point
-	 */
-	@Test
-	public void fractionToStringStandardTest() {
-		Fraction frac1 = new Fraction(4,7);
-		String frac2 = "4/7";
-		assertTrue(frac1.toString().equals(frac2));
-	}
 	
-	@Test
-	public void fractionToStringNonReducedFormTest() {
-		Fraction frac1 = new Fraction(12,18);
-		String frac2 = "2/3";
-		assertTrue(frac1.toString().equals(frac2));
-	}
-	
-	@Test
-	public void fractionToStringABCformatOneTest() {
-		Fraction frac1 = new Fraction(1,1);
-		String frac2 = "";
-		assertTrue(frac1.toString().equals(frac2));
-	}
-	@Test
-	public void fractionToStringABCformatNumeratorOneTest() {
-		Fraction frac1 = new Fraction(1,8);
-		String frac2 = "/8";
-		assertTrue(frac1.toString().equals(frac2));
-	}
 
 	/**
 	 * Test all Fraction objects for the hashCode methods,  testing that equal Fractions yield the same
@@ -143,12 +112,7 @@ public class UtilsTest {
 	 * on to its methods
 	 */
 	
-	Fraction frac4 = new Fraction(1);
-	Fraction frac5 = new Fraction("3/8");
-	Fraction frac6 = new Fraction("3/");
-	Fraction frac7 = new Fraction("/3");
-	Fraction frac8 = new Fraction("/");
-	
+		
 	@Test
 	public void fractionFullStringConstructorTest() {
 		Fraction frac1 = new Fraction(3,8);
@@ -178,7 +142,63 @@ public class UtilsTest {
 		assertTrue(frac1.equals(frac2));	
 	}
 	
-	/*
+	/**
+	 * Fraction to String tests
+	 */
+	@Test
+	public void fractionToStringStandardTest() {
+		Fraction frac1 = new Fraction(4,7);
+		String frac2 = "4/7";
+		assertTrue(frac1.toString().equals(frac2));
+	}
+	
+	@Test
+	public void fractionToStringNonReducedFormTest() {
+		Fraction frac1 = new Fraction(12,18);
+		String frac2 = "2/3";
+		assertTrue(frac1.toString().equals(frac2));
+	}
+	
+	@Test
+	public void fractionToStringABCformatOneTest() {
+		Fraction frac1 = new Fraction(1,1);
+		String frac2 = "";
+		assertTrue(frac1.toString().equals(frac2));
+	}
+	@Test
+	public void fractionToStringABCformatNumeratorOneTest() {
+		Fraction frac1 = new Fraction(1,8);
+		String frac2 = "/8";
+		assertTrue(frac1.toString().equals(frac2));
+	}
+	
+	/**
+	 * Fraction equals() test
+	 */
+	@Test
+	public void fractionEqualsNotEqualTest() {
+		Fraction frac1 = new Fraction(4,7);
+		Fraction frac2 = new Fraction(4,8);
+		assertFalse(frac1.equals(frac2));
+	}
+	
+	@Test
+	public void fractionEqualsSameTest() {
+		Fraction frac1 = new Fraction(2,3);
+		Fraction frac2 = new Fraction(2,3);
+		assertTrue(frac1.equals(frac2));
+	}
+	
+
+	@Test
+	public void fractionEqualsEqualButNotSameTest() {
+		Fraction frac1 = new Fraction(5,25);
+		Fraction frac2 = new Fraction(6,30);
+		assertTrue(frac1.equals(frac2));
+	}
+	
+	
+	/**
 	 * Test the GCD method from NumberTheory class.
 	 * Strategy: test for cases
 	 * a>b,a<b

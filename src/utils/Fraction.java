@@ -84,10 +84,7 @@ public class Fraction {
 		if (denominator == 1) {
 			denominatorString = "";
 			barString = "";
-		}
-		if (denominator==2){
-			denominatorString="";
-		}
+		}		
 		if (numerator == 1) {
 			numeratorString = "";
 		}
@@ -176,11 +173,8 @@ public class Fraction {
 	 * @return true is objects are equal, false otherwise
 	 */
 	public boolean equals(Fraction f) {
-
-		if (this.numerator == f.numerator && this.denominator == f.denominator)
-			return true;
-		else
-			return false;
+		
+		return (this.evaluate()==f.evaluate());
 	}
 
 	@Override
