@@ -33,10 +33,16 @@ public class Measure implements MusicPart {
     @Override
 	public void addNotes(MusicPlayer player) {
 		String syllable = new String();
+		//lyrics counter
+		int j=0;
 		for (int i = 0; i < notes.size(); i++) {
-			if (!lyrics.isEmpty()) {
-				syllable = lyrics.getSyllable(i);
-			}
+			//if note is a rest, skip adding the lyric
+			if ( !( notes.get(i) instanceof Rest) ){
+				if (!lyrics.isEmpty()) {
+					syllable = lyrics.getSyllable(j);
+				}
+				j++;
+			}			
 			notes.get(i).addNote(player, syllable);
 		}
 	}
