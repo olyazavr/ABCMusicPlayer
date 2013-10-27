@@ -97,5 +97,25 @@ public class PlayerTest {
 	public void heyJudeTest() {
 		Main.play("sample_abc/heyJude.abc");
 	}
+	
+	@Test
+	public void starwarsTest() {
+		Main.play("songs_abc/starwars2.abc");
+	}
+	
+	@Test
+	public void starTrekTest() {
+		Main.play("songs_abc/starTreklute.abc");
+	}
+	
+	@Test
+	public void barbieGirlTest() {
+		Main.play("songs_abc/aquabarb.abc");
+	}
+	
+	@Test
+	public void fugeTest() {
+		Main.play("songs_abc/fuge.abc");
+	}
 
 }
