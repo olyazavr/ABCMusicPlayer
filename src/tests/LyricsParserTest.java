@@ -65,7 +65,6 @@ public class LyricsParserTest {
 	@Test
 	public void simpleABCTest() {
 		String input = "Q R S *   T U V  W~(dou-ble u) | X Y Z";
-		System.out.println(verifyWalk(input).toString());
 	}
 
 	@Test
@@ -363,43 +362,6 @@ public class LyricsParserTest {
 
 		assertEquals(expectedArray, verifyWalk(input));
 	}
-	
-	
-
-	/**
-	 * Complex test involving EVERY valid combination but only testing the string representation
-	 */
-	@Test
-	public void listenerAllTest() {
-		String input = "It's done.| Your e-ner-gy is de-crea-sing |"
-				+ "with e-very blow___. | " + "I~'m sa-tis-fied now.| "
-				+ "* In fact,-* you're not -even| " + "a cha~llen~ge to me| "
-				+ "* * *** anymore. | "
-				+ "It woul -dn't be-fair for-me-to-continue| "
-				+ "fighting. * * *| " + "You-have-cha~lleng\\-ed and-lost| "
-				+ "to-- a-fighter who is| "
-				+ "sup-erior to-you,-- and-to-make| "
-				+ "it-worse:-- he-was * just-a-mon-key, right?| "
-				+ "It would~be mea~ning~less to| " + "fight you now;| "
-				+ "you're-too scared and-a-shamed.| "
-				+ "Live with the shock.| " + "* * * * *| " + "Keep it| "
-				+ "bottled up| " + "inside of you.| " + "Good-bye, Frieza| "
-				+ ", * | " + "may you live-the| " + "rest of-your-life| "
-				+ "in peace...... -Goku";
-		assertEquals(
-				"[[It's, done.], [Your, e-, ner-, gy, is, de-, crea-, sing], "
-						+ "[with, e-, very, .], [I 'm, sa-, tis-, fied, now.], "
-						+ "[, In, fact,-, , you're, not, -, even], [a, cha llen ge, to, me], "
-						+ "[, , , anymore.], [It, woul, -, dn't, be-, fair, for-, me-, to-, continue], "
-						+ "[fighting., , , ], [You-, have-, cha lleng-, ed, and-, lost], "
-						+ "[to, , a-, fighter, who, is], [sup-, erior, to-, you,, , and-, to-, make], "
-						+ "[it-, worse:, , he-, was, , just-, a-, mon-, key,, right?], "
-						+ "[It, would be, mea ning less, to], [fight, you, now;], "
-						+ "[you're-, too, scared, and-, a-, shamed.], [Live, with, the, shock.], "
-						+ "[, , , , ], [Keep, it], [bottled, up], [inside, of, you.], [Good-, bye,, Frieza], "
-						+ "[,, ], [may, you, live-, the], [rest, of-, your-, life], [in, peace......, -, Goku]]",
-				verifyWalk(input).toString());
-	}
 
 	/**
 	 * Helper method to bring up the tree (if in debug mode) and to make sure
@@ -422,7 +384,7 @@ public class LyricsParserTest {
 		// Generate the parse tree using the starter rule.
 		ParseTree tree;
 		tree = parser.lyric(); // "lyric" is the starter rule.
-		((RuleContext) tree).inspect(parser);
+//		((RuleContext) tree).inspect(parser);
 
 		// Walk the tree with the listener.
 

@@ -72,8 +72,4 @@ public class PlayerTest {
 	public void waxies_dargleTest() {
 		Play.play("sample_abc/waxies_dargle.abc");
 	}
-	
-
-
-
 }
