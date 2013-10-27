@@ -152,7 +152,7 @@ public class MusicSymbolTest {
         Rest rest1 = new Rest(new Fraction(1));
         Rest rest2 = new Rest(new Fraction(2, 3));
 
-        assertEquals("z1/1", rest1.toString());
+        assertEquals("z", rest1.toString());
         assertEquals("z2/3", rest2.toString());
     }
 

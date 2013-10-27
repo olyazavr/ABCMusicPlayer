@@ -14,10 +14,6 @@ import lyrics.LyricsParser;
  */
 public class LyricsListener extends LyricsBaseListener {
 	private List<ArrayList<String>> arrayOfArrays = new ArrayList<ArrayList<String>>();
-
-	@Override public void enterLyric(LyricsParser.LyricContext ctx) { 
-		System.out.println(ctx.getText());
-	}
 	
 	@Override
 	public void enterMeasure(LyricsParser.MeasureContext ctx) {
