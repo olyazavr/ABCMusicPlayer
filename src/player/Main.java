@@ -17,13 +17,32 @@ public class Main {
 
 	public static void main(String[] args) {
 		// bring up the pop-up window
-		String choice = ask("Portal Want You Gone", "Barbie Girl", "Dream On");
+		String choice = ask("Dont Fear The Reaper by Blue Oyster Cult",
+				"All The Small Things by Blink 182",
+				"Yesterday by The Beattles", "Portal Want You Gone by Valve",
+				"Barbie Girl by Aqua", "Back in Black by AC/DC",
+				"Final Fantasy III", "Fuge by Bach", "Get Lucky by Daft Punk",
+				"Get Lucky 2 by Daft Punk", "Hey Jude by The Beattles",
+				"Highway To Hell by AC/DC", "Star Trek", "Star Wars",
+				"Zelda Saria", "Dream On by Aerosmith",
+				"I Love It by Icona Pop", "Wake Me Up by Avicii");
 
 		// if cancelled wasn't clicked print the chosen song and play it
 		if (choice != null) {
 			System.out.println("Now playing:" + choice);
 
-			String choiceParsed = choice.replace(" ", "_") + ".abc";
+			String justSong;
+
+			String[] stripArtist = choice.split("by");
+			if (stripArtist.length == 2) {
+
+				justSong = stripArtist[0].substring(0,
+						stripArtist[0].length() - 1);
+			} else {
+				justSong = stripArtist[0];
+			}
+			String choiceParsed = justSong.replace(" ", "_") + ".abc";
+
 			Play.play("songs_abc/" + choiceParsed);
 		}
 		// else return a message indicating to the user that he/she cancelled
