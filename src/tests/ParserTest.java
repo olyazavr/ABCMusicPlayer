@@ -102,14 +102,14 @@ public class ParserTest {
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'A', 0, 0);
         List<MusicSymbol> notes3 = Arrays.asList(pitch3, new Pitch(new Fraction(1), 'A', 0, 0), new Pitch(
                 new Fraction(1), 'G', 0, 0), new Pitch(new Fraction(1), 'G', 0, 0));
-        List<String> syllables3 = Arrays.asList("W (dou-", "ble", "u)");
+        List<String> syllables3 = Arrays.asList("W (dou-", "ble", "u)", "");
         Measure measure3 = new Measure(notes3, new Lyric(syllables3));
 
         // measure 4
         MusicSymbol pitch4 = new Pitch(new Fraction(1), 'F', 0, 1);
         List<MusicSymbol> notes4 = Arrays.asList(pitch4, new Pitch(new Fraction(1), 'F', 0, 1), new Pitch(
                 new Fraction(2), 'E', 0, 0));
-        List<String> syllables4 = Arrays.asList("X", "T", "Z");
+        List<String> syllables4 = Arrays.asList("X", "Y", "Z");
         Measure measure4 = new Measure(notes4, new Lyric(syllables4));
 
         List<Measure> measures = Arrays.asList(measure1, measure2, measure3, measure4);

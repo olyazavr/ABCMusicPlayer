@@ -461,27 +461,18 @@ public class Listener extends ABCMusicBaseListener {
         LyricsListener listener = new LyricsListener();
         walker.walk(listener, tree);
         ArrayList<ArrayList<String>> lyric = listener.getLyric();
-        System.out.println("recieved lyrics " + lyric);
 
         lyricStack.addAll(lyric);
     }
 
     /**
-     * Makes a Lyric object based on the content of lyricStack. There are 3
-     * cases:
+     * Makes a Lyric object based on the content of lyricStack
      * 
-     * 1) lyricStack has a number of ArrayLists. This happens when the syllables
-     * are separated by bars. Then, we make sure there are not too many or too
-     * little syllables (padding with spaces if needed).
-     * 
-     * 2) lyricStack has one ArrayList. This happens when syllables aren't
-     * separated, so they are given to us in one huge chunk. Then we grab the
-     * number we need, deleteing them from the stack.
-     * 
-     * 3) There are no syllables. This is when there are no words to a song. We
-     * just make an empty Lyric.
-     * 
-     * This mutates the lyricStack.
+     * We take the first list of syllables off the lyricStack, and take as many
+     * syllables as we need to fill up the measure (up to numNotes). Then we pad
+     * the measure with spaces if necessary. We delete the list if it is empty
+     * (this mutates the stack!) If there are no syllables, we make an empty
+     * Lyric.
      * 
      * @param numNotes
      *            number of notes in the measure that aren't Rests
@@ -504,7 +495,7 @@ public class Listener extends ABCMusicBaseListener {
 
         // pad the measure with spaces to fill up to numNotes
         while (lyricList.size() < numNotes) {
-            lyricList.add(" ");
+            lyricList.add("");
         }
 
         // remove the list from the stack if we've gathered all its syllables
