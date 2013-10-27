@@ -55,7 +55,6 @@ public class Signature {
     }
 
     public int getPlayerTempo(int ticksPerBeat) {
-        Fraction beatPerTicks = new Fraction(1, ticksPerBeat);
         return tempo.multiply(length.getDenominator()).getNumerator();
     }
 
@@ -95,11 +94,14 @@ public class Signature {
      */
     @Override
     public String toString() {
-        return "T: " + this.title.toString() + " \n " + "C: "
-                + this.composer.toString() + " \n " + "M: "
-                + this.meter.toString() + " \n " + "L: " + this.length.toString()
-                + " \n " + "Q: " + this.tempo.toString() + " \n " + "V: "
-                + this.voices.toString() + " \n " + "K: " + this.key.toString();
+        // make sure meter isn't blank if it's 4/4
+        String meterString = meter.toString() == "" ? "4/4" : meter.toString();
+
+        return "T: " + title.toString() + " \n " + "C: "
+                + composer.toString() + " \n " + "M: "
+                + meterString + " \n " + "L: " + length.toString()
+                + " \n " + "Q: " + tempo.toString() + " \n " + "V: "
+                + voices.toString() + " \n " + "K: " + key.toString();
     }
 
     /**

@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import player.Chord;
 import player.Lyric;
-import player.Main;
 import player.Measure;
 import player.MusicPiece;
 import player.MusicSymbol;
