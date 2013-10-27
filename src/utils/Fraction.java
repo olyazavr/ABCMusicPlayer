@@ -1,7 +1,5 @@
 package utils;
 
-/* Fraction.java */
-
 /**
  * The Fraction class implements non-negative fractions, i.e., rational numbers.
  */
@@ -75,7 +73,7 @@ public class Fraction {
 	 * 
 	 * @return a String representation of this Fraction.
 	 */
-	
+
 	public String toString() {
 		String numeratorString, denominatorString, barString;
 		numeratorString = "" + numerator;
@@ -84,7 +82,7 @@ public class Fraction {
 		if (denominator == 1) {
 			denominatorString = "";
 			barString = "";
-		}		
+		}
 		if (numerator == 1) {
 			numeratorString = "";
 		}
@@ -167,14 +165,21 @@ public class Fraction {
 	}
 
 	/**
-	 * Check two Fraction objects for equality. Fractions are considered equal 
+	 * Check two Fraction objects for equality. Fractions are considered equal
 	 * if they are evaluated to the same float number
-	 * @param f fraction object to compare
+	 * 
+	 * @param f
+	 *            fraction object to compare
 	 * @return true is objects are equal, false otherwise
 	 */
-	public boolean equals(Fraction f) {
-		
-		return (this.evaluate()==f.evaluate());
+	@Override
+	public boolean equals(Object f) {
+		if (!(f instanceof Fraction)) {
+			return false;
+		}
+		Fraction frac = (Fraction) f;
+		return (this.evaluate() == frac.evaluate());
+
 	}
 
 	@Override
