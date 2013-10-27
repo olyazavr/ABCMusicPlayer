@@ -16,15 +16,39 @@ import javax.swing.SwingUtilities;
 public class Main {
 
 	public static void main(String[] args) {
+		// bring up the pop-up window
 		String choice = ask("Portal Want You Gone", "Barbie Girl", "Dream On");
-		System.out.println("Now playing:" + choice);
-		
-		String choiceParsed = choice.replace(" ", "_") + ".abc";
-		
-		Play.play("songs_abc/" + choiceParsed);
-		
+
+		// if cancelled wasn't clicked print the chosen song and play it
+		if (choice != null) {
+			System.out.println("Now playing:" + choice);
+
+			String choiceParsed = choice.replace(" ", "_") + ".abc";
+			Play.play("songs_abc/" + choiceParsed);
+		}
+		// else return a message indicating to the user that he/she cancelled
+		else {
+			int ran = (int) (Math.random() * 10);
+			String randMessage;
+			if (ran < 3) {
+				randMessage = "Cancelled command: null song choice. Bad choice.";
+			} else if (ran < 7) {
+				randMessage = "No music? OK. Maybe later.";
+			} else {
+				randMessage = "You clicked Cancel by mistake. Go back and pick a song.";
+			}
+			System.out.println(randMessage);
+		}
 	}
 
+	/**
+	 * Pop up drop-down menu function used to display the available songs to
+	 * play
+	 * 
+	 * @param values
+	 *            string representation of songs in songs_abc
+	 * @return pop-up box
+	 */
 	public static String ask(final String... values) {
 
 		String result = null;
@@ -32,16 +56,17 @@ public class Main {
 		if (EventQueue.isDispatchThread()) {
 
 			JPanel panel = new JPanel();
-			panel.add(new JLabel("Please make a selection:"));
-			DefaultComboBoxModel model = new DefaultComboBoxModel();
+			panel.add(new JLabel("Pick the song to play:"));
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>();
 			for (String value : values) {
 				model.addElement(value);
 			}
-			JComboBox comboBox = new JComboBox(model);
+			JComboBox<String> comboBox = new JComboBox<String>(model);
 			panel.add(comboBox);
 
-			int iResult = JOptionPane.showConfirmDialog(null, panel, "Flavor",
-					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int iResult = JOptionPane.showConfirmDialog(null, panel,
+					"ABC song player", JOptionPane.OK_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE);
 			switch (iResult) {
 			case JOptionPane.OK_OPTION:
 				result = (String) comboBox.getSelectedItem();
