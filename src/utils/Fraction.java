@@ -71,10 +71,11 @@ public class Fraction {
 	/**
 	 * Converts this fraction to a string format: "numerator/denominator."
 	 * Fractions are printed in reduced form and are simplified for abc format,
-	 * e.g. "1/1"="";
+	 * e.g. "1/1"=""; "1/2"="/", "2/1"="2", "1/3"="/3"
 	 * 
 	 * @return a String representation of this Fraction.
 	 */
+	
 	public String toString() {
 		String numeratorString, denominatorString, barString;
 		numeratorString = "" + numerator;
@@ -84,6 +85,9 @@ public class Fraction {
 			denominatorString = "";
 			barString = "";
 		}
+		if (denominator==2){
+			denominatorString="";
+		}
 		if (numerator == 1) {
 			numeratorString = "";
 		}
@@ -91,7 +95,7 @@ public class Fraction {
 	}
 
 	/**
-	 * Tells wheter the current fraction is smaller than the given one
+	 * Tells whether the current fraction is smaller than the given one
 	 * 
 	 * @return a boolean
 	 */
@@ -148,7 +152,6 @@ public class Fraction {
 	 */
 	public Fraction multiply(int f) {
 
-		// This calculation is fairly straight-forward.
 		int num = this.numerator * f;
 		int den = this.denominator;
 
@@ -156,7 +159,7 @@ public class Fraction {
 	}
 
 	/**
-	 * Getters
+	 * Getters. Return the values of denominator and numerator
 	 */
 	public int getNumerator() {
 		return this.numerator;
@@ -166,7 +169,12 @@ public class Fraction {
 		return this.denominator;
 	}
 
-	// Returns true iff the current object and f store the same value.
+	/**
+	 * Check two Fraction objects for equality. Fractions are considered equal 
+	 * if they are evaluated to the same float number
+	 * @param f fraction object to compare
+	 * @return true is objects are equal, false otherwise
+	 */
 	public boolean equals(Fraction f) {
 
 		if (this.numerator == f.numerator && this.denominator == f.denominator)
