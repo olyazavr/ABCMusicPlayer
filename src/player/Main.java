@@ -16,8 +16,11 @@ import javax.swing.SwingUtilities;
 public class Main {
 
 	public static void main(String[] args) {
-		// bring up the pop-up window
-		String choice = ask("Dont Fear The Reaper by Blue Oyster Cult",
+		// bring up the pop-up window. This window will have a dropdown menu of
+		// all the songs available for the user to play
+		String choice = ask("abc song", "fur elise", "invention",
+				"little night music", "paddy", "prelude", "scale",
+				"waxies dargle", "Dont Fear The Reaper by Blue Oyster Cult",
 				"All The Small Things by Blink 182",
 				"Yesterday by The Beattles", "Portal Want You Gone by Valve",
 				"Barbie Girl by Aqua", "Back in Black by AC/DC",
@@ -29,7 +32,7 @@ public class Main {
 
 		// if cancelled wasn't clicked print the chosen song and play it
 		if (choice != null) {
-			System.out.println("Now playing:" + choice);
+			System.out.println("Now playing: " + choice);
 
 			String justSong;
 
