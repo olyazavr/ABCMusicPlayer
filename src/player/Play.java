@@ -42,7 +42,7 @@ public class Play {
 	}
 
 	private static String readFileToString(String file) {
-		StringBuilder output = new StringBuilder("");
+        StringBuilder output = new StringBuilder();
 
 		// try with resources, resources always closed after
 		try (BufferedReader bufferReader = new BufferedReader(new FileReader(

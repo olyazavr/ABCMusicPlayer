@@ -157,8 +157,6 @@ public class Listener extends ABCMusicBaseListener {
             Lyric lyrics = makeLyric(numNotes);
             // make the actual measure to push to the stack
             Measure measure = new Measure(musicSymbols, lyrics);
-            System.out.println("New measure " + musicSymbols);
-            System.out.println("with lyrics " + lyrics);
 
             Stack<Measure> currentStack = voices.get(currentVoice);
             currentStack.push(measure);

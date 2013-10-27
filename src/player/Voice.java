@@ -55,7 +55,7 @@ public class Voice implements MusicPart {
         Voice that = (Voice) _that;
         return this.measures.equals(that.measures) && this.name.equals(that.name);
     }
-    
+
     /**
      * Represents the Voice as the voice name followed by measures with an end
      * of notes |] symbol at the end. Lyrics are not printed.
@@ -63,12 +63,13 @@ public class Voice implements MusicPart {
      * @return the string representation of the Voice
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder voiceString = new StringBuilder(name + ":");
-    	for (Measure m: measures){
+        for (Measure m : measures) {
             voiceString.append(m.toString());
-    	}
-    	return voiceString+"]";
+        }
+
+        return voiceString + "]";
     }
 
     @Override

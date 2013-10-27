@@ -60,7 +60,7 @@ public class Lyric {
      */
     @Override
     public String toString() {
-        StringBuilder lyricString = new StringBuilder("");
+        StringBuilder lyricString = new StringBuilder();
         for (String s : syllables) {
             lyricString.append(s + " ");
         }
