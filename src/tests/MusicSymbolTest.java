@@ -28,7 +28,9 @@ import utils.Fraction;
  * 
  * For Pitch, make sure everything works correctly regardless of how many
  * modifiers there are (partition on that), and same for Rest (it only has
- * duration). For Chord, partition on the number of Pitches it has.
+ * duration). For Chord, partition on the number of Pitches it has. Also, make
+ * sure duration shows up correctly (ie. 1/1 should be nothing, 1/2 should be
+ * /2)
  * 
  */
 
@@ -140,8 +142,8 @@ public class MusicSymbolTest {
         Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
 
         assertEquals("_d2/3", pitch1.toString());
-        assertEquals("^a'1/2", pitch2.toString());
-        assertEquals("C,1/1", pitch3.toString());
+        assertEquals("^a'/2", pitch2.toString());
+        assertEquals("C,", pitch3.toString());
     }
 
     /**
@@ -169,8 +171,8 @@ public class MusicSymbolTest {
         Chord chord1 = new Chord(Arrays.asList(pitch2));
         Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1));
 
-        assertEquals("[^a'1/2]", chord1.toString());
-        assertEquals("[_d2/3 ^a'1/2 C,1/1 z2/3]", chord2.toString());
+        assertEquals("[^a'/2]", chord1.toString());
+        assertEquals("[_d2/3 ^a'/2 C, z2/3]", chord2.toString());
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.List;
  * 
  */
 public class Lyric {
-    private List<String> syllables;
+    private final List<String> syllables;
 
     /**
      * Creates a Lyric object with syllables

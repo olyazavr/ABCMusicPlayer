@@ -15,7 +15,7 @@ import utils.NumberTheory;
  */
 public class Measure implements MusicPart {
 	private final List<MusicSymbol> notes;
-	private Lyric lyrics;
+    private final Lyric lyrics;
 
 	/**
 	 * Creates a Measure object with notes and lyrics

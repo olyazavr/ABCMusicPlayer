@@ -94,14 +94,25 @@ public class Signature {
      */
     @Override
     public String toString() {
-        // make sure meter isn't blank if it's 4/4
-        String meterString = meter.toString() == "" ? "4/4" : meter.toString();
+        // make sure meter, length, and tempo aren't blank if they're 1
+        String meterString = meter.toString().isEmpty() ? "4/4" : meter.toString();
+        String lengthString = length.toString().isEmpty() ? "1" : length.toString();
+        String tempoString = tempo.toString().isEmpty() ? "1" : tempo.toString();
 
-        return "T: " + title.toString() + " \n " + "C: "
-                + composer.toString() + " \n " + "M: "
-                + meterString + " \n " + "L: " + length.toString()
-                + " \n " + "Q: " + tempo.toString() + " \n " + "V: "
-                + voices.toString() + " \n " + "K: " + key.toString();
+        // convert /2 to 1/2 (and the like)
+        if (meterString.startsWith("/")) {
+            meterString = "1" + meterString;
+        }
+        if (lengthString.startsWith("/")) {
+            lengthString = "1" + lengthString;
+        }
+        if (tempoString.startsWith("/")) {
+            tempoString = "1" + tempoString;
+        }
+
+        return "T: " + title.toString() + " \n C: " + composer.toString() + " \n M: "
+                + meterString + " \n L: " + lengthString + " \n Q: " + tempoString +
+                " \n V: " + voices.toString() + " \n K: " + key.toString();
     }
 
     /**

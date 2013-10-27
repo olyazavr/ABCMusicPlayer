@@ -255,8 +255,8 @@ public class MusicPartTest {
     public void toStringMusicPieceTest() {
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
-        Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
-                new Fraction(1, 8), "C", Arrays.asList("one", "two", "three"));
+        Signature sig2 = new Signature("title1", "composer1", new Fraction(4, 4), new Fraction(4, 4),
+                new Fraction(1, 1), "C", Arrays.asList("one", "two", "three"));
 
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
@@ -275,10 +275,10 @@ public class MusicPartTest {
         MusicPiece music2 = new MusicPiece(sig2, Arrays.asList(voice2, voice1, voice3));
 
         assertEquals(
-                "T: title1 \n C: composer1 \n M: /2 \n L: /2 \n Q: /8 \n V: [one] \n K: C \n"
+                "T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one] \n K: C \n"
                         + "name1: b' ^a z |]",
                 music1.toString());
-        assertEquals("T: title1 \n C: composer1 \n M: /2 \n L: /2 \n Q: /8 \n V: [one, two, three] \n K: C \n"
+        assertEquals("T: title1 \n C: composer1 \n M: 4/4 \n L: 1 \n Q: 1 \n V: [one, two, three] \n K: C \n"
                 + "name1: b' ^a z | b' z ^a |], name1: b' ^a z |], name2: b' z ^a | b' z ^a |]", music2.toString());
     }
 
