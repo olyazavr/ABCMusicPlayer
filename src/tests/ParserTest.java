@@ -155,6 +155,39 @@ public class ParserTest {
     }
 
     @Test
+    public void repeatedMeasuresLyricsTest() {
+        // Test repeated measures that have lyrics
+        String input = "X: 1 \r\n T:Bagatelle No.25 in A, WoO.59 \r\n C:Ludwig van Beethoven "
+                + "\r\n M:3/8 \r\n L:1/16 \r\n Q:1/8=140 \r\n K:Am \r\n "
+                + "\r\n  E,,E,^G, z z2 |] \r\n w: I play once. \r\n"
+                + " A,,E,A, z :| \r\n  w:I re peat. \r\n";
+
+        // measure 1, this is repeated
+        List<MusicSymbol> notes1 = Arrays.asList(new Pitch(new Fraction(1), 'E', -2, 0), new Pitch(new Fraction(1),
+                'E', -1, 0), new Pitch(new Fraction(1), 'G', -1, 1), new Rest(new Fraction(1)),
+                new Rest(new Fraction(2)));
+        List<String> syllables1 = Arrays.asList("I", "play", "once.");
+        Measure measure1 = new Measure(notes1, new Lyric(syllables1));
+
+        // measure 2
+        List<MusicSymbol> notes2 = Arrays.asList(new Pitch(new Fraction(1), 'A', -2, 0), new Pitch(new Fraction(1),
+                'E', -1, 0), new Pitch(new Fraction(1), 'A', -1, 0), new Rest(new Fraction(1)));
+        List<String> syllables2 = Arrays.asList("I", "re", "peat.");
+        Measure measure2 = new Measure(notes2, new Lyric(syllables2));
+
+        List<Measure> measures = Arrays.asList(measure1, measure2, measure2);
+        List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
+        List<String> voiceNames = Arrays.asList("defaultVoice");
+        MusicPiece expected = new MusicPiece(new Signature("Bagatelle No.25 in A, WoO.59", "Ludwig van Beethoven",
+                new Fraction(1, 16), new Fraction(
+                        3, 8), new Fraction(140, 8), "Am", voiceNames), voices);
+
+        MusicPiece output = Play.stringToMusicPiece(input);
+
+        assertEquals(expected, output);
+    }
+
+    @Test
     public void multVoicesTest() {
         // Test multiple voices
         String input = "X: 1 \r\n T:Bagatelle No.25 in A, WoO.59 \r\n C:Ludwig van Beethoven "

@@ -16,6 +16,7 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
@@ -60,8 +61,12 @@ public class Listener extends ABCMusicBaseListener {
     /**
      * Keep a list of measures that could possibly be repeated from the
      * beginning or from after a repeat, or from after an end notes symbol
+     * (these can either be copied over when needed, or cleared). Keep a list of
+     * pairs to find the which measures in the line need repeated lyrics (ie.
+     * measure 0 to 5, measure 7 to 8).
      */
-    private Map<String, List<List<MusicSymbol>>> voiceRepeatMeasures = new HashMap<String, List<List<MusicSymbol>>>();
+    private Map<String, List<Measure>> repeatedMeasures = new HashMap<String, List<Measure>>();
+    private List<Pair<Integer, Integer>> rangeRepeatedMeasures = new ArrayList<Pair<Integer, Integer>>();
 
     /**
      * do nothing, because the top of the stack should have the node already in
@@ -73,46 +78,64 @@ public class Listener extends ABCMusicBaseListener {
     }
 
     /**
-     * Clear repeatedMeasures if there is a left repeat
+     * Start a new repeated measure pair
+     */
+    @Override
+    public void enterLine(ABCMusicParser.LineContext ctx) {
+        // the repeated lyrics should start from here
+        rangeRepeatedMeasures.add(new Pair<Integer, Integer>(0, 0));
+    }
+
+    /**
+     * Clear repeatedMeasures and restart the more recent range pair if there is
+     * a left repeat
      */
     @Override
     public void enterMeasure(ABCMusicParser.MeasureContext ctx) {
         // clear and restart repeatedMeasures
         if (ctx.LREPEAT() != null) {
-            voiceRepeatMeasures.get(currentVoice).clear();
+            // get the last Pair, equate starting and ending, so that it starts
+            // from here
+            rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).a = rangeRepeatedMeasures
+                    .get(rangeRepeatedMeasures.size() - 1).b;
+            repeatedMeasures.get(currentVoice).clear();
         }
     }
 
     /**
-     * Check for repeats and add all the repeated measures if there is a repeat
-     * symbol. Add all the Lyrics and MusicSumbols to make a new Measure object
-     * to add to the stack.
+     * Check for repeats and adjust the repeated ranges and repeated measures
+     * accordingly.
      */
     @Override
     public void exitMeasure(ABCMusicParser.MeasureContext ctx) {
         // Obtain the musicSymbols for this measure
         List<MusicSymbol> musicSymbols = new ArrayList<MusicSymbol>(musicSymbolStack);
         musicSymbolStack.clear();
-        accidentals.clear(); // clear the accidentals for this measure\
+        accidentals.clear(); // clear the accidentals for this measure
 
         // don't repeat if there's a one-repeat
         if (ctx.ONE_REPEAT() == null) {
-            voiceRepeatMeasures.get(currentVoice).add(musicSymbols);
+            // increment the current range
+            ++rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b;
         }
 
-        // add all the recorded repeatedMeasures if there's a repeat
+        // copy the lyrics and symbols later, start a new range of repeated
+        // measures
         if (ctx.RREPEAT() != null) {
-            musicSymbolPerMeasure.addAll(voiceRepeatMeasures.get(currentVoice));
-            voiceRepeatMeasures.get(currentVoice).clear();
+            Integer currentMeasureNum = rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b;
+            rangeRepeatedMeasures.add(new Pair<Integer, Integer>(currentMeasureNum, currentMeasureNum));
         }
 
-        // clear and restart repeatedMeasures
+        // clear most recent pair and ongoing repeated measures, make new range
+        // pair
         if (ctx.END_NOTES() != null) {
-            voiceRepeatMeasures.get(currentVoice).clear();
+            Integer currentMeasureNum = rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b;
+            rangeRepeatedMeasures.remove(rangeRepeatedMeasures.size() - 1);
+            rangeRepeatedMeasures.add(new Pair<Integer, Integer>(currentMeasureNum, currentMeasureNum));
+            repeatedMeasures.get(currentVoice).clear();
         }
 
         musicSymbolPerMeasure.add(musicSymbols);
-
     }
 
     /**
@@ -143,11 +166,11 @@ public class Listener extends ABCMusicBaseListener {
     @Override
     public void exitLine(ABCMusicParser.LineContext ctx) {
         // loop through each measure's worth of MusicSymbols
-        for (List<MusicSymbol> musicSymbols : musicSymbolPerMeasure) {
+        for (int i = 0; i < musicSymbolPerMeasure.size(); ++i) {
 
-            // find the number of notes that aren't Rests
+            // find the number of notes that aren't Rests to align syllables to
             int numNotes = 0;
-            for (MusicSymbol note : musicSymbols) {
+            for (MusicSymbol note : musicSymbolPerMeasure.get(i)) {
                 if (!(note instanceof Rest)) {
                     numNotes++;
                 }
@@ -155,14 +178,35 @@ public class Listener extends ABCMusicBaseListener {
 
             // get the Lyric!
             Lyric lyrics = makeLyric(numNotes);
-            // make the actual measure to push to the stack
-            Measure measure = new Measure(musicSymbols, lyrics);
-
+            // make the actual measure and push to the stack
+            Measure measure = new Measure(musicSymbolPerMeasure.get(i), lyrics);
             Stack<Measure> currentStack = voices.get(currentVoice);
             currentStack.push(measure);
-        }
 
+            // if the range of the first pair starts with the number of the
+            // measure we're looking at, add the measure to repeated and
+            // increment a
+            if (rangeRepeatedMeasures.size() > 0) {
+                if (rangeRepeatedMeasures.get(0).a.equals(i)) {
+                    repeatedMeasures.get(currentVoice).add(measure);
+                    ++rangeRepeatedMeasures.get(0).a;
+                }
+
+                // if we're done with the range (a >= b), remove the range
+                if (rangeRepeatedMeasures.get(0).a >= rangeRepeatedMeasures.get(0).b) {
+                    rangeRepeatedMeasures.remove(0);
+                    // add the range to the stack unless it's the last pair
+                    // (which is ongoing)
+                    if (rangeRepeatedMeasures.size() > 0) {
+                        currentStack.addAll(repeatedMeasures.get(currentVoice));
+                        repeatedMeasures.get(currentVoice).clear();
+                    }
+                }
+            }
+        }
         musicSymbolPerMeasure.clear();
+        // this is held only for a single line
+        rangeRepeatedMeasures.clear();
     }
 
     /**
@@ -182,9 +226,9 @@ public class Listener extends ABCMusicBaseListener {
             Stack<Measure> voiceExists = voices.get(currentVoice);
             if (voiceExists == null) { // add new Voice stack
                 Stack<Measure> stack = new Stack<Measure>();
-                List<List<MusicSymbol>> list = new ArrayList<List<MusicSymbol>>();
+                List<Measure> list = new ArrayList<Measure>();
                 voices.put(voiceName, stack);
-                voiceRepeatMeasures.put(voiceName, list);
+                repeatedMeasures.put(voiceName, list);
             }
         }
     }
@@ -261,8 +305,8 @@ public class Listener extends ABCMusicBaseListener {
             Stack<Measure> stack = new Stack<Measure>();
             v.add("defaultVoice");
             voices.put("defaultVoice", stack);
-            List<List<MusicSymbol>> list = new ArrayList<List<MusicSymbol>>();
-            voiceRepeatMeasures.put(currentVoice, list);
+            List<Measure> list = new ArrayList<Measure>();
+            repeatedMeasures.put(currentVoice, list);
         }
 
         Signature signature = new Signature(t, c, l, m, q, key, v);
