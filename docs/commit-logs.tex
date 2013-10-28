@@ -5,6 +5,7 @@
 \usepackage{color}
 \usepackage{enumerate}
 \usepackage{fancyhdr}
+\usepackage{fancyvrb}
 \setlength{\headheight}{30pt}
 
 
@@ -12,7 +13,7 @@
 \setlength{\evensidemargin}{0cm}
 \setlength{\textwidth}{6.5in}
 \setlength{\topmargin}{-2.2cm}
-\setlength{\textheight}{9.3in}
+\setlength{\textheight}{9.0in}
  \pagestyle{plain}
 \pagestyle{fancyplain}
 \fancyhf{}
@@ -20,7 +21,7 @@
 \rhead{ \fancyplain{}{Andrei Ivanov, Olga Shestopalova, Zeke Schmois} }
 \rfoot{ \fancyplain{}{\thepage} }
 
-\renewcommand{\arraystretch}{1.5}	
+\renewcommand{\arraystretch}{1.5}   
 \newcommand{\Ri}{\ \Rightarrow\ }
 \newcommand{\Le}{\ \Leftarrow\ }
 \newcommand{\Lr}{\ \Leftrightarrow\ }
@@ -63,29 +64,1117 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \phantom{xxx}
 \bigskip
-\centerline{{\large \bf ABC Parser Project: Design Description }}
+\centerline{{\large \bf ABC Parser Project: Commit Logs }}
 \bigskip\bigskip
 
-We represent an ABC parser for music files as a series of well-structured interfaces.
+Can fit only so much on a line, most gets cut off.
 
-\begin{verbatim}
-* e2a8db4 (HEAD, origin/master, origin/HEAD, master) Add methods to Measure
+\begin{Verbatim}
+*   570b4f1 (HEAD, origin/master, origin/HEAD, master) Merge branch 'master' of 
+        ssh://athena.dialup.mit.edu/afs/athena.mit.
+                edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 5ce2724 fixed the mario song and moved all songs except for the warmups to 
+        the songs abc folder instead. play all songs from the main file
+* | 19a0cb9 Add design-revised document
+|/
+*   4c551eb Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 34ff92b Added the last songs for now. I think this is it. We may add the Instruments 
+        later if I get an answer on Piazza otherwise this looks pretty good. Fully documented 
+        files, all tests pass, all deliverables included, no bugs on everything being 
+        implemented curren
+* | 9808c41 Remove print statements from Listener
+|/
+* 21f6210 Fix tests, finally workinggit pullgit pullgit pull
+* e8bd15c Changed the equals method
+*   54fec3a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 95fc4d9 Fix the broken PlayerTest
+* | e62368f Fraction toString reverted, equals tests added. Seems to work
+|/
+* e54300b Fix some tests. Fraction equals still not working, and mysterious bug 
+        in MusicPiece equals
+* 266e7d4 renamed barbie girl song and added documentation and error handling in 
+        Main.main()
+* 44b760b Fraction documentation
+* 5152d64 Fix Signature's meter being blank
+* ba16db5 fixing some tests
+* d20c7e3 adding the files needed to play
+*   76925e1 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 289c346 repeated lyrcis fixed
+* | ca4f982 Major changes done to Main method. I migrated most of the methods to 
+        a new file called Play and also added a pop up menu that will allow the user 
+        to pick which song to play
+|/
+* b5b6dde Disabled lyrics for rests
+* 5692455 more songs with multiple voices. working to see if I can implement different 
+        instruments
+* 7d92157 the new songs are now up in their own package folder
+*   b0c1139 merge
+|\
+| * 7abc7c1 one more
+| * f1bae33 Deleted leftovers from zeke's merge
+* | d1a41b9 added some more music and fixed dream on
+* | b7de6b1 waxies dargle song throws an exception out of bounds for index 2 
+        size 2. andrei, could you take a look?
+|/
+*   912eeee merge
+|\
+| * 8371eba lyric iff timing corrected
+| * 08ce665 trying to get this test to pass askdljsandlkasd
+| * 8994f44 Fix lyrics again. stupid bars.
+* | fb68e40 more tests and a few more changes to the lyric parser now fully tested 
+        and in working conditions
+|/
+* b6a9f56 Forgot to clear measures, whoops
+* 7b83407 Lyrics now added to the correct measure. g4 and Listener changed. Tests 
+        adjusted.
+* 21ccf54 Documented more of my stuff. NumberTheory test. Chord has length now. 
+        GetLength, multiplyLength moved to the interface
+*   b461fab Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * b72f20d Fix tests and listener
+* |   c1a2b60 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * 3be4999 Allow rests in chord, broke everything
+* | f8ef31d documented MusicPlayer. Do we neeeed tests for that toooo?
+|/
+* 56f1d22 remove the w: from lyrics when they are parsed
+* 3853aa8 fix test
+* b3cb319 lol forgot to check for syllable size
+*   d9d5286 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   03e77bd Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 3ba1145 Fraction tests added
+| * | 7730d0e Fixed tuplets! Lyrics are now beign added to Measures yaaay
+| |/
+* | 990d23c it works! lyrics are done. most tests are in too
+|/
+* 235b57c fully working but has one tiny bug. pushing so olga can start integrating it 
+        into the main listener
+* 36d8815 Documented tests a little better
+* 5454834 "more work done on the lyric listener. almost done"
+* 7b02e58 finished all tests for my methods, all work except getLength, because Fraction 
+        of 2/3 doesnt equal Fraction of 2/3. Sad times.
+* de8550c new Scales file to account for ALL octaves
+* 8e59438 Corrected the key issue. ahahaha pun.
+* 076799c More work on tests, cleared accidentals after exit measure
+* 1dd4162 All classes now have equals, hashcode, tostring, and documentation
+* f43bde1 Add naturals to the Listener
+* bd844a1 Add pipe and repeats as tokens, add comments back (accidentally removed, 
+        oops)
+* 24461cf Split up tests, add some more documentation
+* a2e6b56 finalized the parser for the lyrics. its insanely simple now and super 
+        effective. its fully tested up to the listener which i just started. it shouldnt 
+        take long at all i just have a lot of other work
+* 21fce52 Some more listener changes
+* 7b46713 IT WORKS, although some off notes
+* c1b9d0f Added a hash map for repeated measures because you have to remember the 
+        lines before too. Some new tests added. Some problems with grammar appeared
+* 4460c9a Fraction changed to normal, gcd corrected, chord.addNotes() corrected. PLEEEEEASE 
+        PULLLLL
+*   5dc753a merge
+|\
+| * f4073e0 It almost works. Some overlay problems in the middle of the song, probably 
+        repeats or something. More testing
+| * 94130a9 toString() added and Listener tuplet error corrected
+| * 0647d9d Fraction edited. Music objects toString completed
+| *   de2a211 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * bbf7fdc finished equals test suite
+| * |   b46c817 Merge shit
+| |\ \
+| | |/
+| * | d218826 Fraction.java conflict
+* | | b6a919f merge
+| |/
+|/|
+* | 72129bc more Fraction merge, this blows
+* |   bbce083 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| *   0c10d00 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c608108 Add MusicADTBasicTest
+* | |   4abcdd5 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| | |/
+| |/|
+| * | e5de976 One more fraction fix
+| * | 5d45c00 Fraction constructor from string fixed
+| |/
+| * 2ad97dd Fix length of note parsing again
+* | db630b3 i was working on Fraction but so was Andrei so I'm pushing so I can 
+        merge
+|/
+* 4b68598 Forgot to check for length in note, added that
+* 0106f8e Add ParserTest
+*   f10f2f8 Merge fix meow
+:...skipping...
+*   570b4f1 (HEAD, origin/master, origin/HEAD, master) Merge branch 'master' of 
+        ssh://athena.dialup.mit.edu/afs/athena.mit.
+                edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 5ce2724 fixed the mario song and moved all songs except for the warmups to 
+        the songs abc folder instead. play all songs from the main file
+* | 19a0cb9 Add design-revised document
+|/
+*   4c551eb Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 34ff92b Added the last songs for now. I think this is it. We may add the Instruments 
+        later if I get an answer on Piazza otherwise this looks pretty good. Fully documented 
+        files, all tests pass, all deliverables included, no bugs on everything being 
+        implemented curren
+* | 9808c41 Remove print statements from Listener
+|/
+* 21f6210 Fix tests, finally workinggit pullgit pullgit pull
+* e8bd15c Changed the equals method
+*   54fec3a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 95fc4d9 Fix the broken PlayerTest
+* | e62368f Fraction toString reverted, equals tests added. Seems to work
+|/
+* e54300b Fix some tests. Fraction equals still not working, and mysterious bug 
+        in MusicPiece equals
+* 266e7d4 renamed barbie girl song and added documentation and error handling in 
+        Main.main()
+* 44b760b Fraction documentation
+* 5152d64 Fix Signature's meter being blank
+* ba16db5 fixing some tests
+* d20c7e3 adding the files needed to play
+*   76925e1 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 289c346 repeated lyrcis fixed
+* | ca4f982 Major changes done to Main method. I migrated most of the methods to 
+        a new file called Play and also added a pop up menu that will allow the user 
+        to pick which song to play
+|/
+* b5b6dde Disabled lyrics for rests
+* 5692455 more songs with multiple voices. working to see if I can implement different 
+        instruments
+* 7d92157 the new songs are now up in their own package folder
+*   b0c1139 merge
+|\
+| * 7abc7c1 one more
+| * f1bae33 Deleted leftovers from zeke's merge
+* | d1a41b9 added some more music and fixed dream on
+* | b7de6b1 waxies dargle song throws an exception out of bounds for index 2 
+        size 2. andrei, could you take a look?
+|/
+*   912eeee merge
+|\
+| * 8371eba lyric iff timing corrected
+| * 08ce665 trying to get this test to pass askdljsandlkasd
+| * 8994f44 Fix lyrics again. stupid bars.
+* | fb68e40 more tests and a few more changes to the lyric parser now fully tested 
+        and in working conditions
+|/
+* b6a9f56 Forgot to clear measures, whoops
+* 7b83407 Lyrics now added to the correct measure. g4 and Listener changed. Tests 
+        adjusted.
+* 21ccf54 Documented more of my stuff. NumberTheory test. Chord has length now. 
+        GetLength, multiplyLength moved to the interface
+*   b461fab Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * b72f20d Fix tests and listener
+* |   c1a2b60 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * 3be4999 Allow rests in chord, broke everything
+* | f8ef31d documented MusicPlayer. Do we neeeed tests for that toooo?
+|/
+* 56f1d22 remove the w: from lyrics when they are parsed
+* 3853aa8 fix test
+* b3cb319 lol forgot to check for syllable size
+*   d9d5286 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   03e77bd Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 3ba1145 Fraction tests added
+| * | 7730d0e Fixed tuplets! Lyrics are now beign added to Measures yaaay
+| |/
+* | 990d23c it works! lyrics are done. most tests are in too
+|/
+* 235b57c fully working but has one tiny bug. pushing so olga can start integrating it 
+        into the main listener
+* 36d8815 Documented tests a little better
+* 5454834 "more work done on the lyric listener. almost done"
+* 7b02e58 finished all tests for my methods, all work except getLength, because Fraction 
+        of 2/3 doesnt equal Fraction of 2/3. Sad times.
+* de8550c new Scales file to account for ALL octaves
+* 8e59438 Corrected the key issue. ahahaha pun.
+* 076799c More work on tests, cleared accidentals after exit measure
+* 1dd4162 All classes now have equals, hashcode, tostring, and documentation
+* f43bde1 Add naturals to the Listener
+* bd844a1 Add pipe and repeats as tokens, add comments back (accidentally removed, 
+        oops)
+* 24461cf Split up tests, add some more documentation
+* a2e6b56 finalized the parser for the lyrics. its insanely simple now and super 
+        effective. its fully tested up to the listener which i just started. it shouldnt 
+        take long at all i just have a lot of other work
+* 21fce52 Some more listener changes
+* 7b46713 IT WORKS, although some off notes
+* c1b9d0f Added a hash map for repeated measures because you have to remember the 
+        lines before too. Some new tests added. Some problems with grammar appeared
+* 4460c9a Fraction changed to normal, gcd corrected, chord.addNotes() corrected. PLEEEEEASE 
+        PULLLLL
+*   5dc753a merge
+|\
+| * f4073e0 It almost works. Some overlay problems in the middle of the song, probably 
+        repeats or something. More testing
+| * 94130a9 toString() added and Listener tuplet error corrected
+| * 0647d9d Fraction edited. Music objects toString completed
+| *   de2a211 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * bbf7fdc finished equals test suite
+| * |   b46c817 Merge shit
+| |\ \
+| | |/
+| * | d218826 Fraction.java conflict
+* | | b6a919f merge
+| |/
+|/|
+* | 72129bc more Fraction merge, this blows
+* |   bbce083 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| *   0c10d00 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c608108 Add MusicADTBasicTest
+* | |   4abcdd5 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| | |/
+| |/|
+| * | e5de976 One more fraction fix
+| * | 5d45c00 Fraction constructor from string fixed
+| |/
+| * 2ad97dd Fix length of note parsing again
+* | db630b3 i was working on Fraction but so was Andrei so I'm pushing so I can 
+        merge
+|/
+* 4b68598 Forgot to check for length in note, added that
+* 0106f8e Add ParserTest
+*   f10f2f8 Merge fix meow
+|\
+| * 7adefac omg you can now even guess the songs sometimes
+| *   02e00ef Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 04ecc05 some new abc files but I dont think theyre properly written
+* | | 1ff5b1e Add ParserTest, more documentation
+| |/
+|/|
+* | e1e0c3a Fixed the 36 voices problemgit pull! I was adding a new one every time 
+        whoops
+|/
+* 4b21a40 num name changed. Empty lyrics handling added
+* 8abdaf2 Currently just ignoring any lyrics. Errors: Fraction sometimes vomits 
+        in the constructor, and songs without lyrics throw errors. But some of the songs 
+        actually work
+* d7cea1d player test changed back
+* a3102a6 Commented main for more understanding
+* 97adac3 Add try catch
+:...skipping...
+*   570b4f1 (HEAD, origin/master, origin/HEAD, master) Merge branch 'master' of 
+        ssh://athena.dialup.mit.edu/afs/athena.mit.
+                edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 5ce2724 fixed the mario song and moved all songs except for the warmups to 
+        the songs abc folder instead. play all songs from the main file
+* | 19a0cb9 Add design-revised document
+|/
+*   4c551eb Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 34ff92b Added the last songs for now. I think this is it. We may add the Instruments 
+        later if I get an answer on Piazza otherwise this looks pretty good. Fully documented 
+        files, all tests pass, all deliverables included, no bugs on everything being 
+        implemented curren
+* | 9808c41 Remove print statements from Listener
+|/
+* 21f6210 Fix tests, finally workinggit pullgit pullgit pull
+* e8bd15c Changed the equals method
+*   54fec3a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 95fc4d9 Fix the broken PlayerTest
+* | e62368f Fraction toString reverted, equals tests added. Seems to work
+|/
+* e54300b Fix some tests. Fraction equals still not working, and mysterious bug 
+        in MusicPiece equals
+* 266e7d4 renamed barbie girl song and added documentation and error handling in 
+        Main.main()
+* 44b760b Fraction documentation
+* 5152d64 Fix Signature's meter being blank
+* ba16db5 fixing some tests
+* d20c7e3 adding the files needed to play
+*   76925e1 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 289c346 repeated lyrcis fixed
+* | ca4f982 Major changes done to Main method. I migrated most of the methods to 
+        a new file called Play and also added a pop up menu that will allow the user 
+        to pick which song to play
+|/
+* b5b6dde Disabled lyrics for rests
+* 5692455 more songs with multiple voices. working to see if I can implement different 
+        instruments
+* 7d92157 the new songs are now up in their own package folder
+*   b0c1139 merge
+|\
+| * 7abc7c1 one more
+| * f1bae33 Deleted leftovers from zeke's merge
+* | d1a41b9 added some more music and fixed dream on
+* | b7de6b1 waxies dargle song throws an exception out of bounds for index 2 
+        size 2. andrei, could you take a look?
+|/
+*   912eeee merge
+|\
+| * 8371eba lyric iff timing corrected
+| * 08ce665 trying to get this test to pass askdljsandlkasd
+| * 8994f44 Fix lyrics again. stupid bars.
+* | fb68e40 more tests and a few more changes to the lyric parser now fully tested 
+        and in working conditions
+|/
+* b6a9f56 Forgot to clear measures, whoops
+* 7b83407 Lyrics now added to the correct measure. g4 and Listener changed. Tests 
+        adjusted.
+* 21ccf54 Documented more of my stuff. NumberTheory test. Chord has length now. 
+        GetLength, multiplyLength moved to the interface
+*   b461fab Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * b72f20d Fix tests and listener
+* |   c1a2b60 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * 3be4999 Allow rests in chord, broke everything
+* | f8ef31d documented MusicPlayer. Do we neeeed tests for that toooo?
+|/
+* 56f1d22 remove the w: from lyrics when they are parsed
+* 3853aa8 fix test
+* b3cb319 lol forgot to check for syllable size
+*   d9d5286 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   03e77bd Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 3ba1145 Fraction tests added
+| * | 7730d0e Fixed tuplets! Lyrics are now beign added to Measures yaaay
+| |/
+* | 990d23c it works! lyrics are done. most tests are in too
+|/
+* 235b57c fully working but has one tiny bug. pushing so olga can start integrating it 
+        into the main listener
+* 36d8815 Documented tests a little better
+* 5454834 "more work done on the lyric listener. almost done"
+* 7b02e58 finished all tests for my methods, all work except getLength, because Fraction 
+        of 2/3 doesnt equal Fraction of 2/3. Sad times.
+* de8550c new Scales file to account for ALL octaves
+* 8e59438 Corrected the key issue. ahahaha pun.
+* 076799c More work on tests, cleared accidentals after exit measure
+* 1dd4162 All classes now have equals, hashcode, tostring, and documentation
+* f43bde1 Add naturals to the Listener
+* bd844a1 Add pipe and repeats as tokens, add comments back (accidentally removed, 
+        oops)
+* 24461cf Split up tests, add some more documentation
+* a2e6b56 finalized the parser for the lyrics. its insanely simple now and super 
+        effective. its fully tested up to the listener which i just started. it shouldnt 
+        take long at all i just have a lot of other work
+* 21fce52 Some more listener changes
+* 7b46713 IT WORKS, although some off notes
+* c1b9d0f Added a hash map for repeated measures because you have to remember the 
+        lines before too. Some new tests added. Some problems with grammar appeared
+* 4460c9a Fraction changed to normal, gcd corrected, chord.addNotes() corrected. PLEEEEEASE 
+        PULLLLL
+*   5dc753a merge
+|\
+| * f4073e0 It almost works. Some overlay problems in the middle of the song, probably 
+        repeats or something. More testing
+| * 94130a9 toString() added and Listener tuplet error corrected
+| * 0647d9d Fraction edited. Music objects toString completed
+| *   de2a211 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * bbf7fdc finished equals test suite
+| * |   b46c817 Merge shit
+| |\ \
+| | |/
+| * | d218826 Fraction.java conflict
+* | | b6a919f merge
+| |/
+|/|
+* | 72129bc more Fraction merge, this blows
+* |   bbce083 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| *   0c10d00 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c608108 Add MusicADTBasicTest
+* | |   4abcdd5 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| | |/
+| |/|
+| * | e5de976 One more fraction fix
+| * | 5d45c00 Fraction constructor from string fixed
+| |/
+| * 2ad97dd Fix length of note parsing again
+* | db630b3 i was working on Fraction but so was Andrei so I'm pushing so I can 
+        merge
+|/
+* 4b68598 Forgot to check for length in note, added that
+* 0106f8e Add ParserTest
+*   f10f2f8 Merge fix meow
+|\
+| * 7adefac omg you can now even guess the songs sometimes
+| *   02e00ef Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 04ecc05 some new abc files but I dont think theyre properly written
+* | | 1ff5b1e Add ParserTest, more documentation
+| |/
+|/|
+* | e1e0c3a Fixed the 36 voices problemgit pull! I was adding a new one every time 
+        whoops
+|/
+* 4b21a40 num name changed. Empty lyrics handling added
+* 8abdaf2 Currently just ignoring any lyrics. Errors: Fraction sometimes vomits 
+        in the constructor, and songs without lyrics throw errors. But some of the songs 
+        actually work
+* d7cea1d player test changed back
+* a3102a6 Commented main for more understanding
+* 97adac3 Add try catch
+* d9b7cbc add throws in playertest again
+* f2717d3 reverted the midi exceptions. we need to do try, catch, not throw on 
+        the entire test. im done for tonight. the lyrics parser is fully operational and 
+        almost entirely foolproof. i will finish the tests tomorrow and we should start 
+        the listener whenever. all othe
+*   fc3024c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   3d9dc71 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 812ad1d whoops, mixed up some fractions
+* | | 5d3938e Player test exceptions added
+| |/
+|/|
+* |   003bf74 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * fa9554b Change tempo to a Fraction
+| * 408c047 added a bullet-proof Fraction constructor for all types of Strings given int/int, int/, int, 
+        /int, /
+| * 77b6afe more work on Scales
+* | 46fba95 Signature tempo changed to frac, so listener is broken. MusicPlayer created 
+        in main
+|/
+* cc98d53 Scales fixed to show key. Lyric parser works almost entirely
+* 7ef86d3 Fixed it! Passing it on to Zeke's parser
+:...skipping...
+*   570b4f1 (HEAD, origin/master, origin/HEAD, master) Merge branch 'master' of 
+        ssh://athena.dialup.mit.edu/afs/athena.mit.
+                edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 5ce2724 fixed the mario song and moved all songs except for the warmups to 
+        the songs abc folder instead. play all songs from the main file
+* | 19a0cb9 Add design-revised document
+|/
+*   4c551eb Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 34ff92b Added the last songs for now. I think this is it. We may add the Instruments 
+        later if I get an answer on Piazza otherwise this looks pretty good. Fully documented 
+        files, all tests pass, all deliverables included, no bugs on everything being 
+        implemented curren
+* | 9808c41 Remove print statements from Listener
+|/
+* 21f6210 Fix tests, finally workinggit pullgit pullgit pull
+* e8bd15c Changed the equals method
+*   54fec3a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 95fc4d9 Fix the broken PlayerTest
+* | e62368f Fraction toString reverted, equals tests added. Seems to work
+|/
+* e54300b Fix some tests. Fraction equals still not working, and mysterious bug 
+        in MusicPiece equals
+* 266e7d4 renamed barbie girl song and added documentation and error handling in 
+        Main.main()
+* 44b760b Fraction documentation
+* 5152d64 Fix Signature's meter being blank
+* ba16db5 fixing some tests
+* d20c7e3 adding the files needed to play
+*   76925e1 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 289c346 repeated lyrcis fixed
+* | ca4f982 Major changes done to Main method. I migrated most of the methods to 
+        a new file called Play and also added a pop up menu that will allow the user 
+        to pick which song to play
+|/
+* b5b6dde Disabled lyrics for rests
+* 5692455 more songs with multiple voices. working to see if I can implement different 
+        instruments
+* 7d92157 the new songs are now up in their own package folder
+*   b0c1139 merge
+|\
+| * 7abc7c1 one more
+| * f1bae33 Deleted leftovers from zeke's merge
+* | d1a41b9 added some more music and fixed dream on
+* | b7de6b1 waxies dargle song throws an exception out of bounds for index 2 
+        size 2. andrei, could you take a look?
+|/
+*   912eeee merge
+|\
+| * 8371eba lyric iff timing corrected
+| * 08ce665 trying to get this test to pass askdljsandlkasd
+| * 8994f44 Fix lyrics again. stupid bars.
+* | fb68e40 more tests and a few more changes to the lyric parser now fully tested 
+        and in working conditions
+|/
+* b6a9f56 Forgot to clear measures, whoops
+* 7b83407 Lyrics now added to the correct measure. g4 and Listener changed. Tests 
+        adjusted.
+* 21ccf54 Documented more of my stuff. NumberTheory test. Chord has length now. 
+        GetLength, multiplyLength moved to the interface
+*   b461fab Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * b72f20d Fix tests and listener
+* |   c1a2b60 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * 3be4999 Allow rests in chord, broke everything
+* | f8ef31d documented MusicPlayer. Do we neeeed tests for that toooo?
+|/
+* 56f1d22 remove the w: from lyrics when they are parsed
+* 3853aa8 fix test
+* b3cb319 lol forgot to check for syllable size
+*   d9d5286 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   03e77bd Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 3ba1145 Fraction tests added
+| * | 7730d0e Fixed tuplets! Lyrics are now beign added to Measures yaaay
+| |/
+* | 990d23c it works! lyrics are done. most tests are in too
+|/
+* 235b57c fully working but has one tiny bug. pushing so olga can start integrating it 
+        into the main listener
+* 36d8815 Documented tests a little better
+* 5454834 "more work done on the lyric listener. almost done"
+* 7b02e58 finished all tests for my methods, all work except getLength, because Fraction 
+        of 2/3 doesnt equal Fraction of 2/3. Sad times.
+* de8550c new Scales file to account for ALL octaves
+* 8e59438 Corrected the key issue. ahahaha pun.
+* 076799c More work on tests, cleared accidentals after exit measure
+* 1dd4162 All classes now have equals, hashcode, tostring, and documentation
+* f43bde1 Add naturals to the Listener
+* bd844a1 Add pipe and repeats as tokens, add comments back (accidentally removed, 
+        oops)
+* 24461cf Split up tests, add some more documentation
+* a2e6b56 finalized the parser for the lyrics. its insanely simple now and super 
+        effective. its fully tested up to the listener which i just started. it shouldnt 
+        take long at all i just have a lot of other work
+* 21fce52 Some more listener changes
+* 7b46713 IT WORKS, although some off notes
+* c1b9d0f Added a hash map for repeated measures because you have to remember the 
+        lines before too. Some new tests added. Some problems with grammar appeared
+* 4460c9a Fraction changed to normal, gcd corrected, chord.addNotes() corrected. PLEEEEEASE 
+        PULLLLL
+*   5dc753a merge
+|\
+| * f4073e0 It almost works. Some overlay problems in the middle of the song, probably 
+        repeats or something. More testing
+| * 94130a9 toString() added and Listener tuplet error corrected
+| * 0647d9d Fraction edited. Music objects toString completed
+| *   de2a211 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * bbf7fdc finished equals test suite
+| * |   b46c817 Merge shit
+| |\ \
+| | |/
+| * | d218826 Fraction.java conflict
+* | | b6a919f merge
+| |/
+|/|
+* | 72129bc more Fraction merge, this blows
+* |   bbce083 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| *   0c10d00 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c608108 Add MusicADTBasicTest
+* | |   4abcdd5 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| | |/
+| |/|
+| * | e5de976 One more fraction fix
+| * | 5d45c00 Fraction constructor from string fixed
+| |/
+| * 2ad97dd Fix length of note parsing again
+* | db630b3 i was working on Fraction but so was Andrei so I'm pushing so I can 
+        merge
+|/
+* 4b68598 Forgot to check for length in note, added that
+* 0106f8e Add ParserTest
+*   f10f2f8 Merge fix meow
+|\
+| * 7adefac omg you can now even guess the songs sometimes
+| *   02e00ef Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 04ecc05 some new abc files but I dont think theyre properly written
+* | | 1ff5b1e Add ParserTest, more documentation
+| |/
+|/|
+* | e1e0c3a Fixed the 36 voices problemgit pull! I was adding a new one every time 
+        whoops
+|/
+* 4b21a40 num name changed. Empty lyrics handling added
+* 8abdaf2 Currently just ignoring any lyrics. Errors: Fraction sometimes vomits 
+        in the constructor, and songs without lyrics throw errors. But some of the songs 
+        actually work
+* d7cea1d player test changed back
+* a3102a6 Commented main for more understanding
+* 97adac3 Add try catch
+* d9b7cbc add throws in playertest again
+* f2717d3 reverted the midi exceptions. we need to do try, catch, not throw on 
+        the entire test. im done for tonight. the lyrics parser is fully operational and 
+        almost entirely foolproof. i will finish the tests tomorrow and we should start 
+        the listener whenever. all othe
+*   fc3024c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   3d9dc71 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 812ad1d whoops, mixed up some fractions
+* | | 5d3938e Player test exceptions added
+| |/
+|/|
+* |   003bf74 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * fa9554b Change tempo to a Fraction
+| * 408c047 added a bullet-proof Fraction constructor for all types of Strings given int/int, int/, int, 
+        /int, /
+| * 77b6afe more work on Scales
+* | 46fba95 Signature tempo changed to frac, so listener is broken. MusicPlayer created 
+        in main
+|/
+* cc98d53 Scales fixed to show key. Lyric parser works almost entirely
+* 7ef86d3 Fixed it! Passing it on to Zeke's parser
+*   c9a1812 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 189a383 More docs on Scales and formatted num. Lyrics.g4 is still ongoing
+* | f912c2f Fix some Listener bugs, still working on it
+|/
+* 39870d4 division by zero fixed. still errors in scales
+* 4ca452a shit. we still had the mutator in measure in the design description
+*   f182a97 conflicts again
+|\
+| * f24c8d3 adding files missing
+| *   2f9c63a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 468743a Add new Listener and Test design to the Design pdf
+| * | bc6a80d Last push for the night. This commit includes most of the working project. 
+        A minor issue when walking the tree is that Fraction broke last minute and I 
+        cant find the bug so we can look at that tomorrow. Nice job
+| |/
+| * 5e80264 Add length multiplier (still immutable) for Chord
+| *   47151b2 ARGH ZEKE. more merging.
+| |\
+| | * 9088cc0 New lexer works(EXCLAMATION MARK) Also the parser is beginning to 
+        work too(ANOTHER EXCLAMATION MARK)
+| * | 301584f Everything is now immutablegit status Stacks on stacks
+* | | d5c2e4b agreed to try make things immutable. Changed design description.
+| |/
+|/|
+* | 8a8bbe2 Design description changed
+* | d04a93b Working lyric lexer and its tests but will change them now. Revert to 
+        this one if new idea of splitting all tokens individually fails
+|/
+* f57ec74 Added new changes to design file. We need to update the diagram
+* a9d948d Add LyricListener
+* 791ecff new parser skeleton is up. will start programming it now
+*   81f6c9f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   57f1daf Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c18f996 Created and started tests for the MusicSymbol interface and the Utils. 
+        Did not finish them and should be a priority but will start writing the second 
+        parser for lyrics for now
+* | | 19bbab1 Add preliminary Lyric parser files
+| |/
+|/|
+* | c05aa84 Add repeats, almost done! only need lyrics parser.
+* | 6b9a22f Give up on parsing lyrics, zeke is making another parser
+|/
+*   f4ecd1a merge files
+|\
+| * 44931d1 Change methods to return Measures that need more syllables
+| *   c1ecb6b dont know
+| |\
+| * \   e407468 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\ \
+| * | | 270b242 Fixes for measure
+* | | | a7dda2a all files in the player package now include equals(), toString(), and 
+        hashCode() methods. Several other docs were also added to most files
+| |_|/
+|/| |
+* | | b4b30ad Further work on Measure and Listener
+* | | 6b06bdf Add addMeasure
+* | |   ead652f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| * | | 5ad03dd formatted several files and added a commit log file to the docs
+| | |/
+| |/|
+* | | 6704aa2 Add methods to find measures without lyrics:
+|/ /
+* | e2a8db4 Add methods to Measure
+|/
+:...skipping...
+*   570b4f1 (HEAD, origin/master, origin/HEAD, master) Merge branch 'master' of 
+        ssh://athena.dialup.mit.edu/afs/athena.mit.
+                edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 5ce2724 fixed the mario song and moved all songs except for the warmups to 
+        the songs abc folder instead. play all songs from the main file
+* | 19a0cb9 Add design-revised document
+|/
+*   4c551eb Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 34ff92b Added the last songs for now. I think this is it. We may add the Instruments 
+        later if I get an answer on Piazza otherwise this looks pretty good. Fully documented 
+        files, all tests pass, all deliverables included, no bugs on everything being 
+        implemented curren
+* | 9808c41 Remove print statements from Listener
+|/
+* 21f6210 Fix tests, finally workinggit pullgit pullgit pull
+* e8bd15c Changed the equals method
+*   54fec3a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 95fc4d9 Fix the broken PlayerTest
+* | e62368f Fraction toString reverted, equals tests added. Seems to work
+|/
+* e54300b Fix some tests. Fraction equals still not working, and mysterious bug 
+        in MusicPiece equals
+* 266e7d4 renamed barbie girl song and added documentation and error handling in 
+        Main.main()
+* 44b760b Fraction documentation
+* 5152d64 Fix Signature's meter being blank
+* ba16db5 fixing some tests
+* d20c7e3 adding the files needed to play
+*   76925e1 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 289c346 repeated lyrcis fixed
+* | ca4f982 Major changes done to Main method. I migrated most of the methods to 
+        a new file called Play and also added a pop up menu that will allow the user 
+        to pick which song to play
+|/
+* b5b6dde Disabled lyrics for rests
+* 5692455 more songs with multiple voices. working to see if I can implement different 
+        instruments
+* 7d92157 the new songs are now up in their own package folder
+*   b0c1139 merge
+|\
+| * 7abc7c1 one more
+| * f1bae33 Deleted leftovers from zeke's merge
+* | d1a41b9 added some more music and fixed dream on
+* | b7de6b1 waxies dargle song throws an exception out of bounds for index 2 
+        size 2. andrei, could you take a look?
+|/
+*   912eeee merge
+|\
+| * 8371eba lyric iff timing corrected
+| * 08ce665 trying to get this test to pass askdljsandlkasd
+| * 8994f44 Fix lyrics again. stupid bars.
+* | fb68e40 more tests and a few more changes to the lyric parser now fully tested 
+        and in working conditions
+|/
+* b6a9f56 Forgot to clear measures, whoops
+* 7b83407 Lyrics now added to the correct measure. g4 and Listener changed. Tests 
+        adjusted.
+* 21ccf54 Documented more of my stuff. NumberTheory test. Chord has length now. 
+        GetLength, multiplyLength moved to the interface
+*   b461fab Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * b72f20d Fix tests and listener
+* |   c1a2b60 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * 3be4999 Allow rests in chord, broke everything
+* | f8ef31d documented MusicPlayer. Do we neeeed tests for that toooo?
+|/
+* 56f1d22 remove the w: from lyrics when they are parsed
+* 3853aa8 fix test
+* b3cb319 lol forgot to check for syllable size
+*   d9d5286 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   03e77bd Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 3ba1145 Fraction tests added
+| * | 7730d0e Fixed tuplets! Lyrics are now beign added to Measures yaaay
+| |/
+* | 990d23c it works! lyrics are done. most tests are in too
+|/
+* 235b57c fully working but has one tiny bug. pushing so olga can start integrating it 
+        into the main listener
+* 36d8815 Documented tests a little better
+* 5454834 "more work done on the lyric listener. almost done"
+* 7b02e58 finished all tests for my methods, all work except getLength, because Fraction 
+        of 2/3 doesnt equal Fraction of 2/3. Sad times.
+* de8550c new Scales file to account for ALL octaves
+* 8e59438 Corrected the key issue. ahahaha pun.
+* 076799c More work on tests, cleared accidentals after exit measure
+* 1dd4162 All classes now have equals, hashcode, tostring, and documentation
+* f43bde1 Add naturals to the Listener
+* bd844a1 Add pipe and repeats as tokens, add comments back (accidentally removed, 
+        oops)
+* 24461cf Split up tests, add some more documentation
+* a2e6b56 finalized the parser for the lyrics. its insanely simple now and super 
+        effective. its fully tested up to the listener which i just started. it shouldnt 
+        take long at all i just have a lot of other work
+* 21fce52 Some more listener changes
+* 7b46713 IT WORKS, although some off notes
+* c1b9d0f Added a hash map for repeated measures because you have to remember the 
+        lines before too. Some new tests added. Some problems with grammar appeared
+* 4460c9a Fraction changed to normal, gcd corrected, chord.addNotes() corrected. PLEEEEEASE 
+        PULLLLL
+*   5dc753a merge
+|\
+| * f4073e0 It almost works. Some overlay problems in the middle of the song, probably 
+        repeats or something. More testing
+| * 94130a9 toString() added and Listener tuplet error corrected
+| * 0647d9d Fraction edited. Music objects toString completed
+| *   de2a211 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * bbf7fdc finished equals test suite
+| * |   b46c817 Merge shit
+| |\ \
+| | |/
+| * | d218826 Fraction.java conflict
+* | | b6a919f merge
+| |/
+|/|
+* | 72129bc more Fraction merge, this blows
+* |   bbce083 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| *   0c10d00 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c608108 Add MusicADTBasicTest
+* | |   4abcdd5 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| | |/
+| |/|
+| * | e5de976 One more fraction fix
+| * | 5d45c00 Fraction constructor from string fixed
+| |/
+| * 2ad97dd Fix length of note parsing again
+* | db630b3 i was working on Fraction but so was Andrei so I'm pushing so I can 
+        merge
+|/
+* 4b68598 Forgot to check for length in note, added that
+* 0106f8e Add ParserTest
+*   f10f2f8 Merge fix meow
+|\
+| * 7adefac omg you can now even guess the songs sometimes
+| *   02e00ef Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 04ecc05 some new abc files but I dont think theyre properly written
+* | | 1ff5b1e Add ParserTest, more documentation
+| |/
+|/|
+* | e1e0c3a Fixed the 36 voices problemgit pull! I was adding a new one every time 
+        whoops
+|/
+* 4b21a40 num name changed. Empty lyrics handling added
+* 8abdaf2 Currently just ignoring any lyrics. Errors: Fraction sometimes vomits 
+        in the constructor, and songs without lyrics throw errors. But some of the songs 
+        actually work
+* d7cea1d player test changed back
+* a3102a6 Commented main for more understanding
+* 97adac3 Add try catch
+* d9b7cbc add throws in playertest again
+* f2717d3 reverted the midi exceptions. we need to do try, catch, not throw on 
+        the entire test. im done for tonight. the lyrics parser is fully operational and 
+        almost entirely foolproof. i will finish the tests tomorrow and we should start 
+        the listener whenever. all othe
+*   fc3024c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   3d9dc71 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 812ad1d whoops, mixed up some fractions
+* | | 5d3938e Player test exceptions added
+| |/
+|/|
+* |   003bf74 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * fa9554b Change tempo to a Fraction
+| * 408c047 added a bullet-proof Fraction constructor for all types of Strings given int/int, int/, int, 
+        /int, /
+| * 77b6afe more work on Scales
+* | 46fba95 Signature tempo changed to frac, so listener is broken. MusicPlayer created 
+        in main
+|/
+* cc98d53 Scales fixed to show key. Lyric parser works almost entirely
+* 7ef86d3 Fixed it! Passing it on to Zeke's parser
+*   c9a1812 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 189a383 More docs on Scales and formatted num. Lyrics.g4 is still ongoing
+* | f912c2f Fix some Listener bugs, still working on it
+|/
+* 39870d4 division by zero fixed. still errors in scales
+* 4ca452a shit. we still had the mutator in measure in the design description
+*   f182a97 conflicts again
+|\
+| * f24c8d3 adding files missing
+| *   2f9c63a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 468743a Add new Listener and Test design to the Design pdf
+| * | bc6a80d Last push for the night. This commit includes most of the working project. 
+        A minor issue when walking the tree is that Fraction broke last minute and I 
+        cant find the bug so we can look at that tomorrow. Nice job
+| |/
+| * 5e80264 Add length multiplier (still immutable) for Chord
+| *   47151b2 ARGH ZEKE. more merging.
+| |\
+| | * 9088cc0 New lexer works(EXCLAMATION MARK) Also the parser is beginning to 
+        work too(ANOTHER EXCLAMATION MARK)
+| * | 301584f Everything is now immutablegit status Stacks on stacks
+* | | d5c2e4b agreed to try make things immutable. Changed design description.
+| |/
+|/|
+* | 8a8bbe2 Design description changed
+* | d04a93b Working lyric lexer and its tests but will change them now. Revert to 
+        this one if new idea of splitting all tokens individually fails
+|/
+* f57ec74 Added new changes to design file. We need to update the diagram
+* a9d948d Add LyricListener
+* 791ecff new parser skeleton is up. will start programming it now
+*   81f6c9f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   57f1daf Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c18f996 Created and started tests for the MusicSymbol interface and the Utils. 
+        Did not finish them and should be a priority but will start writing the second 
+        parser for lyrics for now
+* | | 19bbab1 Add preliminary Lyric parser files
+| |/
+|/|
+* | c05aa84 Add repeats, almost done! only need lyrics parser.
+* | 6b9a22f Give up on parsing lyrics, zeke is making another parser
+|/
+*   f4ecd1a merge files
+|\
+| * 44931d1 Change methods to return Measures that need more syllables
+| *   c1ecb6b dont know
+| |\
+| * \   e407468 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\ \
+| * | | 270b242 Fixes for measure
+* | | | a7dda2a all files in the player package now include equals(), toString(), and 
+        hashCode() methods. Several other docs were also added to most files
+| |_|/
+|/| |
+* | | b4b30ad Further work on Measure and Listener
+* | | 6b06bdf Add addMeasure
+* | |   ead652f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| * | | 5ad03dd formatted several files and added a commit log file to the docs
+| | |/
+| |/|
+* | | 6704aa2 Add methods to find measures without lyrics:
+|/ /
+* | e2a8db4 Add methods to Measure
+|/
 * ee590b3 I broke everything so sorry
 * 3059a70 More Listener work, maybe add Measure object?
 * 68ded49 Added a method to scales which shifts a pitch up/down depending on 
-	the tone change given.
+        the tone change given.
 * c81a983 Fully working Scales method.
 * 751818f Update Scales
 * 203c05f Add documentation, fix a few Listener errors. We need to reallllly do 
-	more documentation
+        more documentation
 * 71c3021 Design revision
 * 00de6b9 some more renaiming
 * 1d68ba5 Docs renamed
 * 9fdc434 Fixed the title and intro, added the grammar file at the end
 * a636548 Parser added to the design
 * 32038c1 Change Syllable to Lyric, add more methods to Voice
-*   b729e3c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-		mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+*   b729e3c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 |\
 | * fa7cd83 Making the contract a nice LaTeX at 4AM......
 | * 10c8dda Minor change in Chord.java
@@ -95,29 +1184,27 @@ We represent an ABC parser for music files as a series of well-structured interf
 * | 4148f8f Add Voices to Listener
 |/
 * 557e0c3 More work on Listener, only have Note and Syllable left to do
-*   e04b554 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-		mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+*   e04b554 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 |\
 | * f1c7f57 multiplyLength added to Pitch
-* | d810fa0 Fraction now supports equals(), multiply(int), multiply(Fraction), 
-		and a constructor given a String representation of a full fraction
+* | d810fa0 Fraction now supports equals(), multiply(int), multiply(Fraction), and 
+        a constructor given a String representation of a full fraction
 |/
-*   82a0cb2 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-		mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+*   82a0cb2 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 |\
-| *   115172f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-		mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| *   115172f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 | |\
 | * | 471f311 Fraction file
-| * |   fec5741 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-			mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-
-			schmois
+| * |   fec5741 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 | |\ \
-| * | | 6034c07 new Fraction class available. Pitch is a bit different now but 
-			still needs work transforming lengths to Fraction. Scales is still 
-			in the works
-* | | |   a712710 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena
-			.mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| * | | 6034c07 new Fraction class available. Pitch is a bit different now but still 
+        needs work transforming lengths to Fraction. Scales is still in the works
+* | | |   a712710 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 |\ \ \ \
 | | |_|/
 | |/| |
@@ -129,32 +1216,377 @@ We represent an ABC parser for music files as a series of well-structured interf
 |/ /
 * | d10f9a6 Add Signature, Syllable. Clean up Lexer, add outline to Listener
 |/
-*   89b6d4e Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-		mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+*   89b6d4e Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 |\
 | * 10c4053 Add more lexer tests and documentation
 * | 81d05ad Datatype modifications
 |/
 * 8beea02 Note interface implemented
-*   6a74a54 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-		mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+*   6a74a54 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+:...skipping...
+*   570b4f1 (HEAD, origin/master, origin/HEAD, master) Merge branch 'master' of 
+        ssh://athena.dialup.mit.edu/afs/athena.mit.
+                edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 5ce2724 fixed the mario song and moved all songs except for the warmups to 
+        the songs abc folder instead. play all songs from the main file
+* | 19a0cb9 Add design-revised document
+|/
+*   4c551eb Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 34ff92b Added the last songs for now. I think this is it. We may add the Instruments 
+        later if I get an answer on Piazza otherwise this looks pretty good. Fully documented 
+        files, all tests pass, all deliverables included, no bugs on everything being 
+        implemented curren
+* | 9808c41 Remove print statements from Listener
+|/
+* 21f6210 Fix tests, finally workinggit pullgit pullgit pull
+* e8bd15c Changed the equals method
+*   54fec3a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 95fc4d9 Fix the broken PlayerTest
+* | e62368f Fraction toString reverted, equals tests added. Seems to work
+|/
+* e54300b Fix some tests. Fraction equals still not working, and mysterious bug 
+        in MusicPiece equals
+* 266e7d4 renamed barbie girl song and added documentation and error handling in 
+        Main.main()
+* 44b760b Fraction documentation
+* 5152d64 Fix Signature's meter being blank
+* ba16db5 fixing some tests
+* d20c7e3 adding the files needed to play
+*   76925e1 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 289c346 repeated lyrcis fixed
+* | ca4f982 Major changes done to Main method. I migrated most of the methods to 
+        a new file called Play and also added a pop up menu that will allow the user 
+        to pick which song to play
+|/
+* b5b6dde Disabled lyrics for rests
+* 5692455 more songs with multiple voices. working to see if I can implement different 
+        instruments
+* 7d92157 the new songs are now up in their own package folder
+*   b0c1139 merge
+|\
+| * 7abc7c1 one more
+| * f1bae33 Deleted leftovers from zeke's merge
+* | d1a41b9 added some more music and fixed dream on
+* | b7de6b1 waxies dargle song throws an exception out of bounds for index 2 
+        size 2. andrei, could you take a look?
+|/
+*   912eeee merge
+|\
+| * 8371eba lyric iff timing corrected
+| * 08ce665 trying to get this test to pass askdljsandlkasd
+| * 8994f44 Fix lyrics again. stupid bars.
+* | fb68e40 more tests and a few more changes to the lyric parser now fully tested 
+        and in working conditions
+|/
+* b6a9f56 Forgot to clear measures, whoops
+* 7b83407 Lyrics now added to the correct measure. g4 and Listener changed. Tests 
+        adjusted.
+* 21ccf54 Documented more of my stuff. NumberTheory test. Chord has length now. 
+        GetLength, multiplyLength moved to the interface
+*   b461fab Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * b72f20d Fix tests and listener
+* |   c1a2b60 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * 3be4999 Allow rests in chord, broke everything
+* | f8ef31d documented MusicPlayer. Do we neeeed tests for that toooo?
+|/
+* 56f1d22 remove the w: from lyrics when they are parsed
+* 3853aa8 fix test
+* b3cb319 lol forgot to check for syllable size
+*   d9d5286 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   03e77bd Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 3ba1145 Fraction tests added
+| * | 7730d0e Fixed tuplets! Lyrics are now beign added to Measures yaaay
+| |/
+* | 990d23c it works! lyrics are done. most tests are in too
+|/
+* 235b57c fully working but has one tiny bug. pushing so olga can start integrating it 
+        into the main listener
+* 36d8815 Documented tests a little better
+* 5454834 "more work done on the lyric listener. almost done"
+* 7b02e58 finished all tests for my methods, all work except getLength, because Fraction 
+        of 2/3 doesnt equal Fraction of 2/3. Sad times.
+* de8550c new Scales file to account for ALL octaves
+* 8e59438 Corrected the key issue. ahahaha pun.
+* 076799c More work on tests, cleared accidentals after exit measure
+* 1dd4162 All classes now have equals, hashcode, tostring, and documentation
+* f43bde1 Add naturals to the Listener
+* bd844a1 Add pipe and repeats as tokens, add comments back (accidentally removed, 
+        oops)
+* 24461cf Split up tests, add some more documentation
+* a2e6b56 finalized the parser for the lyrics. its insanely simple now and super 
+        effective. its fully tested up to the listener which i just started. it shouldnt 
+        take long at all i just have a lot of other work
+* 21fce52 Some more listener changes
+* 7b46713 IT WORKS, although some off notes
+* c1b9d0f Added a hash map for repeated measures because you have to remember the 
+        lines before too. Some new tests added. Some problems with grammar appeared
+* 4460c9a Fraction changed to normal, gcd corrected, chord.addNotes() corrected. PLEEEEEASE 
+        PULLLLL
+*   5dc753a merge
+|\
+| * f4073e0 It almost works. Some overlay problems in the middle of the song, probably 
+        repeats or something. More testing
+| * 94130a9 toString() added and Listener tuplet error corrected
+| * 0647d9d Fraction edited. Music objects toString completed
+| *   de2a211 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * bbf7fdc finished equals test suite
+| * |   b46c817 Merge shit
+| |\ \
+| | |/
+| * | d218826 Fraction.java conflict
+* | | b6a919f merge
+| |/
+|/|
+* | 72129bc more Fraction merge, this blows
+* |   bbce083 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| *   0c10d00 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c608108 Add MusicADTBasicTest
+* | |   4abcdd5 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| | |/
+| |/|
+| * | e5de976 One more fraction fix
+| * | 5d45c00 Fraction constructor from string fixed
+| |/
+| * 2ad97dd Fix length of note parsing again
+* | db630b3 i was working on Fraction but so was Andrei so I'm pushing so I can 
+        merge
+|/
+* 4b68598 Forgot to check for length in note, added that
+* 0106f8e Add ParserTest
+*   f10f2f8 Merge fix meow
+|\
+| * 7adefac omg you can now even guess the songs sometimes
+| *   02e00ef Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 04ecc05 some new abc files but I dont think theyre properly written
+* | | 1ff5b1e Add ParserTest, more documentation
+| |/
+|/|
+* | e1e0c3a Fixed the 36 voices problemgit pull! I was adding a new one every time 
+        whoops
+|/
+* 4b21a40 num name changed. Empty lyrics handling added
+* 8abdaf2 Currently just ignoring any lyrics. Errors: Fraction sometimes vomits 
+        in the constructor, and songs without lyrics throw errors. But some of the songs 
+        actually work
+* d7cea1d player test changed back
+* a3102a6 Commented main for more understanding
+* 97adac3 Add try catch
+* d9b7cbc add throws in playertest again
+* f2717d3 reverted the midi exceptions. we need to do try, catch, not throw on 
+        the entire test. im done for tonight. the lyrics parser is fully operational and 
+        almost entirely foolproof. i will finish the tests tomorrow and we should start 
+        the listener whenever. all othe
+*   fc3024c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   3d9dc71 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 812ad1d whoops, mixed up some fractions
+* | | 5d3938e Player test exceptions added
+| |/
+|/|
+* |   003bf74 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \
+| |/
+| * fa9554b Change tempo to a Fraction
+| * 408c047 added a bullet-proof Fraction constructor for all types of Strings given int/int, int/, int, 
+        /int, /
+| * 77b6afe more work on Scales
+* | 46fba95 Signature tempo changed to frac, so listener is broken. MusicPlayer created 
+        in main
+|/
+* cc98d53 Scales fixed to show key. Lyric parser works almost entirely
+* 7ef86d3 Fixed it! Passing it on to Zeke's parser
+*   c9a1812 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 189a383 More docs on Scales and formatted num. Lyrics.g4 is still ongoing
+* | f912c2f Fix some Listener bugs, still working on it
+|/
+* 39870d4 division by zero fixed. still errors in scales
+* 4ca452a shit. we still had the mutator in measure in the design description
+*   f182a97 conflicts again
+|\
+| * f24c8d3 adding files missing
+| *   2f9c63a Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| | * 468743a Add new Listener and Test design to the Design pdf
+| * | bc6a80d Last push for the night. This commit includes most of the working project. 
+        A minor issue when walking the tree is that Fraction broke last minute and I 
+        cant find the bug so we can look at that tomorrow. Nice job
+| |/
+| * 5e80264 Add length multiplier (still immutable) for Chord
+| *   47151b2 ARGH ZEKE. more merging.
+| |\
+| | * 9088cc0 New lexer works(EXCLAMATION MARK) Also the parser is beginning to 
+        work too(ANOTHER EXCLAMATION MARK)
+| * | 301584f Everything is now immutablegit status Stacks on stacks
+* | | d5c2e4b agreed to try make things immutable. Changed design description.
+| |/
+|/|
+* | 8a8bbe2 Design description changed
+* | d04a93b Working lyric lexer and its tests but will change them now. Revert to 
+        this one if new idea of splitting all tokens individually fails
+|/
+* f57ec74 Added new changes to design file. We need to update the diagram
+* a9d948d Add LyricListener
+* 791ecff new parser skeleton is up. will start programming it now
+*   81f6c9f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   57f1daf Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | c18f996 Created and started tests for the MusicSymbol interface and the Utils. 
+        Did not finish them and should be a priority but will start writing the second 
+        parser for lyrics for now
+* | | 19bbab1 Add preliminary Lyric parser files
+| |/
+|/|
+* | c05aa84 Add repeats, almost done! only need lyrics parser.
+* | 6b9a22f Give up on parsing lyrics, zeke is making another parser
+|/
+*   f4ecd1a merge files
+|\
+| * 44931d1 Change methods to return Measures that need more syllables
+| *   c1ecb6b dont know
+| |\
+| * \   e407468 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\ \
+| * | | 270b242 Fixes for measure
+* | | | a7dda2a all files in the player package now include equals(), toString(), and 
+        hashCode() methods. Several other docs were also added to most files
+| |_|/
+|/| |
+* | | b4b30ad Further work on Measure and Listener
+* | | 6b06bdf Add addMeasure
+* | |   ead652f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \
+| * | | 5ad03dd formatted several files and added a commit log file to the docs
+| | |/
+| |/|
+* | | 6704aa2 Add methods to find measures without lyrics:
+|/ /
+* | e2a8db4 Add methods to Measure
+|/
+* ee590b3 I broke everything so sorry
+* 3059a70 More Listener work, maybe add Measure object?
+* 68ded49 Added a method to scales which shifts a pitch up/down depending on 
+        the tone change given.
+* c81a983 Fully working Scales method.
+* 751818f Update Scales
+* 203c05f Add documentation, fix a few Listener errors. We need to reallllly do 
+        more documentation
+* 71c3021 Design revision
+* 00de6b9 some more renaiming
+* 1d68ba5 Docs renamed
+* 9fdc434 Fixed the title and intro, added the grammar file at the end
+* a636548 Parser added to the design
+* 32038c1 Change Syllable to Lyric, add more methods to Voice
+*   b729e3c Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * fa7cd83 Making the contract a nice LaTeX at 4AM......
+| * 10c8dda Minor change in Chord.java
+| * 8fdc9e8 Design description added. PROOFREAD  needed
+| * 40e8858 ADT revised. Some classes moved to utils
+| * ecf98be Music interface created, others revised
+* | 4148f8f Add Voices to Listener
+|/
+* 557e0c3 More work on Listener, only have Note and Syllable left to do
+*   e04b554 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * f1c7f57 multiplyLength added to Pitch
+* | d810fa0 Fraction now supports equals(), multiply(int), multiply(Fraction), and 
+        a constructor given a String representation of a full fraction
+|/
+*   82a0cb2 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| *   115172f Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\
+| * | 471f311 Fraction file
+| * |   fec5741 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+| |\ \
+| * | | 6034c07 new Fraction class available. Pitch is a bit different now but still 
+        needs work transforming lengths to Fraction. Scales is still in the works
+* | | |   a712710 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\ \ \ \
+| | |_|/
+| |/| |
+| * | | 3aecd81 Add Fraction, modify Signature, start Listener
+| * | | 4e2e6d2 Start Listener
+| | |/
+| |/|
+* | | d1b02f3 MusicPlayer class added
+|/ /
+* | d10f9a6 Add Signature, Syllable. Clean up Lexer, add outline to Listener
+|/
+*   89b6d4e Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+|\
+| * 10c4053 Add more lexer tests and documentation
+* | 81d05ad Datatype modifications
+|/
+* 8beea02 Note interface implemented
+*   6a74a54 Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 |\
 | * 930363a warm-up tests no didit added
 * | 8e9f093 Add repeated measure class and more comments on tests
 |/
 * 22873ec small ADT changes
 * 380ef1f g4 worksgit status All sample_abc files run
-* 125a22c Fix g4, now it worksgit status! Super hackey, and lyrics is now just one 
-	token. However, notes are not just one massive line token
+* 125a22c Fix g4, now it worksgit status! Super hackey, and lyrics is now just 
+        one token. However, notes are not just one massive line token
 * 5e8cd39 new test
 * 284c547 fixed piece2 and piece3. worked more on the lexer and parser
 * 707733a Warmup tests fixed
 * dedb91c More tweaks. Now parses everything except G2 for some reason ugh
-*   e991cff Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.
-		mit.edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
+*   e991cff Merge branch 'master' of ssh://athena.dialup.mit.edu/afs/athena.mit.
+        edu/course/6/6.005/git/fa13/projects/abcplayer/aivanov-olgash-schmois
 |\
-| * 50be82f LexerTests updated, and now all pass! Still can't read a file. 
-		More g4 stuff
+| * 50be82f LexerTests updated, and now all pass! Still can't read a file. More 
+        g4 stuff
 | * a3ff9a6 Re-did g4, now there are a shitton of Lexer rules
 * | 6f3d289 warm-up tests added
 |/
@@ -167,20 +1599,20 @@ We represent an ABC parser for music files as a series of well-structured interf
 | * 5a2e028 Got the g4 to work
 | * cbca2b0 i wonder if didit supports branching....
 * | 0ea387d Work more on the grammar. Impossible. Also added Lexer tests
-* | 635d51f Warm-up exercises revised. Triplets fixed in first example, some 
-		errors in 
-		the second example.
-* | b31c495 Worked on g4, doesn't work perfectly yet. Also added Listener 
-		and stuff to Main
+* | 635d51f Warm-up exercises revised. Triplets fixed in first example, some errors in the second 
+        example.
+* | b31c495 Worked on g4, doesn't work perfectly yet. Also added Listener and stuff 
+        to Main
 |/
-* 6c20289 Add warm up tests (so far nothing works), start ADT files. 
-	Music is the interface
+* 6c20289 Add warm up tests (so far nothing works), start ADT files. Music is 
+        the interface
 * 6b9fadb FIX1: piece1.abc
 * 5ff043d Warm-up exercises
 * 9a91896 Add contract file
 * dfdee13 Starting code.
 
-\end{verbatim}
+
+\end{Verbatim}
 
 
 
