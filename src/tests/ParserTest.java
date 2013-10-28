@@ -156,10 +156,13 @@ public class ParserTest {
 
     @Test
     public void repeatedMeasuresLyricsTest() {
-        // Test repeated measures that have lyrics
+        // Test repeated measures that have lyrics. Make sure the repeats work
+        // correctly, repeating from after the end of measure symbol, and across
+        // several lines.
         String input = "X: 1 \r\n T:Bagatelle No.25 in A, WoO.59 \r\n C:Ludwig van Beethoven "
                 + "\r\n M:3/8 \r\n L:1/16 \r\n Q:1/8=140 \r\n K:Am \r\n "
                 + "\r\n  E,,E,^G, z z2 |] \r\n w: I play once. \r\n"
+                + " A,,E,A, z  \r\n  w:I re peat? \r\n"
                 + " A,,E,A, z :| \r\n  w:I re peat. \r\n";
 
         // measure 1, this is repeated
@@ -172,10 +175,13 @@ public class ParserTest {
         // measure 2
         List<MusicSymbol> notes2 = Arrays.asList(new Pitch(new Fraction(1), 'A', -2, 0), new Pitch(new Fraction(1),
                 'E', -1, 0), new Pitch(new Fraction(1), 'A', -1, 0), new Rest(new Fraction(1)));
-        List<String> syllables2 = Arrays.asList("I", "re", "peat.");
+        List<String> syllables2 = Arrays.asList("I", "re", "peat?");
         Measure measure2 = new Measure(notes2, new Lyric(syllables2));
 
-        List<Measure> measures = Arrays.asList(measure1, measure2, measure2);
+        List<String> syllables3 = Arrays.asList("I", "re", "peat.");
+        Measure measure3 = new Measure(notes2, new Lyric(syllables3));
+
+        List<Measure> measures = Arrays.asList(measure1, measure2, measure3, measure2, measure3);
         List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
         List<String> voiceNames = Arrays.asList("defaultVoice");
         MusicPiece expected = new MusicPiece(new Signature("Bagatelle No.25 in A, WoO.59", "Ludwig van Beethoven",
