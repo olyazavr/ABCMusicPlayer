@@ -2,7 +2,7 @@ package tests;
 
 import org.junit.Test;
 
-import player.Play;
+import player.Main;
 
 /**
  * Tests all the songs_abc files by playing them in the Play method, only makes
@@ -20,57 +20,57 @@ public class PlayerTest {
 
     @Test
     public void playabcTest() {
-        Play.play("songs_abc/abc_song.abc");
+        Main.play("songs_abc/abc_song.abc");
     }
 
     @Test
     public void fur_eliseTest() {
-        Play.play("songs_abc/fur_elise.abc");
+        Main.play("songs_abc/fur_elise.abc");
     }
 
     @Test
     public void inventionTest() {
-        Play.play("songs_abc/invention.abc");
+        Main.play("songs_abc/invention.abc");
     }
 
     @Test
     public void little_night_musicTest() {
-        Play.play("songs_abc/little_night_music.abc");
+        Main.play("songs_abc/little_night_music.abc");
     }
 
     @Test
     public void paddyTest() {
-        Play.play("songs_abc/paddy.abc");
+        Main.play("songs_abc/paddy.abc");
     }
 
     @Test
     public void piece1Test() {
-        Play.play("sample_abc/piece1.abc");
+        Main.play("sample_abc/piece1.abc");
     }
 
     @Test
     public void piece2Test() {
-        Play.play("sample_abc/piece2.abc");
+        Main.play("sample_abc/piece2.abc");
     }
 
     @Test
     public void piece3Test() {
-        Play.play("sample_abc/piece3.abc");
+        Main.play("sample_abc/piece3.abc");
     }
 
     @Test
     public void preludeTest() {
-        Play.play("songs_abc/prelude.abc");
+        Main.play("songs_abc/prelude.abc");
     }
 
     @Test
     public void scaleTest() {
-        Play.play("songs_abc/scale.abc");
+        Main.play("songs_abc/scale.abc");
     }
 
     @Test
     public void waxies_dargleTest() {
-        Play.play("songs_abc/waxies_dargle.abc");
+        Main.play("songs_abc/waxies_dargle.abc");
     }
 
 }

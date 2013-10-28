@@ -13,35 +13,8 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import sound.MusicPlayer;
-
 public class Play {
-	/**
-	 * Plays the input file using Java MIDI API and displays header information
-	 * to the standard output stream.
-	 * 
-	 * (Your code should not exit the application abnormally using
-	 * System.exit().)
-	 * 
-	 * @param file
-	 *            the name/location of input abc file relative to abcplayer/src
-	 */
-	public static void play(String file) {
-		// get the MusicPiece object
-		MusicPiece music = stringToMusicPiece(readFileToString(file));
-
-		// Find the ticks and tempo to give to the midi player
-		int ticksPerBeat = music.calculateTicksPerBeat();
-		int tempo = music.getPlayerTempo(ticksPerBeat);
-
-		// Try to play this, it may throw if it can't read the MIDI
-		MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat);
-		music.addNotes(player);
-		player.play();
-
-	}
-
-	private static String readFileToString(String file) {
+    protected static String readFileToString(String file) {
         StringBuilder output = new StringBuilder();
 
 		// try with resources, resources always closed after
