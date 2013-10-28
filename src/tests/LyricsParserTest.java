@@ -35,6 +35,8 @@ import utils.Fraction;
  * throwing. The second part will be a more rigorous test suite to test for
  * accuracy.
  * 
+ * The input 
+ * 
  * As the documentation for the antlr parser describes, there are 'lyric's
  * composed of 'measure's and any amount of trailing WHITESPACE. Measures can
  * have 'syllable's and a WHITESPACE, or be empty, noted by PIPES with no
@@ -281,6 +283,21 @@ public class LyricsParserTest {
 		expectedArray.add(new ArrayList<String>());
 		ArrayList<String> expected = expectedArray.get(0);
 		expected.add("Mary-Jane");
+		expected.add("a-compound");
+		expected.add("name-escapedHyphen");
+
+		assertEquals(expectedArray, verifyWalk(input));
+	}
+	
+
+	@Test
+	public void complexEscapedHyphenAndTildaTest() {
+		// Tests STARS listener. All stars return empty strings
+		String input = "Mary\\-Jane~is a\\-compound name\\-escapedHyphen ";
+		ArrayList<ArrayList<String>> expectedArray = new ArrayList<ArrayList<String>>();
+		expectedArray.add(new ArrayList<String>());
+		ArrayList<String> expected = expectedArray.get(0);
+		expected.add("Mary-Jane is");
 		expected.add("a-compound");
 		expected.add("name-escapedHyphen");
 
