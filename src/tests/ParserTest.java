@@ -28,7 +28,10 @@ import utils.Fraction;
  * 
  * Testing strategy: Test first the simple cases, then increasingly more
  * complicated and more prone to parsing error cases. Make sure all objects
- * consist of the right objects/components and in the right order.
+ * consist of the right objects/components and in the right order. Test all the
+ * modifiers, all symbols, all repeats, and all kinds of strange lyrics. Make
+ * sure accidentals carry over from within the measure and the key (and neutrals
+ * stop this).
  * 
  */
 public class ParserTest {
@@ -36,7 +39,7 @@ public class ParserTest {
     @Test
     public void basicHeaderOneMeasureTest() {
         // Tests only the basic header necessities and one simple measure
-        String input = "X: 1 \r\n T:Piece No.1 \r\n K:C \r\n C C C3/4 D/4 E \r\n";
+        String input = "X: 1 \r\n T:Piece No.1 \r\n M: C \r\n K:C \r\n C C C3/4 D/4 E \r\n";
 
         // because java wants music symbols in the music symbol list
         MusicSymbol pitch = new Pitch(new Fraction(1), 'C', 0, 0);
@@ -58,7 +61,8 @@ public class ParserTest {
     @Test
     public void extendedHeaderOneMeasureTest() {
         // tests the full possible header
-        String input = "X: 1 \r\n T:Piece No.1 \r\n C: Me \r\n M:4/4 \r\n L:1/4 \r\n Q:1/4=140 \r\n K:C \r\n C C C3/4 D/4 E \r\n";
+        String input = "X: 1 \r\n T:Piece No.1 \r\n C: Me \r\n M:4/4 \r\n L:1/4 \r\n Q:1/4=140 \r\n K:C "
+                + "\r\n C C C3/4 D/4 E \r\n";
 
         // because java wants music symbols in the music symbol list
         MusicSymbol pitch = new Pitch(new Fraction(1), 'C', 0, 0);
@@ -79,7 +83,8 @@ public class ParserTest {
 
     @Test
     public void lyricsMultMeasuresTest() {
-        // Tests lyrics and multiple measures
+        // Tests lyrics and multiple measures. Also test that accidentals from
+        // the key carry over to the notes.
         String input = "X:1 \r\n T:Alphabet Song \r\n C:Traditional Kid's Song \r\n M:4/4 \r\n L:1/4 \r\n Q:1/4=100 \r\n K:D \r\n "
                 + "  A A G F | F F E2|A       A  G  G | F F E2| \r\n "
                 + "w:Q R S *   T U V  W~(dou-ble u) | X Y Z \r\n ";
@@ -124,12 +129,47 @@ public class ParserTest {
     }
 
     @Test
-    public void octavesAccidentalsRepeatsTest() {
+    public void octavesAccidentalsTest() {
+        // Test modifiers of notes. Make sure accidentals carry over in measures
+        // and neutrals work the way we need them to. Also test defaults in
+        // signature.
+        String input = "X: 1 \r\n T:Bagatelle No.25 in A, WoO.59 \r\n C:Ludwig van Beethoven "
+                + "\r\n M:1/8 \r\n Q:1/8=140 \r\n K:Am \r\n "
+                + "\r\n ^^E,,E,,^G, z z2|__b e' b/4 z =b \r\n ";
+
+        // measure 1
+        // make sure double sharp carries over to second E,,
+        List<MusicSymbol> notes1 = Arrays.asList(new Pitch(new Fraction(1), 'F', -2, 0), new Pitch(new Fraction(1),
+                'F', -2, 0), new Pitch(new Fraction(1), 'G', -1, 1), new Rest(new Fraction(1)),
+                new Rest(new Fraction(2)));
+        Measure measure1 = new Measure(notes1, new Lyric(new ArrayList<String>()));
+
+        // measure 2
+        // make sure the double flat carries over to the second b
+        List<MusicSymbol> notes2 = Arrays.asList(new Pitch(new Fraction(1), 'A', 1, 0), new Pitch(new Fraction(1),
+                'E', 2, 0), new Pitch(new Fraction(1, 4), 'A', 1, 0), new Rest(new Fraction(1)), new Pitch(
+                new Fraction(1), 'B', 1, 0));
+        Measure measure2 = new Measure(notes2, new Lyric(new ArrayList<String>()));
+
+        List<Measure> measures = Arrays.asList(measure1, measure2);
+        List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
+        List<String> voiceNames = Arrays.asList("defaultVoice");
+        MusicPiece expected = new MusicPiece(new Signature("Bagatelle No.25 in A, WoO.59", "Ludwig van Beethoven",
+                new Fraction(1, 16), new Fraction(
+                        1, 8), new Fraction(140, 8), "Am", voiceNames), voices);
+
+        MusicPiece output = Play.stringToMusicPiece(input);
+
+        assertEquals(expected, output);
+    }
+
+    @Test
+    public void repeatsTest() {
         // Test modifiers of notes and repeats (repeated measures should be
         // added twice)
         String input = "X: 1 \r\n T:Bagatelle No.25 in A, WoO.59 \r\n C:Ludwig van Beethoven "
                 + "\r\n M:3/8 \r\n L:1/16 \r\n Q:1/8=140 \r\n K:Am \r\n "
-                + "\r\n E,,E,^G, z z2|[1A,,E,A, z :| \r\n ";
+                + "\r\n |: E,,E,^G, z z2|[1A,,E,A, z :| \r\n ";
 
         // measure 1, this is repeated
         List<MusicSymbol> notes1 = Arrays.asList(new Pitch(new Fraction(1), 'E', -2, 0), new Pitch(new Fraction(1),
@@ -155,7 +195,7 @@ public class ParserTest {
     }
 
     @Test
-    public void repeatedMeasuresLyricsTest() {
+    public void repeatedLyricsTest() {
         // Test repeated measures that have lyrics. Make sure the repeats work
         // correctly, repeating from after the end of measure symbol, and across
         // several lines.
@@ -165,19 +205,20 @@ public class ParserTest {
                 + " A,,E,A, z  \r\n  w:I re peat? \r\n"
                 + " A,,E,A, z :| \r\n  w:I re peat. \r\n";
 
-        // measure 1, this is repeated
+        // measure 1
         List<MusicSymbol> notes1 = Arrays.asList(new Pitch(new Fraction(1), 'E', -2, 0), new Pitch(new Fraction(1),
                 'E', -1, 0), new Pitch(new Fraction(1), 'G', -1, 1), new Rest(new Fraction(1)),
                 new Rest(new Fraction(2)));
         List<String> syllables1 = Arrays.asList("I", "play", "once.");
         Measure measure1 = new Measure(notes1, new Lyric(syllables1));
 
-        // measure 2
+        // measure 2, repeated
         List<MusicSymbol> notes2 = Arrays.asList(new Pitch(new Fraction(1), 'A', -2, 0), new Pitch(new Fraction(1),
                 'E', -1, 0), new Pitch(new Fraction(1), 'A', -1, 0), new Rest(new Fraction(1)));
         List<String> syllables2 = Arrays.asList("I", "re", "peat?");
         Measure measure2 = new Measure(notes2, new Lyric(syllables2));
 
+        // measure 3, repeated
         List<String> syllables3 = Arrays.asList("I", "re", "peat.");
         Measure measure3 = new Measure(notes2, new Lyric(syllables3));
 
@@ -230,26 +271,24 @@ public class ParserTest {
         // Tuplets are turned into Pitches with modified duration
         String input = "X:8628 \r\n T:Prelude BWV 846 no. 1 \r\n C:Johann Sebastian Bach "
                 + "\r\n M:4/4 \r\n L:1/16 \r\n Q:1/4=70 \r\n K:C \r\n "
-                + "% \r\n (2AB B dfdB dBGB DFED|[Z16G16c16]|] \r\n";
+                + "% \r\n (2AB (3Bdf (4d[BA]A/2^g'|[_E16z16]|] \r\n";
 
         // measure 1
-        MusicSymbol pitch = new Pitch(new Fraction(3, 2), 'A', 0, 0);
-        List<MusicSymbol> notes1 = Arrays.asList(pitch, new Pitch(new Fraction(3, 2), 'B', 0, 0), new Pitch(
-                new Fraction(1), 'B', 0, 0), new Pitch(new Fraction(1), 'D', 1, 0), new Pitch(new Fraction(1), 'F', 1,
-                0), new Pitch(new Fraction(1), 'D', 1, 0), new Pitch(new Fraction(1), 'B', 0, 0), new Pitch(
-                new Fraction(1), 'D', 1, 0), new Pitch(new Fraction(1), 'B', 0, 0), new Pitch(new Fraction(1), 'G', 0,
-                0), new Pitch(new Fraction(1), 'B', 0, 0), new Pitch(new Fraction(1), 'D', 0, 0), new Pitch(
-                new Fraction(1), 'F', 0, 0), new Pitch(new Fraction(1), 'E', 0, 0), new Pitch(new Fraction(1), 'D', 0,
-                0));
+        MusicSymbol pitch1 = new Pitch(new Fraction(3, 4), 'A', 0, 0);
+        List<MusicSymbol> chord1 = Arrays.asList(pitch1, new Pitch(new Fraction(3, 4), 'B', 0, 0));
+        List<MusicSymbol> notes1 = Arrays.asList(new Pitch(new Fraction(3, 2), 'A', 0, 0), new Pitch(
+                new Fraction(3, 2), 'B', 0, 0), new Pitch(new Fraction(2, 3), 'B', 0, 0), new Pitch(new Fraction(2, 3),
+                'D', 1, 0), new Pitch(new Fraction(2, 3), 'F', 1, 0), new Pitch(new Fraction(3, 4), 'D', 1, 0),
+                new Chord(chord1), new Pitch(new Fraction(3, 8), 'A', 0, 0),
+                new Pitch(new Fraction(3, 4), 'G', 2, 1));
         Measure measure1 = new Measure(notes1, new Lyric(new ArrayList<String>()));
 
         // measure 2
         // notes inside chords get added backwards (doesn't matter because they
         // all play at once)
-        List<MusicSymbol> pitches = Arrays.asList(new Pitch(new Fraction(16), 'C', 1, 0), new Pitch(new Fraction(16),
-                'G', 0, 0), new Rest(new Fraction(16)));
-        MusicSymbol chord = new Chord(pitches);
-        List<MusicSymbol> notes2 = Arrays.asList(chord);
+        List<MusicSymbol> pitches = Arrays.asList(new Rest(new Fraction(16)), new Pitch(new Fraction(16), 'E', 0, -2));
+        MusicSymbol chord2 = new Chord(pitches);
+        List<MusicSymbol> notes2 = Arrays.asList(chord2);
         Measure measure2 = new Measure(notes2, new Lyric(new ArrayList<String>()));
 
         List<Measure> measures = Arrays.asList(measure1, measure2);
@@ -263,5 +302,4 @@ public class ParserTest {
 
         assertEquals(expected, output);
     }
-
 }

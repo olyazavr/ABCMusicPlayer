@@ -20,6 +20,7 @@ import org.junit.Test;
  * correctly lexed and behave the way they should even with whitespace and
  * newlines. Notes (but not chords or tuplets) should be lexed along with their
  * modifiers. Header lines and comments should be lexed as their own tokens.
+ * Test all modifiers!
  * 
  */
 public class LexerTest {
@@ -60,15 +61,30 @@ public class LexerTest {
     }
 
     @Test
-    public void octavesAccidentalsRepeatsTest() {
+    public void noteModifiersTest() {
         // Test modifiers of notes, which are combined into one object along
-        // with the note
+        // with the note. Also test incomplete headers and out of order headers.
         String input = "X: 1 \n T:Bagatelle No.25 in A, WoO.59 \n C:Ludwig van Beethoven "
-                + "\n V:1 \n V:2 \n M:3/8 \n L:1/16 \n Q:1/8=140 \n K:Am \n "
-                + "V:1 \n E,,E,^G, z z2|[1A,,E,A, z :| | \n ";
+                + "\n V:1 \n V:2 \n L:1/16 \n M: C \n K:Am \n "
+                + "V:1 \n _E,,E,^G, z z2| __A,,E, ^^A, z =a' b | \n ";
         verifyLexer(input,
                 new String[] { "X: 1 \n", "T:Bagatelle No.25 in A, WoO.59 \n", "C:Ludwig van Beethoven \n", "V:1 \n",
-                        "V:2 \n", "M:3/8 \n", "L:1/16 \n", "Q:1/8=140 \n", "K:Am \n", "V:1 \n", "E,,", "E,", "^G,",
+                        "V:2 \n", "L:1/16 \n", "M: C \n", "K:Am \n", "V:1 \n", "_E,,", "E,", "^G,",
+                        "z", "z2", "|", "__A,,", "E,", "^^A,", "z", "=a'", "b", "|", "\n"
+                });
+    }
+
+    @Test
+    public void repeatsTest() {
+        // Test repeats, which should come out as their own symbol. Also test
+        // different newlines
+        String input = "X: 1 \n T:Bagatelle No.25 in A, WoO.59 \n C:Ludwig van Beethoven "
+                + "\n V:1 \n V:2 \n M:3/8 \n L:1/16 \n Q:1/8=140 \r\n K:Am \r\n "
+                + "V:1 \n |: E,,E,^G, z z2|[1A,,E,A, z :| | \n ";
+        verifyLexer(input,
+                new String[] { "X: 1 \n", "T:Bagatelle No.25 in A, WoO.59 \n", "C:Ludwig van Beethoven \n", "V:1 \n",
+                        "V:2 \n", "M:3/8 \n", "L:1/16 \n", "Q:1/8=140 \r\n", "K:Am \r\n", "V:1 \n", "|:", "E,,", "E,",
+                        "^G,",
                         "z", "z2", "|", "[1", "A,,", "E,", "A,", "z", ":|",
                         "|", "\n"
                 });
@@ -76,16 +92,16 @@ public class LexerTest {
 
     @Test
     public void chordsTupletsTest() {
-        // Test chords and tuplets, where (, [, and ], are lexed separately from
-        // their notes
+        // Test chords and tuplets, where (2, (3, (4, [, and ], are lexed
+        // separately from their notes. Also tests chords in tuplets.
         String input = "X:8628 \n T:Prelude BWV 846 no. 1 \n C:Johann Sebastian Bach "
                 + "\n M:4/4 \n L:1/16 \n Q:1/4=70 \n V:1 \n K:C \n "
-                + "% \n V:1 \n (2AB B dfdB dBGB DFED|[E16G16c16]|] \n";
+                + "% \n V:1 \n (2AB (3Bdf (4d[BA]A/2g' dBGB DFED|[E16G16z16]|] \n";
         verifyLexer(input,
                 new String[] { "X:8628 \n", "T:Prelude BWV 846 no. 1 \n", "C:Johann Sebastian Bach \n", "M:4/4 \n",
                         "L:1/16 \n", "Q:1/4=70 \n", "V:1 \n", "K:C \n", "% \n", "V:1 \n",
-                        "(2", "A", "B", "B", "d", "f", "d", "B", "d", "B", "G", "B", "D", "F", "E",
-                        "D", "|", "[", "E16", "G16", "c16", "]", "|]", "\n"
+                        "(2", "A", "B", "(3", "B", "d", "f", "(4", "d", "[", "B", "A", "]", "A/2", "g'", "d", "B",
+                        "G", "B", "D", "F", "E", "D", "|", "[", "E16", "G16", "z16", "]", "|]", "\n"
                 });
     }
 

@@ -34,7 +34,8 @@ import utils.Fraction;
  * 
  * Partition on complexity and modifiers, make sure things that have lists can
  * handle the lists being with only one object, none, or more than one (some
- * things can't have none, however).
+ * things can't have none, however). Also, make sure duration shows up correctly
+ * (ie. 1/1 should be nothing, 1/2 should be /2)
  * 
  */
 
@@ -136,7 +137,7 @@ public class MusicPartTest {
     public void hashCodeMeasureTest() {
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
-        MusicSymbol rest1 = new Rest(new Fraction(1));
+        MusicSymbol rest1 = new Rest(new Fraction(2, 3));
 
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
         Lyric lyric2 = new Lyric(Arrays.asList("A!!", "B123"));
@@ -156,7 +157,7 @@ public class MusicPartTest {
     @Test
     public void hashCodeVoiceTest() {
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
         MusicSymbol rest1 = new Rest(new Fraction(1));
 
@@ -186,7 +187,7 @@ public class MusicPartTest {
                 new Fraction(1, 8), "C", Arrays.asList("one"));
 
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
         MusicSymbol rest1 = new Rest(new Fraction(1));
 
@@ -214,7 +215,7 @@ public class MusicPartTest {
     @Test
     public void toStringMeasureTest() {
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol rest1 = new Rest(new Fraction(1));
         MusicSymbol chord1 = new Chord(Arrays.asList(pitch1, pitch2, rest1));
 
@@ -222,8 +223,8 @@ public class MusicPartTest {
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
         Measure measure2 = new Measure(Arrays.asList(pitch1, chord1), lyric1);
 
-        assertEquals(" b' ^a z |", measure1.toString());
-        assertEquals(" b' [b' ^a z] |", measure2.toString());
+        assertEquals(" b' ^a/4 z |", measure1.toString());
+        assertEquals(" b' [b' ^a/4 z] |", measure2.toString());
     }
 
     /**
@@ -232,7 +233,7 @@ public class MusicPartTest {
     @Test
     public void toStringVoiceTest() {
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
         MusicSymbol rest1 = new Rest(new Fraction(1));
         MusicSymbol chord1 = new Chord(Arrays.asList(pitch1, pitch2));
@@ -244,8 +245,8 @@ public class MusicPartTest {
         Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure2));
         Voice voice2 = new Voice("name2", Arrays.asList(measure1));
 
-        assertEquals("name1: b' ^a b' z | _d [b' ^a] [b' ^a] |]", voice1.toString());
-        assertEquals("name2: b' ^a b' z |]", voice2.toString());
+        assertEquals("name1: b' ^a/4 b' z | _d [b' ^a/4] [b' ^a/4] |]", voice1.toString());
+        assertEquals("name2: b' ^a/4 b' z |]", voice2.toString());
     }
 
     /**
@@ -259,7 +260,7 @@ public class MusicPartTest {
                 new Fraction(1, 1), "C", Arrays.asList("one", "two", "three"));
 
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol rest1 = new Rest(new Fraction(1));
 
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
@@ -276,10 +277,11 @@ public class MusicPartTest {
 
         assertEquals(
                 "T: title1 \n C: composer1 \n M: 1/2 \n L: 1/2 \n Q: 1/8 \n V: [one] \n K: C \n"
-                        + "name1: b' ^a z |]",
+                        + "name1: b' ^a/4 z |]",
                 music1.toString());
         assertEquals("T: title1 \n C: composer1 \n M: 4/4 \n L: 1 \n Q: 1 \n V: [one, two, three] \n K: C \n"
-                + "name1: b' ^a z | b' z ^a |], name1: b' ^a z |], name2: b' z ^a | b' z ^a |]", music2.toString());
+                + "name1: b' ^a/4 z | b' z ^a/4 |], name1: b' ^a/4 z |], name2: b' z ^a/4 | b' z ^a/4 |]",
+                music2.toString());
     }
 
 }

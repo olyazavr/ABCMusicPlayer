@@ -28,9 +28,9 @@ import utils.Fraction;
  * 
  * For Pitch, make sure everything works correctly regardless of how many
  * modifiers there are (partition on that), and same for Rest (it only has
- * duration). For Chord, partition on the number of Pitches it has. Also, make
- * sure duration shows up correctly (ie. 1/1 should be nothing, 1/2 should be
- * /2)
+ * duration). For Chord, partition on the number of MusicSymbols it has. Also,
+ * make sure duration shows up correctly (ie. 1/1 should be nothing, 1/2 should
+ * be /2)
  * 
  */
 
@@ -41,10 +41,10 @@ public class MusicSymbolTest {
      */
     @Test
     public void equalsPitchTest() {
-        Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
-        Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
-        Pitch pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
-        Pitch pitch4 = new Pitch(new Fraction(1), 'D', 0, -2);
+        Pitch pitch1 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
+        Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
+        Pitch pitch3 = new Pitch(new Fraction(1), 'D', -1, -2);
+        Pitch pitch4 = new Pitch(new Fraction(1), 'D', -1, -2);
 
         assertEquals(pitch1, pitch1); // reflexive
         assertEquals(pitch1, pitch2);
@@ -71,8 +71,8 @@ public class MusicSymbolTest {
      */
     @Test
     public void equalsChordTest() {
-        MusicSymbol pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
+        MusicSymbol pitch1 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
+        MusicSymbol pitch2 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
         MusicSymbol pitch4 = new Pitch(new Fraction(1), 'D', 0, -2);
         MusicSymbol rest1 = new Rest(new Fraction(2, 3));
@@ -166,13 +166,14 @@ public class MusicSymbolTest {
         MusicSymbol pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
         MusicSymbol pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
+        MusicSymbol pitch4 = new Pitch(new Fraction(1, 8), 'E', 0, 0);
         MusicSymbol rest1 = new Rest(new Fraction(2, 3));
 
         Chord chord1 = new Chord(Arrays.asList(pitch2));
-        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1));
+        Chord chord2 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1, pitch4));
 
         assertEquals("[^a'/2]", chord1.toString());
-        assertEquals("[_d2/3 ^a'/2 C, z2/3]", chord2.toString());
+        assertEquals("[_d2/3 ^a'/2 C, z2/3 E/8]", chord2.toString());
     }
 
     /**
