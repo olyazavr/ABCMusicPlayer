@@ -146,7 +146,7 @@ A note element is a note, rest, chord, duplet, triplet, or quadruplet. Duplets, 
 
 \item {\bf Errors}: Errors in parsing and lexing result in an exception being thrown. (reportErrorsAsExceptions is invoked on both parser and lexer).
 
-\item {\bf Listener}: While parsing the tree, we only care about these events: exit note, exit rest, exit duplet, exit triplet, exit quadruplet, exit chord, enter measure, exit measure, exit line, exit lyric, enter voice, exit header, exit tune. Several stacks are present at once, for each kind of object.
+\item {\bf Listener}: While parsing the tree, we care about these events: exit note, exit rest, exit duplet, exit triplet, exit quadruplet, exit chord, enter measure, exit measure, enter line, exit line, exit lyric, enter voice, exit header, exit tune. Several stacks are present at once, for each kind of object.
 
 When exiting the tune, voices and signature will be added to a MusicPiece object, which is then added to the stack.
 
@@ -154,9 +154,11 @@ When exiting a header, the information is extracted from the context, and defaul
 
 When entering a voice, the current voice is switched.
 
-When exiting a line, lyrics are matched with their notes in their measure, and padded as necessary. Measure objects are created and added to the stack.
+When entering a line, a new list of repeated ranges is created.
 
-When entering and exiting a measure, repeats are searched for and the repeated notes in each measure are added to stack so they appear twice. Possible repeated notes are kept track of, and cleared after they are repeated or if an end of notes symbol is encountered.
+When exiting a line, lyrics are matched with their notes in their measure, and padded as necessary. Measure objects are created and added to the stack. If the measure index matches an index in the repeated range, that measure is added again (to the top of the stack). 
+
+When entering and exiting a measure, repeats/n-th repeat/end of line symbols are searched for and the repeated range list is updated accordingly.
 
 When exiting a lyric, the chunk of text will be sent to another lexer and parser, which will return a list of lists of syllables, which will be pushed to the stack.
 
@@ -170,9 +172,9 @@ When exiting a note or rest, we extract the needed information from the context 
 \item {\bf Tests}:
 \begin{itemize}
 \item Lexer: Test different inputs and make sure tokens are broken up correctly. 
-Examples: Simple header only, extended header, header and body, lyrics, music that includes chord, tuplets, repeats, music that has comments
+Examples: Simple header only, extended header, header and body, lyrics, music that includes chords, tuplets, repeats, music that has comments, music with all different modifiers
 \item Parser: Test different inputs and expect fully-formed MusicPiece objects to be returned. 
-Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures
+Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures, all kinds of notes and modifiers
 \item ADT tests: test the methods of our ADTs
 Examples: equals, toString, hashCode, calculateTicksPerBeat, multiplyDuration, multiplyDuration, getLength, addNote, addNotes, etc.
 \item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
