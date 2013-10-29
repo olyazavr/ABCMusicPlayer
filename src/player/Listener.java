@@ -249,6 +249,9 @@ public class Listener extends ABCMusicBaseListener {
         Fraction l = new Fraction(0, 1);
         Fraction q = new Fraction(0, 1);
         List<String> v = new ArrayList<String>();
+        // if we just get a number after Q:, we need to multiply it by length
+        // later
+        boolean reCalculateTempo = false;
 
         // populate fields, we don't care about X: whatever
         for (String s : lines) {
@@ -272,11 +275,18 @@ public class Listener extends ABCMusicBaseListener {
                 l = new Fraction(s.substring(2).trim());
             }
             else if (s.startsWith("Q:")) { // tempo
-                // gives "length=number", need length*number
-                String[] extracted = s.substring(2).trim().split("=");
-                Fraction length = new Fraction(extracted[0]);
-                int number = new Integer(extracted[1]);
-                q = length.multiply(number);
+                // gives "length=number" or "number", need length*number
+                if (s.contains("=")) {
+                    String[] extracted = s.substring(2).trim().split("=");
+                    Fraction length = new Fraction(extracted[0]);
+                    int number = new Integer(extracted[1]);
+                    q = length.multiply(number);
+                } else {
+                    // if we just get a number after Q:, we need to multiply it
+                    // by length later
+                    reCalculateTempo = true;
+                    q = new Fraction(s.substring(2).trim());
+                }
             }
             else if (s.startsWith("K:")) { // key, mandatory
                 key = s.substring(2).trim();
@@ -298,6 +308,11 @@ public class Listener extends ABCMusicBaseListener {
         // Default tempo is length notes = 100
         if (q.evaluate() == 0f) {
             q = l.multiply(100);
+        }
+
+        // we grabbed the tempo, but need to multiply by default length
+        if (reCalculateTempo) {
+            q = q.multiply(l);
         }
 
         // create a default Voice stack if no Voices are added

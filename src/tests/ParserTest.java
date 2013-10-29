@@ -60,8 +60,8 @@ public class ParserTest {
 
     @Test
     public void extendedHeaderOneMeasureTest() {
-        // tests the full possible header
-        String input = "X: 1 \r\n T:Piece No.1 \r\n C: Me \r\n M:4/4 \r\n L:1/4 \r\n Q:1/4=140 \r\n K:C "
+        // tests the full possible header and alternative way to write header
+        String input = "X: 1 \r\n T:Piece No.1 \r\n C: Me \r\n M:4/4 \r\n L:1/4 \r\n Q:140 \r\n K:C "
                 + "\r\n C C C3/4 D/4 E \r\n";
 
         // because java wants music symbols in the music symbol list

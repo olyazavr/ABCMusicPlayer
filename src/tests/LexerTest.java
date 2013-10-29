@@ -34,10 +34,10 @@ public class LexerTest {
 
     @Test
     public void extendedHeaderOnlyTest() {
-        // tests the full possible header
-        String input = "X: 1 \n T:Piece No.1 \n C: Me \n M:4/4 \n L:1/4 \n Q:1/4=140 \n K:C \n";
+        // tests the full possible header and alternative way of writing tempo
+        String input = "X: 1 \n T:Piece No.1 \n C: Me \n M:4/4 \n L:1/4 \n Q:140 \n K:C \n";
         verifyLexer(input, new String[] { "X: 1 \n", "T:Piece No.1 \n", "C: Me \n", "M:4/4 \n", "L:1/4 \n",
-                "Q:1/4=140 \n", "K:C \n" });
+                "Q:140 \n", "K:C \n" });
     }
 
     @Test
