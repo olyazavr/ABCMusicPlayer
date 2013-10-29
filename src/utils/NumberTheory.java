@@ -11,6 +11,9 @@ public class NumberTheory {
 			B=A%B;
 			A=t;
 		}
+		if (A<0){
+			A*=-1;
+		}
 		return A;
 	}
 

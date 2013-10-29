@@ -94,9 +94,9 @@ public class Fraction {
 	 * 
 	 * @return a boolean
 	 */
-	public boolean lessEqual(Fraction f2) {
+	public boolean less(Fraction f2) {
 
-		return (this.evaluate() <= f2.evaluate());
+		return (this.evaluate() < f2.evaluate());
 	}
 
 	/**

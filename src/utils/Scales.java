@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -208,23 +209,24 @@ public class Scales {
 	 *         only when going down a pitch from C and going up a pitch from B
 	 */
 	public static List<String> movePitch(char value, int deltaPitch) {
-		List<String> result = Arrays.asList();
-		List<String> pitches = Arrays.asList("C", "D", "E", "F", "G", "A", "B");
+		List<String> result = new ArrayList<String>();
+		List<Character> pitches = Arrays.asList('C', 'D', 'E', 'F', 'G', 'A', 'B');
 		int pitchPosition = pitches.indexOf(value);
 
 		if (pitchPosition == 6 && deltaPitch == 1) {
-			result.add(pitches.get(0));
+			result.add(""+pitches.get(0));
 			result.add("1");
 			return result;
 		}
 
 		if (pitchPosition == 0 && deltaPitch == -1) {
-			result.add(pitches.get(6));
+			result.add(""+pitches.get(6));
 			result.add("-1");
 			return result;
 		}
-
-		result.add(pitches.get(pitchPosition + deltaPitch));
+		
+		char pitch=pitches.get(pitchPosition + deltaPitch);
+		result.add(""+pitch);
 		result.add("0");
 		return result;
 	}
