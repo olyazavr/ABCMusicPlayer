@@ -48,9 +48,9 @@ public class Main {
 	public static void main(String[] args) {
 		// bring up the pop-up window. This window will have a dropdown menu of
 		// all the songs available for the user to play
-		new AskDialog("ABC Songs", "Sample Songs", "No songs", "songs_abc",
-				"sample_abc", "", getFiles("songs_abc"),
-				getFiles("sample_abc"), null, new AskDialogInterface() {
+		new AskDialog("ABC Songs provided to us", "Sample Songs", "Our Awesome Additions", "songs_abc",
+				"sample_abc", "otherSongs_abc", getFiles("songs_abc"),
+				getFiles("sample_abc"), getFiles("otherSongs_abc"), new AskDialogInterface() {
 					@Override
 					public void clickedOnSong(String song, String folder,
 							AskDialog d) {
@@ -65,17 +65,7 @@ public class Main {
 		if (choice != null) {
 			System.out.println("Now playing: " + choice);
 
-			String justSong;
-
-			String[] stripArtist = choice.split("by");
-			if (stripArtist.length == 2) {
-
-				justSong = stripArtist[0].substring(0,
-						stripArtist[0].length() - 1);
-			} else {
-				justSong = stripArtist[0];
-			}
-			String choiceParsed = justSong.replace(" ", "_") + ".abc";
+			String choiceParsed = choice.replace(" ", "_") + ".abc";
 
 			play(folder + "/" + choiceParsed);
 		}
@@ -156,6 +146,7 @@ public class Main {
 
 	}
 
+	// simple UI interface
 	public static class Response implements Runnable {
 
 		private String[] values;
