@@ -48,7 +48,7 @@ public class Pitch implements MusicSymbol {
              player.addLyric(syllable);
          }
     	 
-        sound.Pitch pitch = new sound.Pitch(value);
+        sound.PlayerPitch pitch = new sound.PlayerPitch(value);
         pitch = pitch.transpose(accidental).octaveTranspose(octave);
 
         player.addNote(pitch.toMidiNote(), length);

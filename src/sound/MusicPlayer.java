@@ -25,7 +25,7 @@ public class MusicPlayer {
 	 * @param ticksPerBeat
 	 *            an integer representing the number of ticks per beat
 	 */
-	public MusicPlayer(int tempo, int ticksPerBeat) {
+	public MusicPlayer(int tempo, int ticksPerBeat,int currentTick) {
 		LyricListener listener = new LyricListener() {
 			public void processLyricEvent(String text) {
 				System.out.println(text);
@@ -38,8 +38,20 @@ public class MusicPlayer {
 		} catch (InvalidMidiDataException e) {
 			e.printStackTrace();
 		}
-		this.currentTick = 0;
+		this.currentTick = currentTick;
 		this.ticksPerBeat = ticksPerBeat;
+	}
+
+	/**
+	 * Creates an Instance of Music Player using an existing SequencePlayer;
+	 * 
+	 * @param player
+	 *            is a valid SequencePlayer
+	 */
+	public MusicPlayer(SequencePlayer player, int ticks) {
+		this.player = player;
+		this.currentTick = ticks;
+		this.ticksPerBeat = player.getTicksPerBeat();
 	}
 
 	/**
@@ -53,7 +65,7 @@ public class MusicPlayer {
 	 */
 	public void addNote(int note, Fraction noteLength) {
 		player.addNote(note, currentTick,
-				currentTick + noteLength.multiply(ticksPerBeat).getNumerator());
+				noteLength.multiply(ticksPerBeat).getNumerator());
 	}
 
 	/**
@@ -81,6 +93,19 @@ public class MusicPlayer {
 	 */
 	public void resetTime() {
 		currentTick = 0;
+	}
+
+	/**
+	 * Check whether an object is equal to this instance of Music Player.
+	 * Players are considered equal if they have the same values of
+	 * currentTicks, ticksPerBeat and equal player attributes.
+	 */
+	public boolean equals(Object that) {
+		if (!(that instanceof MusicPlayer)) {
+			return false;
+		}
+		MusicPlayer thatPlayer = (MusicPlayer) that;
+		return (this.player.equals(thatPlayer.player) && currentTick == thatPlayer.currentTick);
 	}
 
 	/**

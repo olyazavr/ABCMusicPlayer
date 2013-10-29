@@ -28,7 +28,7 @@ public class Chord implements MusicSymbol {
         // calculate the length - the smallest length of the components
         Fraction minLength = notes.get(0).getLength();
         for (MusicSymbol m : notes) {
-            if (m.getLength().lessEqual(minLength)) {
+            if (m.getLength().less(minLength)) {
                 minLength = m.getLength();
             }
         }

@@ -13,7 +13,7 @@ package sound;
  *   new Pitch('C').transpose(OCTAVE) makes high C.
  *   new Pitch('C').transpose(-OCTAVE) makes low C.
  */
-public class Pitch {
+public class PlayerPitch {
     private final int value;
     private final int accidental;
     private final int octave;
@@ -41,7 +41,7 @@ public class Pitch {
         7   // G
     };
 
-    private Pitch(int value, int accidental, int octave) {
+    private PlayerPitch(int value, int accidental, int octave) {
         this.value = value;
         this.accidental = accidental;
         this.octave = octave;
@@ -54,7 +54,7 @@ public class Pitch {
      * @return Pitch named c in the middle octave of the piano keyboard.
      * For example, new Pitch('C') constructs middle C.
      */
-    public Pitch(char c) {
+    public PlayerPitch(char c) {
         int index = c - 'A';
         if (index < 0 || index >= scale.length)
             throw new IllegalArgumentException(c + " must be in the range A-G");
@@ -76,8 +76,8 @@ public class Pitch {
      * argument is negative.  For example, E transposed by -1
      * semitone is E flat; E transposed by 1 semitone is E sharp.
      */
-    public Pitch accidentalTranspose(int semitonesUp) {
-        return new Pitch(value, accidental + semitonesUp, octave);
+    public PlayerPitch accidentalTranspose(int semitonesUp) {
+        return new PlayerPitch(value, accidental + semitonesUp, octave);
     }
 
     /**
@@ -85,8 +85,8 @@ public class Pitch {
      * octaves up.  For example, transposing E up by 1 octave produces
      * E' ; transposing E down by 1 octave produces E, .
      */
-    public Pitch octaveTranspose(int octavesUp) {
-        return new Pitch(value, accidental, octave + octavesUp);
+    public PlayerPitch octaveTranspose(int octavesUp) {
+        return new PlayerPitch(value, accidental, octave + octavesUp);
     }
 
     /**
@@ -95,7 +95,7 @@ public class Pitch {
      * example, transposing E up by 3 semitones will produce G;
      * transposing F up by 5 semitones will produce B flat.
      */
-    public Pitch transpose(int semitonesUp) {
+    public PlayerPitch transpose(int semitonesUp) {
         int newValue = value + semitonesUp;
         int newOctave = octave;
         int newAccidental = accidental;
@@ -124,14 +124,14 @@ public class Pitch {
             }
         }
 
-        return new Pitch(newValue, newAccidental, newOctave);
+        return new PlayerPitch(newValue, newAccidental, newOctave);
     }
 
     /**
      * @return number of semitones between this and that; i.e., n such
      * that that.transpose(n).toMidiNote() == this.toMidiNote().
      */
-    public int difference(Pitch that) {
+    public int difference(PlayerPitch that) {
         return this.toMidiNote() - that.toMidiNote();
     }
 
@@ -147,7 +147,7 @@ public class Pitch {
     /**
      * @return true iff this pitch is lower than that pitch
      */
-    public boolean lessThan(Pitch that) {
+    public boolean lessThan(PlayerPitch that) {
         return this.difference(that) < 0;
     }
 
@@ -157,7 +157,7 @@ public class Pitch {
             return false;
         if (obj.getClass() != this.getClass())
             return false;
-        Pitch that = (Pitch) obj;
+        PlayerPitch that = (PlayerPitch) obj;
         return this.value == that.value
             && this.accidental == that.accidental
             && this.octave == that.octave;

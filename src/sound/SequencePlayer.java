@@ -22,6 +22,7 @@ public class SequencePlayer {
 	private Sequencer sequencer;
 	private Track track;
 	private int beatsPerMinute;
+	private int ticksPerBeat;
 
 	// midi channel - for our purpose always 0
 	private static int DEFAULT_CHANNEL = 0;
@@ -65,10 +66,11 @@ public class SequencePlayer {
 
 		// Create an empty track. Notes will be added to this track.
 		this.track = sequence.createTrack();
-
 		sequencer.setSequence(sequence);
 
+		this.ticksPerBeat = ticksPerBeat;
 		checkRep();
+
 	}
 
 	/**
@@ -110,6 +112,10 @@ public class SequencePlayer {
 			throw new RuntimeException(msg, e);
 		}
 
+	}
+
+	public int getTicksPerBeat() {
+		return ticksPerBeat;
 	}
 
 	/**
@@ -196,6 +202,20 @@ public class SequencePlayer {
 		return trackInfo;
 	}
 
+	@Override
+	/**
+	 * Check whether an object is equal to current instance of SequencePlayer.
+	 * @return true if objects are equal. Two sequence players are considered equal if they have
+	 * the same midi and lyric events. 
+	 */
+	public boolean equals(Object p) {
+		if (!(p instanceof SequencePlayer)) {
+			return false;
+		}
+		SequencePlayer player = (SequencePlayer) p;
+		return (this.toString().equals(player.toString()));
+	}
+
 	private void checkRep() {
 		assert sequencer != null : "sequencer should be non-null";
 		assert track != null : "track should be non-null";
@@ -223,23 +243,23 @@ public class SequencePlayer {
 			player = new SequencePlayer(200, 2, listener);
 
 			player.addLyricEvent("Up!", 0);
-			player.addNote(new Pitch('C').toMidiNote(), 0, 1);
-			player.addNote(new Pitch('D').toMidiNote(), 1, 1);
-			player.addNote(new Pitch('E').toMidiNote(), 2, 1);
-			player.addNote(new Pitch('F').toMidiNote(), 3, 1);
-			player.addNote(new Pitch('G').toMidiNote(), 4, 1);
-			player.addNote(new Pitch('A').toMidiNote(), 5, 1);
-			player.addNote(new Pitch('B').toMidiNote(), 6, 1);
-			player.addNote(new Pitch('C').transpose(Pitch.OCTAVE).toMidiNote(),
+			player.addNote(new PlayerPitch('C').toMidiNote(), 0, 1);
+			player.addNote(new PlayerPitch('D').toMidiNote(), 1, 1);
+			player.addNote(new PlayerPitch('E').toMidiNote(), 2, 1);
+			player.addNote(new PlayerPitch('F').toMidiNote(), 3, 1);
+			player.addNote(new PlayerPitch('G').toMidiNote(), 4, 1);
+			player.addNote(new PlayerPitch('A').toMidiNote(), 5, 1);
+			player.addNote(new PlayerPitch('B').toMidiNote(), 6, 1);
+			player.addNote(new PlayerPitch('C').transpose(PlayerPitch.OCTAVE).toMidiNote(),
 					7, 1);
 			player.addLyricEvent("Down!", 8);
-			player.addNote(new Pitch('B').toMidiNote(), 8, 1);
-			player.addNote(new Pitch('A').toMidiNote(), 9, 1);
-			player.addNote(new Pitch('G').toMidiNote(), 10, 1);
-			player.addNote(new Pitch('F').toMidiNote(), 11, 1);
-			player.addNote(new Pitch('E').toMidiNote(), 12, 1);
-			player.addNote(new Pitch('D').toMidiNote(), 13, 1);
-			player.addNote(new Pitch('C').toMidiNote(), 14, 1);
+			player.addNote(new PlayerPitch('B').toMidiNote(), 8, 1);
+			player.addNote(new PlayerPitch('A').toMidiNote(), 9, 1);
+			player.addNote(new PlayerPitch('G').toMidiNote(), 10, 1);
+			player.addNote(new PlayerPitch('F').toMidiNote(), 11, 1);
+			player.addNote(new PlayerPitch('E').toMidiNote(), 12, 1);
+			player.addNote(new PlayerPitch('D').toMidiNote(), 13, 1);
+			player.addNote(new PlayerPitch('C').toMidiNote(), 14, 1);
 
 			System.out.println(player);
 
