@@ -183,6 +183,86 @@ Examples: pass in all of the sample\_abc files to be played, they contain the va
 
 \end{itemize}
 
+\newpage
+
+\newpage
+\centerline{{\large \bf Parsing Lyrics}}
+
+\begin{itemize}
+\item {\bf Lexer}: The lyrics lexer is designed to be simple and flexible and at the same time robust and capable of parsing everything deemed a good input. We start at the bottom token, LINESPACE. New line tokens are skipped because we have no special action to take when these are encountered. WHITESPACE follows and would normally also be skipped but because of the special WHITESPACE HYPHEN token, we must keep it in (this is explained with more detail in the parser rules). PIPEs are also unique tokens as they are used to separate measures. Then we have all the different symbols used to create different kind of syllables. Most importantly to note is that EXTENDERS and STARS can be one or more of the same while HYPHENs, DOUBHYPHENs, and UNION\_OPERs are composed of single characters. Finally is the WORD token which creates the most complex form of lyric possible, and is composed of all allowed, non-special characters in a lyric.
+
+\item {\bf Parser}:
+These rules define the structures used by the parser:
+A well constructed lyric will be parsed as follows
+\begin{itemize} 
+\item lyric:
+\begin{itemize}
+\item can have multiple measures and any amount of trailing whitespace at the end
+\end{itemize}
+\item measure:
+\begin{itemize}
+\item can be an entire lyric if no PIPEs are found
+\item can be empty or a cluster (the first word in the cluster determines the first token)
+\item if it begins with a PIPE, it may have WHITESPACE*
+\item if it ends with a PIPE, optional WHITESPACE* may be used to separate the last syllable
+\end{itemize}
+\item syllable:
+\begin{itemize} 
+\item can ONLY start with a WORD or a STARS
+\item single syllable and single STARS can be considered a full cluster
+\item no combination of WORD and STARS are allowed in the same syllable
+\item WHITESPACE* is allowed at the end of every syllable
+\item if starting with a WORD it must be followed by:
+\begin{itemize}
+\item a HYPHEN and\/or EXTENDERS
+\item a WHITESPACE and HYPHEN and\/or EXTENDERS
+\item a DOUBHYPHEN
+\item a UNION\_OPER
+\item EXTENDERS
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\item Anything outside of these rules will be considered an incorrectly inputed
+lyric and will throw an exception\/fail silently with an unexpected outcome
+
+\item {\bf Errors}: Errors in parsing and lexing result in an exception being thrown. (reportErrorsAsExceptions is invoked on both parser and lexer).
+
+\item {\bf Listener}: The lyrics listener is very simple as well. The lyrics object is composed of an ArrayList of ArrayLists of Strings, where each String is a ``syllable''. So, when entering a new Measure, we add an empty ArrayList to the main ArrayList. The only other event is exiting a Syllable. In this case, we consider every valid input and do a second ``parsing'' accordingly. This is actually the pretty-print that we implement for our frontend. It converts things like two-word syllables joined by ``~'' into two words joined by whitespaces.
+
+The end product is an ArrayList<ArrayList<String>>, not null, and processed enough to use a literal toString() method to print to the user's console.
+
+\item {\bf Tests}:
+\begin{itemize}
+\item Lexer:
+\begin{itemize}
+\item Tests the LyricsLexer, ensures tokens are what they should be. Tests all kinds of lyrics.
+
+\item Testing space:
+
+\begin{itemize} 
+\item We assume valid inputs. We create tests which lex one token at a time. Once every token is tested for, we introduce multiple tokens in the same input stream. A stream with all tokens is the upperbound while a stream with one token is the lowerbound.
+\end{itemize}
+
+\item Testing stragey:
+
+\begin{itemize}
+\item Test each token individually. Test multiple tokens in complex combinations.
+\end{itemize}
+\end{itemize}
+
+\item Parser: Test different inputs and expect fully-formed MusicPiece objects to be returned. 
+Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures
+\item ADT tests: test the methods of our ADTs
+Examples: equals, toString, hashCode, calculateTicksPerBeat, multiplyDuration, multiplyDuration, getLength, addNote, addNotes, etc.
+\item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
+Examples: pass in all of the sample\_abc files to be played, they contain the varying inputs that we want (simple measures, measures with comments, multiple voices, repeated sections, chords, tuplets, rests).
+\end{itemize}
+
+\end{itemize}
+
+\newpage
+
 \bigskip
 \centerline{{\large \bf .g4 Grammar file }}
 \bigskip
@@ -263,15 +343,69 @@ l_repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
 r_repeat: RREPEAT;
 \end{verbatim}
 
-
-
-
-
+\newpage
 
 \bigskip
+\centerline{{\large \bf .g4 Lyrics file }}
+\bigskip
 
+\begin{verbatim}
+/*
+ * These are the lyrics lexical rules. They define the tokens used by the 
+ * lyrics lexer.
+ * 
+ */
 
-      
-      \end{document}
+WORD : ('\'' | '(' | ')' | ',' | [a-zA-Z0-9] | '.' | '!' | '?' | ':' | ';')+ ;
+UNION_OPER : '~' | '\-';
+DOUBHYPHEN : '--';
+HYPHEN : '-';
+STARS : '*'+;
+EXTENDERS : '_'+;
+PIPE : '|';
+WHITESPACE : ' ';
+LINESPACE : [\t\n\r]+ -> skip ;
+
+/*
+ * These are the parser rules. They define the structures used by the parser.
+ * A well constructed lyric will be parsed as follows
+ * 
+ * lyric:
+ *      can have multiple measures and any amount of trailing whitespace at 
+ *			the end
+ * measure:
+ *      can be an entire lyric if no PIPEs are found
+ *      can be empty or a cluster (the first word in the cluster determines 
+ * 			the first token)
+ *      if it begins with a PIPE, it may have WHITESPACE*
+ *      if it ends with a PIPE, optional WHITESPACE* may be used to separate 
+ * 			the last syllable
+ * syllable:
+ *      can ONLY start with a WORD or a STARS
+ *      single syllable and single STARS can be considered a full cluster
+ *      no combination of WORD and STARS are allowed in the same syllable
+ *      WHITESPACE* is allowed at the end of every syllable
+ *      if starting with a WORD it must be followed by: 
+ *          a HYPHEN and/or EXTENDERS
+ *          a WHITESPACE and HYPHEN and/or EXTENDERS
+ *          a DOUBHYPHEN
+ *          a UNION_OPER  
+ *          EXTENDERS
+ * Anything outside of these rules will be considered an incorrectly inputed 
+ * lyric and will throw an exception/fail silently with an unexpected outcome
+ *      
+ */
+
+lyric   : measure+ WHITESPACE* | EOF;
+measure : PIPE? WHITESPACE* (syllable WHITESPACE*)+ PIPE?| PIPE WHITESPACE*;
+
+syllable :  WORD WHITESPACE? HYPHEN EXTENDERS?| 
+            WORD DOUBHYPHEN| 
+            WORD UNION_OPER| 
+            WORD EXTENDERS| 
+            WORD|
+            STARS;
+\end{verbatim}
+\bigskip
+\end{document}
   
-

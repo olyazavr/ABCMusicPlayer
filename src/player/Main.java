@@ -1,7 +1,12 @@
 package player;
 
+import grammar.ABCMusicLexer;
+import grammar.ABCMusicParser;
+
 import java.awt.EventQueue;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -12,11 +17,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import player.AskDialog.AskDialogInterface;
 import sound.MusicPlayer;
 
 /**
- * Main entry point of your application.
+ * Main entry point of our application. READ THE FOLLOWING FOR UI DIRECTIONS.
  */
 public class Main {
 
@@ -24,33 +36,86 @@ public class Main {
 	 * Plays the input file using Java MIDI API and displays header information
 	 * to the standard output stream.
 	 * 
-	 * (Your code should not exit the application abnormally using
-	 * System.exit().)
+	 * This main file implements a simple JFrame UI which makes it easier for
+	 * the user to play any valid .abc file. The instructions are simple:
+	 * 
+	 * 1) Copy the .abc file into any of the three *_abc folders (otherSongs,
+	 * sample, or songs).
+	 * 
+	 * 2) Run and click on your song
 	 * 
 	 * @param file
 	 *            the name/location of input abc file relative to abcplayer/src
 	 */
 	public static void play(String file) {
 		// get the MusicPiece object
-		MusicPiece music = Play.stringToMusicPiece(Play.readFileToString(file));
+		MusicPiece music = Main.stringToMusicPiece(Main.readFileToString(file));
 
 		// Find the ticks and tempo to give to the midi player
 		int ticksPerBeat = music.calculateTicksPerBeat();
 		int tempo = music.getPlayerTempo(ticksPerBeat);
 
 		// Try to play this, it may throw if it can't read the MIDI
-		MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat,0);
+		MusicPlayer player = new MusicPlayer(tempo, ticksPerBeat, 0);
 		music.addNotes(player);
 		player.play();
 
 	}
 
+	protected static String readFileToString(String file) {
+		StringBuilder output = new StringBuilder();
+
+		// try with resources, resources always closed after
+		try (BufferedReader bufferReader = new BufferedReader(new FileReader(
+				file))) {
+			String line;
+
+			// Read file line by line and save to output
+			while ((line = bufferReader.readLine()) != null) {
+				output.append(line);
+				output.append(System.getProperty("line.separator"));
+			}
+			bufferReader.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return output.toString();
+	}
+
+	public static MusicPiece stringToMusicPiece(String input) {
+		// Create a stream of tokens using the lexer.
+		CharStream stream = new ANTLRInputStream(input);
+		ABCMusicLexer lexer = new ABCMusicLexer(stream);
+		lexer.reportErrorsAsExceptions();
+		TokenStream tokens = new CommonTokenStream(lexer);
+		// List<? extends Token> actualTokens = lexer.getAllTokens();
+
+		// Feed the tokens into the parser.
+		ABCMusicParser parser = new ABCMusicParser(tokens);
+		parser.reportErrorsAsExceptions();
+
+		// Generate the parse tree using the starter rule.
+		ParseTree tree;
+		tree = parser.abc_tune(); // "abc_tune" is the starter rule.
+		// ((RuleContext) tree).inspect(parser);
+
+		// Walk the tree with the listener.
+		ParseTreeWalker walker = new ParseTreeWalker();
+		Listener listener = new Listener();
+		walker.walk(listener, tree);
+		return listener.getMusic();
+	}
+
 	public static void main(String[] args) {
 		// bring up the pop-up window. This window will have a dropdown menu of
 		// all the songs available for the user to play
-		new AskDialog("ABC Songs provided to us", "Sample Songs", "Our Awesome Additions", "songs_abc",
-				"sample_abc", "otherSongs_abc", getFiles("songs_abc"),
-				getFiles("sample_abc"), getFiles("otherSongs_abc"), new AskDialogInterface() {
+		new AskDialog("ABC Songs provided to us", "Sample Songs",
+				"Our Awesome Additions", "songs_abc", "sample_abc",
+				"otherSongs_abc", getFiles("songs_abc"),
+				getFiles("sample_abc"), getFiles("otherSongs_abc"),
+				new AskDialogInterface() {
 					@Override
 					public void clickedOnSong(String song, String folder,
 							AskDialog d) {

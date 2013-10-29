@@ -10,11 +10,11 @@ import org.junit.Test;
 
 import player.Chord;
 import player.Lyric;
+import player.Main;
 import player.Measure;
 import player.MusicPiece;
 import player.MusicSymbol;
 import player.Pitch;
-import player.Play;
 import player.Rest;
 import player.Signature;
 import player.Voice;
@@ -53,7 +53,7 @@ public class ParserTest {
         MusicPiece expected = new MusicPiece(new Signature("Piece No.1", "Unknown", new Fraction(1, 8), new Fraction(
                 4, 4), new Fraction(100, 8), "C", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }
@@ -76,7 +76,7 @@ public class ParserTest {
         MusicPiece expected = new MusicPiece(new Signature("Piece No.1", "Me", new Fraction(1, 4), new Fraction(
                 4, 4), new Fraction(140, 4), "C", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }
@@ -123,7 +123,7 @@ public class ParserTest {
         MusicPiece expected = new MusicPiece(new Signature("Alphabet Song", "Traditional Kid's Song",
                 new Fraction(1, 4), new Fraction(4, 4), new Fraction(100, 4), "D", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }
@@ -158,7 +158,7 @@ public class ParserTest {
                 new Fraction(1, 16), new Fraction(
                         1, 8), new Fraction(140, 8), "Am", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }
@@ -189,7 +189,7 @@ public class ParserTest {
                 new Fraction(1, 16), new Fraction(
                         3, 8), new Fraction(140, 8), "Am", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }
@@ -229,7 +229,7 @@ public class ParserTest {
                 new Fraction(1, 16), new Fraction(
                         3, 8), new Fraction(140, 8), "Am", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }
@@ -260,7 +260,7 @@ public class ParserTest {
                 new Fraction(1, 16), new Fraction(
                         3, 8), new Fraction(140, 8), "Am", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }
@@ -298,7 +298,7 @@ public class ParserTest {
                 new Fraction(1, 16), new Fraction(
                         4, 4), new Fraction(70, 4), "C", voiceNames), voices);
 
-        MusicPiece output = Play.stringToMusicPiece(input);
+        MusicPiece output = Main.stringToMusicPiece(input);
 
         assertEquals(expected, output);
     }

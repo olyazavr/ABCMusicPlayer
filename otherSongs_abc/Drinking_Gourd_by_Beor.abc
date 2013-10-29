@@ -58,22 +58,39 @@ g/4 [aF,2] a3/4 a/4 [g/2G,2] g/2 g/2 g/2 [f/2A,2] e d/2 [c/2A,2]
 D,2 A,2 D,2 D,4 
 V:2
 z16 z16 z16 z16 z16 z16 z16 z3 d3/4 d/4 f f d d3/4 d/4 f/2 f/2 f d5/2
-z3/8 f/8 g g3/2 d/2 f/2 d/2 d/2 d3/2 f3/4 g/4 a a g g f/2 e d/2 c/2
+w: When Aegthil comes back
+z3/8 f/8 g g3/2 d/2 f/2 d/1 d/2 d3/2 f3/4 g/4 a a g g f/2 e d/2 c/2
+w: And the first Bounder calls
 [A3/2z11/8] e/8 f/2 e d/2 c/2 A/2 c d6 z15/8 [f/8a/8] [g^a]
+w: Follow the Drinking Beard.
 [g5/2^a5/2] [d/2f/2] [f/2=a/2] [df] [d5/2f19/8] [f/8a/8] [g^a]
+w: For the old man is a-waiting for to carry you to freedom
 [g5/2^a5/2] [d/2f/2] [f/2=a/2] [df] [d3/2f3/2] [f3/4a3/4] [g/4^a/4]
+w: If you follow the Drinking Beard.
 [=ac'] [a3/4c'3/4] [a/4c'/4] [g/2^a/2] [g^a] [g/2^a/2] [f3/4=a3/4]
+w: The riverbank makes a very good road.
 [f/4a/4] [e3/4g3/4] [d/4f/4] [c/2e/2] [A3/2c3/2] [f/2a/2] [eg]
+w: The dead trees will show you the way.
 [d/2f/2] [c/2e/2] [A/2c/2] [ce] [d6f6] z d3/4 d/4 f f d d3/4 d/4 f f
+w: Left foot, peg foot, traveling on,
 d5/2 z3/8 [f/8a/8] [g^a] [g3/2^a3/2] [d/2f/2] [f/2=a/2] [df]
+w: Follow the Drinking Beard.
 [d3/2f3/2] f3/4 g/4 a a3/4 a/4 g/2 g3/2 f3/4 f/4 e3/4 d/4 c/2
+w: The sewer ends between two hills
 [A3/2z11/8] [e/8g/8] [f/2a/2] [eg] [d/2f/2] [c/2e/2] [A/2c/2] [ce]
+w: Follow the Drinking Beard.
 [d6f6] z15/8 f/8 g g5/2 d/2 f/2 d [d5/2z19/8] f/8 g g5/2 d/2 f/2 d
+w: BBB Frathouse is on the other side
 d3/2 f3/4 g/4 a a3/4 a/4 g/2 g g/2 f3/4 f/4 e3/4 d/4 c/2 [A3/2z11/8]
+w: Follow the Drinking Beard.
 e/8 f/2 e d/2 c/2 A/2 c d6 z d f f d d f f d5/2 z3/8 [f/8a/8] [g^a]
+w: When the great spire rises behind the man with the orb
 [g3/2^a3/2] [d/2f/2] [f/2=a/2] [df] [d3/2f3/2] f3/4 g/4 a a3/4 a/4
+w: Follow the Drinking Beard.
 g/2 g/2 g/2 g/2 f/2 e d/2 c/2 [A3/2z11/8] [e/8g/8] [f/2a/2] [eg]
+w: For the old man is a-waiting for to carry you to freedom
 [d/2f/2] [c/2e/2] [A/2c/2] [ce] [d6f6] z15/8 f/8 g g5/2 d/2 f/2 d
+w: If you follow the Drinking Beard.
 [d5/2z19/8] f/8 g g5/2 d/2 f/2 d d3/2 f3/4 g/4 a a3/4 a/4 g/2 g g/2
 f3/4 f/4 e3/4 d/4 c/2 [A3/2z11/8] e/8 f/2 e f/2 g/2 f/2 g a6 
 V:3
@@ -221,25 +238,3 @@ D,2 F,2 G,2 A,2 A,2 A,2 A,2 A,2 D,2 A,2 D,2 A,2 D,2 A,2 D,2 D,2 G,2
 A,2 D,2 F,2 G,2 A,2 A,2 A,2 A,2 A,2 D,2 A,2 D,2 D,2 G,2 A,2 D,2 D,2
 G,2 A,2 D,2 F,2 G,2 A,2 A,2 A,2 A,2 A,2 D,2 A,2 D,2 A,2 D,2 D,4 
 
-% Lyrics
-
-% When Aegthil comes back
-% And the first Bounder calls
-% Follow the Drinking Beard.
-% For the old man is a-waiting for to carry you to freedom
-% If you follow the Drinking Beard.
-
-% The riverbank makes a very good road.
-% The dead trees will show you the way.
-% Left foot, peg foot, traveling on,
-% Follow the Drinking Beard.
-
-% The sewer ends between two hills
-% Follow the Drinking Beard.
-% BBB Frathouse is on the other side
-% Follow the Drinking Beard.
-
-% When the great spire rises behind the man with the orb
-% Follow the Drinking Beard.
-% For the old man is a-waiting for to carry you to freedom
-% If you follow the Drinking Beard.

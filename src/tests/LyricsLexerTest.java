@@ -15,6 +15,16 @@ import org.junit.Test;
  * Tests the LyricsLexer, ensures tokens are what they should be. Tests all
  * kinds of lyrics.
  * 
+ * Testing space:
+ * 
+ * We assume valid inputs. We create tests which lex one token at a time. Once
+ * every token is tested for, we introduce multiple tokens in the same input
+ * stream. A stream with all tokens is the upperbound while a stream with one
+ * token is the lowerbound.
+ * 
+ * Testing stragey:
+ * 
+ * Test each token individually. Test multiple tokens in complex combinations.
  */
 public class LyricsLexerTest {
 
@@ -25,12 +35,12 @@ public class LyricsLexerTest {
 		verifyLexer(input, new String[] { "A", " ", "2", "|", " ", "ma", "-",
 				"zing", " ", "|", " " });
 	}
-	
+
 	@Test
 	public void simpleLyrics2Test() {
 		// Tests lyrics, which are lexed as one chunk.
 		String input = "A 2 mazing ";
-		verifyLexer(input, new String[] { "A", " ", "2", " ", "mazing", " "});
+		verifyLexer(input, new String[] { "A", " ", "2", " ", "mazing", " " });
 	}
 
 	@Test
@@ -54,9 +64,9 @@ public class LyricsLexerTest {
 	public void onlySymbolsTest() {
 		// Tests lyrics, which are lexed as one chunk.
 		String input = "-  _  *  ~  \\-  --  -_";
-		verifyLexer(input,
-				new String[] { "-", " ", " ", "_", " ", " ", "*", " ", " ",
-						"~", " ", " ", "\\-", " ", " ", "--", " ", " ", "-","_" });
+		verifyLexer(input, new String[] { "-", " ", " ", "_", " ", " ", "*",
+				" ", " ", "~", " ", " ", "\\-", " ", " ", "--", " ", " ", "-",
+				"_" });
 	}
 
 	@Test
@@ -78,8 +88,9 @@ public class LyricsLexerTest {
 				"2", " ", "|", " ", "a", "--", "1", " ", "a", "--", "22", " ",
 				"bb", "--", "2", " ", "|", " ", "a", " ", "-", "1", " ", "a",
 				" ", "-", "22", " ", "bb", " ", "-", "2", " ", "|", " ", "a",
-				"-","_", "1", " ", "a", "-","_", "22", " ", "bb", "-","_", "2", " ",
-				"|", " ", "a", "____", " ", "a", "-", "___", " ", "|", " ", "a", "--","-", " ", "a", "***" });
+				"-", "_", "1", " ", "a", "-", "_", "22", " ", "bb", "-", "_",
+				"2", " ", "|", " ", "a", "____", " ", "a", "-", "___", " ",
+				"|", " ", "a", "--", "-", " ", "a", "***" });
 	}
 
 	/**
