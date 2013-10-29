@@ -1,7 +1,9 @@
 package player;
 
 import java.awt.EventQueue;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -10,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import player.AskDialog.AskDialogInterface;
 import sound.MusicPlayer;
 
 /**
@@ -45,20 +48,19 @@ public class Main {
 	public static void main(String[] args) {
 		// bring up the pop-up window. This window will have a dropdown menu of
 		// all the songs available for the user to play
-		String choice = ask("abc song", "fur elise", "invention",
-				"little night music", "paddy", "prelude", "scale",
-				"waxies dargle", "Sonata by Mozart",
-				"Dont Fear The Reaper by Blue Oyster Cult",
-				"All The Small Things by Blink 182",
-				"Yesterday by The Beattles", "Portal Want You Gone with lyrics by Valve",
-				"Barbie Girl by Aqua", "Back in Black by AC/DC",
-				"Final Fantasy III", "Fuge by Bach", "Get Lucky by Daft Punk",
-				"Get Lucky 2 by Daft Punk", "Hey Jude by The Beattles",
-				"Highway To Hell by AC/DC", "Star Trek", "Star Wars",
-				"Zelda Saria", "Dream On by Aerosmith",
-				"I Love It by Icona Pop", "Wake Me Up by Avicii",
-				"Dancing Queen by ABBA");
+		new AskDialog("ABC Songs", "Sample Songs", "No songs", "songs_abc",
+				"sample_abc", "", getFiles("songs_abc"),
+				getFiles("sample_abc"), null, new AskDialogInterface() {
+					@Override
+					public void clickedOnSong(String song, String folder,
+							AskDialog d) {
+						d.dispose();
+						doStuff(song, folder);
+					}
+				});
+	}
 
+	private static void doStuff(String choice, String folder) {
 		// if cancelled wasn't clicked print the chosen song and play it
 		if (choice != null) {
 			System.out.println("Now playing: " + choice);
@@ -75,7 +77,7 @@ public class Main {
 			}
 			String choiceParsed = justSong.replace(" ", "_") + ".abc";
 
-			play("songs_abc/" + choiceParsed);
+			play(folder + "/" + choiceParsed);
 		}
 		// else return a message indicating to the user that he/she cancelled
 		else {
@@ -90,6 +92,20 @@ public class Main {
 			}
 			System.out.println(randMessage);
 		}
+	}
+
+	private static String[] getFiles(String folderName) {
+		File[] list = new File(folderName).listFiles();
+		ArrayList<String> choiceList = new ArrayList<String>();
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].getName().endsWith(".abc")) {
+				choiceList.add(list[i].getName().replace(".abc", "")
+						.replace("_", " "));
+			}
+		}
+		String[] array = new String[choiceList.size()];
+		array = choiceList.toArray(array);
+		return array;
 	}
 
 	/**
