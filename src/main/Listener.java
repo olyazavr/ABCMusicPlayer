@@ -201,8 +201,8 @@ public class Listener extends ABCMusicBaseListener {
                     ++rangeRepeatedMeasures.get(0).a;
                 }
 
-                // if we're done with the range (a >= b), remove the range
-                if (rangeRepeatedMeasures.get(0).a >= rangeRepeatedMeasures.get(0).b) {
+                // if we're done with the range (a > b), remove the range
+                if (rangeRepeatedMeasures.get(0).a > rangeRepeatedMeasures.get(0).b) {
                     rangeRepeatedMeasures.remove(0);
                     // add the range to the stack unless it's the last pair
                     // (which is ongoing)
