@@ -91,14 +91,16 @@ public class LyricsListener extends LyricsBaseListener {
 			int count = syllable.length() - syllable.replace("_", "").length();
 			// now see if there are dashes
 			if (syllable.contains("-")) {
-
 				workingList.add(syllable.split("-")[0]);
-				for (int i = 0; i < count; i++) {
+			}
+			else{
+				workingList.add(syllable.replace("_", ""));
+			}
+			for (int i = 0; i < count; i++) {
 					// an extension of a syllable will be shown by empty
 					// strings
 					workingList.add("");
 				}
-			}
 		}
 
 		// double dash case returns the word before the dashes and an empty

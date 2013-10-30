@@ -76,6 +76,9 @@ The lexer was changed to read duplet, triplet, and quadruplet parenthesis and di
 
 Main was modified to include a pop up window to select the song to play.
 
+\bigskip
+\noindent {\textbf{Abstract Syntax Tree}}
+
 \centerline{ \includegraphics{Music.pdf}}
 
 \noindent {\tt Music} is an interface that will represent our ADT. All {\tt Music} objects are immutable. It defines the following method
@@ -264,149 +267,6 @@ Examples: pass in all of the sample\_abc files to be played, they contain the va
 
 \newpage
 
-\bigskip
-\centerline{{\large \bf .g4 Grammar file }}
-\bigskip
 
-\begin{verbatim}
-/*
- * These are the lexical rules. They define the tokens used by the lexer.
- *
- * All of the header lines and comments are individual tokens, then the notes and 
- * rests are lexed together with their modifiers. Tuplet and chord (, [, and ] 
- * symbols are lexed separately from their notes.
- * Repeats and pipes are lexed on their own.
- *
- */
- 
-WHITESPACE : [ \t]+ -> skip ;
-DIGIT: [0-9]+;
-NEWLINE: [\n\r];
-INDEX : 'X' ' '* ':' ' '* [0-9]+ ' '* [\n\r]+;
-TITLE : 'T' ' '* ':' ' '* [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ ' '* [\n\r]+;
-COMPOSER : 'C' ' '* ':' ' '* [a-zA-Z0-9'.'' ']+ ' '* [\n\r]+;
-LENGTH : 'L' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* [\n\r]+;
-METER : 'M' ' '* ':' ' '* ('C' | 'C|' | [0-9]+'/'[0-9]+) ' '* [\n\r]+;
-TEMPO : 'Q' ' '* ':' ' '* [0-9]+'/'[0-9]+ ' '* '=' ' '* [0-9]+ ' '* [\n\r]+;
-VOICE : 'V' ' '* ':' ' '* [a-zA-Z0-9] ' '* [\n\r]+;
-KEY : 'K' ' '* ':' ' '* [A-Ga-g]['#''b']?'m'? ' '* [\n\r]+;
-LYRIC : 'w' ' '* ':' ('-' | ' ' | '|' | '\'' | '(' | ')' | '_' | '*' | '~' | ',' | 
-        '\-' | [a-zA-Z] | '.' | '!' | '?')+ ' '* [\n\r];
-COMMENT : '%' ' '* [a-zA-Z0-9'.''!''?''-''_''*''~''\-''|'' ']* ' '* [\n\r]+;
-NOTE :  ['^''^^''_''__''=']?[a-gA-G]['\''',']*([1-9]* '/' [1-9]+ | [1-9]+ '/'? | 
-        '/')?;
-REST : 'z'([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
-PAREN: '(';
-PIPE: '|';
-LBRAC: '[';
-RBRAC: ']';
-LREPEAT: '|:';
-RREPEAT: ':|';
-ONE_REPEAT : '[1';
-TWO_REPEAT: '[2';
-END_NOTES: '|]' | '||';
-
-/*
- * These are the parser rules. They define the structures used by the parser.
- *
- * Each header field has its own rule. Notes, rests, tuplets, chords, and 
- * measures have their own respective rules. Repeats have their own rules as 
- * well, but to get the entire repeated measure, extract the token from measure.
- * Lyrics also have their own rule.
- *
- */
-abc_tune : abc_header abc_music NEWLINE* EOF;
-abc_header : field_number COMMENT* field_title other_fields* field_key;
-
-field_number : INDEX;
-field_title : TITLE;
-other_fields : field_composer | field_default_length | field_meter | field_tempo | 
-               field_voice | COMMENT;
-field_composer : COMPOSER;
-field_default_length : LENGTH;
-field_meter : METER;
-field_tempo : TEMPO;
-field_voice : VOICE;
-field_key : KEY;
-
-abc_music : (NEWLINE* measure+ NEWLINE* lyric? NEWLINE* | field_voice NEWLINE* | 
-            COMMENT)+;
-measure : (l_repeat|PIPE)? note_element+ (END_NOTES|NEWLINE|r_repeat);
-
-note_element : note | rest | chord | tuplet;
-note: NOTE;
-rest: REST;
-tuplet : PAREN DIGIT (note|chord)+;
-chord : LBRAC note+ RBRAC;
-lyric: LYRIC;
-
-l_repeat: LREPEAT | ONE_REPEAT | TWO_REPEAT;
-r_repeat: RREPEAT;
-\end{verbatim}
-
-\newpage
-
-\bigskip
-\centerline{{\large \bf .g4 Lyrics file }}
-\bigskip
-
-\begin{verbatim}
-/*
- * These are the lyrics lexical rules. They define the tokens used by the 
- * lyrics lexer.
- * 
- */
-
-WORD : ('\'' | '(' | ')' | ',' | [a-zA-Z0-9] | '.' | '!' | '?' | ':' | ';')+ ;
-UNION_OPER : '~' | '\-';
-DOUBHYPHEN : '--';
-HYPHEN : '-';
-STARS : '*'+;
-EXTENDERS : '_'+;
-PIPE : '|';
-WHITESPACE : ' ';
-LINESPACE : [\t\n\r]+ -> skip ;
-
-/*
- * These are the parser rules. They define the structures used by the parser.
- * A well constructed lyric will be parsed as follows
- * 
- * lyric:
- *      can have multiple measures and any amount of trailing whitespace at 
- *			the end
- * measure:
- *      can be an entire lyric if no PIPEs are found
- *      can be empty or a cluster (the first word in the cluster determines 
- * 			the first token)
- *      if it begins with a PIPE, it may have WHITESPACE*
- *      if it ends with a PIPE, optional WHITESPACE* may be used to separate 
- * 			the last syllable
- * syllable:
- *      can ONLY start with a WORD or a STARS
- *      single syllable and single STARS can be considered a full cluster
- *      no combination of WORD and STARS are allowed in the same syllable
- *      WHITESPACE* is allowed at the end of every syllable
- *      if starting with a WORD it must be followed by: 
- *          a HYPHEN and/or EXTENDERS
- *          a WHITESPACE and HYPHEN and/or EXTENDERS
- *          a DOUBHYPHEN
- *          a UNION_OPER  
- *          EXTENDERS
- * Anything outside of these rules will be considered an incorrectly inputed 
- * lyric and will throw an exception/fail silently with an unexpected outcome
- *      
- */
-
-lyric   : measure+ WHITESPACE* | EOF;
-measure : PIPE? WHITESPACE* (syllable WHITESPACE*)+ PIPE?| PIPE WHITESPACE*;
-
-syllable :  WORD WHITESPACE? HYPHEN EXTENDERS?| 
-            WORD DOUBHYPHEN| 
-            WORD UNION_OPER| 
-            WORD EXTENDERS| 
-            WORD|
-            STARS;
-\end{verbatim}
-\bigskip
 \end{document}
   
