@@ -18,7 +18,7 @@ import utils.NumberTheory;
  */
 public class Measure implements MusicPart {
 	private final List<MusicSymbol> notes;
-    private final Lyric lyrics;
+	private final Lyric lyrics;
 
 	/**
 	 * Creates a Measure object with notes and lyrics
@@ -37,18 +37,34 @@ public class Measure implements MusicPart {
 	public void addNotes(MusicPlayer player) {
 		String syllable = new String();
 		// lyrics counter
-		int j = 0;
+		int j = 0, nonEmpty = 0;
 		for (int i = 0; i < notes.size(); i++) {
 			// if note is a rest, skip adding the lyric
 			if (!(notes.get(i) instanceof Rest)) {
 				if (!lyrics.isEmpty()) {
 					syllable = lyrics.getSyllable(j);
+					if (!syllable.isEmpty()) {
+						// add space if lyric is nonempty
+						if (syllable.charAt(syllable.length() - 1) != '-') {
+							syllable += " ";
+						}
+						// new line each 12 syllables
+						if (nonEmpty % 12 == 11) {
+							syllable += "\n";
+						}
+						nonEmpty++;
+					}
+					// new line after lyrics are gone
+					if (j == lyrics.getSize() - 1 && nonEmpty > 0) {
+						syllable += "\n";
+					}
 				}
 				j++;
 			} else {
 				// no syllable for rest
 				syllable = "";
 			}
+
 			notes.get(i).addNote(player, syllable);
 		}
 	}

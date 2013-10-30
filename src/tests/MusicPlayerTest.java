@@ -8,7 +8,7 @@ import java.util.Arrays;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
-import main.*;
+
 
 import org.junit.Test;
 
@@ -25,6 +25,7 @@ import utils.Fraction;
  * We first check MusicPlayer's equals(), addTime(), addNote(), methods and
  * continue with Music's.
  * 
+ * @category_nodidit 
  */
 public class MusicPlayerTest {
 

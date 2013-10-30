@@ -28,7 +28,7 @@ public class MusicPlayer {
 	public MusicPlayer(int tempo, int ticksPerBeat,int currentTick) {
 		LyricListener listener = new LyricListener() {
 			public void processLyricEvent(String text) {
-				System.out.println(text);
+				System.out.print(text);
 			}
 		};
 		try {
