@@ -70,24 +70,36 @@
 
 We represent an ABC parser for music files as a series of well-structured interfaces. When an ABC Music file is selected from the menu, it will be read and converted into a string, which will then be passed to the lexer to create tokens, which are then fed to the parser to walk the tree and create {\tt Music} objects, which then provide the necessary information to create and play the MIDI file created.
 
+\bigskip
 \noindent {\textbf{Revision Summary:}}
+\bigskip
 
 The lexer was changed to read duplet, triplet, and quadruplet parenthesis and digit as one token (so no quintuplets and up are allowed). The parser was changed to include a line rule that groups measures with lyrics to make adding lyrics to particular measures easier. It also was changed to include duplet, triplet, and quadruplet rules, also to make it easier to find and modify the notes associated with those.
 
-Main was modified to include a pop up window to select the song to play.
+Main was modified to include a pop up window to select the song to play. This user interface (UI) is designed to help the user play particular songs. They are divided in three categories which is done for clarity. 
+The file implements a simple JFrame UI which makes it easier for the user to play any valid .abc file. The instructions are simple:
 
-\bigskip
+\begin{itemize}
+\item Copy the .abc file into any of the three *\_abc folders (otherSongs, sample, or songs).
+\item Run main and click on the song (it gets uploaded automatically)
+\end{itemize}
+
 \noindent {\textbf{Abstract Syntax Tree}}
 
 MusicSymbol interface represents a music symbol, which can be either a pitch, a rest or a chord. The objects are immutable. The equals, toString, and hashCode methods work recursively and individually different from each class extending Music. Read their documentation for full specs (interface package). \\
 
-Representation MusicSymbol = Chord(notes: List<Pitch>) + Pitch(value: string, octave: int, length: int) + Rest(length: int) \\
+Representation MusicSymbol $=$ Chord($notes:$ List$<$Pitch$>$) + Pitch($value:$ string, $octave:$ int, $length:$ int) + Rest($length:$ int) \\
 
 MusicPart interface represents any music part. This could be a MusicPiece, a Measure, or a Voice. The objects are immutable. The equals, toString, and hashCode methods work recursively and individually different from each class extending Music. Read their documentation for full specs (interface package). \\ 
 
-Representation MusicPart = MusicPiece(signature: Signature, voices: List<Voice>) + Measure(notes: List<MusicSymbol>, lyrics: Lyric) + Voice(name: String, measures: List<Measure>) \\
+Representation MusicPart = MusicPiece($signature:$ Signature, $voices:$ List$<$Voice$>$) + Measure($notes:$ List$<$MusicSymbol$>$, $lyrics:$ Lyric) + Voice($name:$ String, $measures:$ List<Measure>) \\
 
-Following is a 
+\newpage
+
+\noindent{\textbf{Dependency Diagram}}
+\bigskip
+
+Following is the diagram which underlies our abstract datatypes. 
 
 \centerline{ \includegraphics{Music.pdf}}
 
@@ -201,8 +213,11 @@ Examples: pass in all of the sample\_abc files to be played, they contain the va
 \newpage
 \centerline{{\large \bf Parsing Lyrics}}
 
+\noindent{\textbf {General idea}}
+The lyrics parsing is designed to be simple and flexible and at the same time robust and capable of parsing everything deemed a good input. 
+
 \begin{itemize}
-\item {\bf Lexer}: The lyrics lexer is designed to be simple and flexible and at the same time robust and capable of parsing everything deemed a good input. We start at the bottom token, LINESPACE. New line tokens are skipped because we have no special action to take when these are encountered. WHITESPACE follows and would normally also be skipped but because of the special WHITESPACE HYPHEN token, we must keep it in (this is explained with more detail in the parser rules). PIPEs are also unique tokens as they are used to separate measures. Then we have all the different symbols used to create different kind of syllables. Most importantly to note is that EXTENDERS and STARS can be one or more of the same while HYPHENs, DOUBHYPHENs, and UNION\_OPERs are composed of single characters. Finally is the WORD token which creates the most complex form of lyric possible, and is composed of all allowed, non-special characters in a lyric.
+\item {\bf Lexer}: We start at the bottom token, LINESPACE. New line tokens are skipped because we have no special action to take when these are encountered. WHITESPACE follows and would normally also be skipped but because of the special WHITESPACE HYPHEN token, we must keep it in (this is explained with more detail in the parser rules). PIPEs are also unique tokens as they are used to separate measures. Then we have all the different symbols used to create different kind of syllables. Most importantly to note is that EXTENDERS and STARS can be one or more of the same while HYPHENs, DOUBHYPHENs, and UNION\_OPERs are composed of single characters. Finally is the WORD token which creates the most complex form of lyric possible, and is composed of all allowed, non-special characters in a lyric.
 
 \item {\bf Parser}:
 These rules define the structures used by the parser:
@@ -264,13 +279,6 @@ The end product is an ArrayList<ArrayList<String>>, not null, and processed enou
 \end{itemize}
 \end{itemize}
 
-\item Parser: 
-
-
-\item ADT tests: test the methods of our ADTs
-Examples: equals, toString, hashCode, calculateTicksPerBeat, multiplyDuration, multiplyDuration, getLength, addNote, addNotes, etc.
-\item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
-Examples: pass in all of the sample\_abc files to be played, they contain the varying inputs that we want (simple measures, measures with comments, multiple voices, repeated sections, chords, tuplets, rests).
 \end{itemize}
 
 \end{itemize}
