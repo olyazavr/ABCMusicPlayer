@@ -21,6 +21,8 @@ import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import utils.Fraction;
+import utils.Scales;
 import adts.Chord;
 import adts.Lyric;
 import adts.Measure;
@@ -29,8 +31,6 @@ import adts.Pitch;
 import adts.Rest;
 import adts.Signature;
 import adts.Voice;
-import utils.Fraction;
-import utils.Scales;
 
 /**
  * Walks the tree, creates a MusicPiece object with Notes and Syllables
@@ -73,9 +73,14 @@ public class Listener extends ABCMusicBaseListener {
      * (these can either be copied over when needed, or cleared). Keep a list of
      * pairs to find the which measures in the line need repeated lyrics (ie.
      * measure 0 to 5, measure 7 to 8).
+     * 
+     * If we find 1], hold off on adding to the range until we find a :|, but
+     * keep track of the number of measures we skip over
      */
     private Map<String, List<Measure>> repeatedMeasures = new HashMap<String, List<Measure>>();
     private List<Pair<Integer, Integer>> rangeRepeatedMeasures = new ArrayList<Pair<Integer, Integer>>();
+    private List<Pair<Integer, Integer>> rangeOneRepeatedMeasures = new ArrayList<Pair<Integer, Integer>>();
+    private int insideOneRepeat = 0;
 
     /**
      * do nothing, because the top of the stack should have the node already in
@@ -122,8 +127,15 @@ public class Listener extends ABCMusicBaseListener {
         musicSymbolStack.clear();
         accidentals.clear(); // clear the accidentals for this measure
 
-        // don't repeat if there's a one-repeat
-        if (ctx.ONE_REPEAT() == null) {
+        // if there's a [1 or we're inside that [1, don't add to the range
+        if (ctx.ONE_REPEAT() != null) {
+            insideOneRepeat = 1;
+            Integer currentMeasureNum = rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b;
+            rangeOneRepeatedMeasures.add(new Pair<Integer, Integer>(currentMeasureNum, currentMeasureNum));
+        } else if (insideOneRepeat > 0) {
+            insideOneRepeat += 1;
+            ++rangeOneRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b;
+        } else {
             // increment the current range
             ++rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b;
         }
@@ -131,8 +143,10 @@ public class Listener extends ABCMusicBaseListener {
         // copy the lyrics and symbols later, start a new range of repeated
         // measures
         if (ctx.RREPEAT() != null) {
-            Integer currentMeasureNum = rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b;
+            Integer currentMeasureNum = rangeRepeatedMeasures.get(rangeRepeatedMeasures.size() - 1).b + insideOneRepeat;
             rangeRepeatedMeasures.add(new Pair<Integer, Integer>(currentMeasureNum, currentMeasureNum));
+            // we can start finding repeated measures again
+            insideOneRepeat = 0;
         }
 
         // clear most recent pair and ongoing repeated measures, make new range
@@ -196,14 +210,21 @@ public class Listener extends ABCMusicBaseListener {
             // measure we're looking at, add the measure to repeated and
             // increment a
             if (rangeRepeatedMeasures.size() > 0) {
-                if (rangeRepeatedMeasures.get(0).a.equals(i)) {
+                if (rangeRepeatedMeasures.get(0).a.equals(i)
+                        && rangeRepeatedMeasures.get(0).a < rangeRepeatedMeasures.get(0).b) {
                     repeatedMeasures.get(currentVoice).add(measure);
                     ++rangeRepeatedMeasures.get(0).a;
                 }
 
-                // if we're done with the range (a > b), remove the range
-                if (rangeRepeatedMeasures.get(0).a > rangeRepeatedMeasures.get(0).b) {
+                // if we're in the 1] area, don't add the repeated measure yet
+                if (rangeOneRepeatedMeasures.size() > 0 && rangeOneRepeatedMeasures.get(0).a.equals(i + 1)
+                        && rangeOneRepeatedMeasures.get(0).a <= rangeOneRepeatedMeasures.get(0).b) {
+                    ++rangeOneRepeatedMeasures.get(0).a;
+
+                    // if we're done with the range (a >= b), remove the range
+                } else if (rangeRepeatedMeasures.get(0).a >= rangeRepeatedMeasures.get(0).b) {
                     rangeRepeatedMeasures.remove(0);
+
                     // add the range to the stack unless it's the last pair
                     // (which is ongoing)
                     if (rangeRepeatedMeasures.size() > 0) {
