@@ -184,7 +184,7 @@ public class ParserTest {
                 'E', -1, 0), new Pitch(new Fraction(1), 'A', -1, 0), new Rest(new Fraction(1)));
         Measure measure2 = new Measure(notes2, new Lyric(new ArrayList<String>()));
 
-        List<Measure> measures = Arrays.asList(measure1, measure1, measure2);
+        List<Measure> measures = Arrays.asList(measure1, measure2, measure1);
         List<Voice> voices = Arrays.asList(new Voice("defaultVoice", measures));
         List<String> voiceNames = Arrays.asList("defaultVoice");
         MusicPiece expected = new MusicPiece(new Signature("Bagatelle No.25 in A, WoO.59", "Ludwig van Beethoven",

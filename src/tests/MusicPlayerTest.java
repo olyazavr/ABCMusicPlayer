@@ -1,6 +1,7 @@
 package tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import interfaces.MusicSymbol;
 
 import java.util.Arrays;
@@ -8,15 +9,16 @@ import java.util.Arrays;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
-
-
 import org.junit.Test;
 
+import sound.LyricListener;
+import sound.MusicPlayer;
+import sound.PlayerPitch;
+import sound.SequencePlayer;
+import utils.Fraction;
 import adts.Chord;
 import adts.Pitch;
 import adts.Rest;
-import sound.*;
-import utils.Fraction;
 
 /**
  * Testing suite for MusicPlayer class and Music's addNote() and addNotes()
@@ -25,7 +27,7 @@ import utils.Fraction;
  * We first check MusicPlayer's equals(), addTime(), addNote(), methods and
  * continue with Music's.
  * 
- * @category_nodidit 
+ * @category no_didit
  */
 public class MusicPlayerTest {
 

@@ -68,6 +68,7 @@ REST : ('z'|'Z') ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 DUPLET: '(' '2';
 TRIPLET: '(' '3';
 QUAD: '(' '4';
+PIPE: '|' | '[|';
 LBRAC: '[';
 RBRAC: ']';
 LREPEAT: '|:' | '||:';
@@ -75,7 +76,6 @@ RREPEAT: ':|' | ':||';
 ONE_REPEAT : '[1';
 TWO_REPEAT: '[2';
 END_NOTES: '|]' | '||';
-PIPE: '|' | '[|';
 
 /*
  * These are the parser rules. They define the structures used by the parser.
@@ -104,7 +104,7 @@ field_key : KEY;
 
 abc_music : (line | field_voice NEWLINE* | COMMENT)+;
 line: NEWLINE* measure+ NEWLINE* lyric? NEWLINE*;
-measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT);
+measure : (LREPEAT|ONE_REPEAT|TWO_REPEAT|PIPE)? note_element+ (PIPE|END_NOTES|NEWLINE|RREPEAT)?;
 
 note_element : note | rest | chord | duplet | triplet | quadruplet;
 note: NOTE;
