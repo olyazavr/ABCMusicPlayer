@@ -11,8 +11,7 @@ import utils.Fraction;
 import adts.Signature;
 
 /**
- * This is the test suite for Signature's equals(), toString(), hashCode(), and
- * getPlayerTempo().
+ * This is the test suite for Signature's equals(), toString(), and hashCode().
  * 
  * Testing strategy: test each method and make sure it is true to its spec for
  * every valid type of input. equals() must return true on equal objects, and
