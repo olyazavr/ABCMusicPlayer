@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import player.Signature;
+import adts.Signature;
 import utils.Fraction;
 
 /**

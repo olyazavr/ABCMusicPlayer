@@ -233,7 +233,7 @@ public class SequencePlayer {
 		SequencePlayer player;
 		try {
 
-			// Create a new player, with 120 beats per minute, 2 ticks per beat
+			// Create a new main, with 120 beats per minute, 2 ticks per beat
 			// and a LyricListener that prints each lyric that it sees.
 			LyricListener listener = new LyricListener() {
 				public void processLyricEvent(String text) {

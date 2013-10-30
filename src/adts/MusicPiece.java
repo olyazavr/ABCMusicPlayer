@@ -1,4 +1,6 @@
-package player;
+package adts;
+
+import interfaces.MusicPart;
 
 import java.util.ArrayList;
 import java.util.List;

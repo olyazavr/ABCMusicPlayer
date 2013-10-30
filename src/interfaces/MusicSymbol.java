@@ -1,5 +1,6 @@
-package player;
+package interfaces;
 
+import adts.Music;
 import sound.MusicPlayer;
 import utils.Fraction;
 
@@ -18,10 +19,10 @@ import utils.Fraction;
 
 public interface MusicSymbol extends Music {
 	/**
-	 * Adds the note and the associated given lyric to the music player given
+	 * Adds the note and the associated given lyric to the music main given
 	 * the number of ticks per beat
 	 * 
-	 * @param player
+	 * @param main
 	 *            is a valid MusicPlayer
 	 * 
 	 */

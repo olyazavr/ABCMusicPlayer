@@ -1,5 +1,6 @@
-package player;
+package interfaces;
 
+import adts.Music;
 import sound.MusicPlayer;
 
 /**
@@ -17,10 +18,10 @@ import sound.MusicPlayer;
  */
 public interface MusicPart extends Music {
     /**
-     * Adds the containing notes to the music player given the number of ticks
+     * Adds the containing notes to the music main given the number of ticks
      * per beat
      * 
-     * @param player
+     * @param main
      *            is a valid MusicPlayer
      * @param ticksPerBeat
      *            is a valid integer

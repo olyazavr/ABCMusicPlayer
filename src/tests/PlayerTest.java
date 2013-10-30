@@ -1,8 +1,8 @@
 package tests;
 
-import org.junit.Test;
+import main.Main;
 
-import player.Main;
+import org.junit.Test;
 
 /**
  * Tests all the songs_abc files by playing them in the Play method, only makes

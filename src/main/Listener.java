@@ -1,7 +1,8 @@
-package player;
+package main;
 
 import grammar.ABCMusicBaseListener;
 import grammar.ABCMusicParser;
+import interfaces.MusicSymbol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,14 @@ import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import adts.Chord;
+import adts.Lyric;
+import adts.Measure;
+import adts.MusicPiece;
+import adts.Pitch;
+import adts.Rest;
+import adts.Signature;
+import adts.Voice;
 import utils.Fraction;
 import utils.Scales;
 

@@ -1,5 +1,6 @@
-package player;
+package adts;
 
+import interfaces.MusicSymbol;
 import sound.MusicPlayer;
 import utils.Fraction;
 

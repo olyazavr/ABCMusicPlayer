@@ -1,4 +1,7 @@
-package player;
+package adts;
+
+import interfaces.MusicPart;
+import interfaces.MusicSymbol;
 
 import java.util.ArrayList;
 import java.util.List;

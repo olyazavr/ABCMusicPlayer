@@ -6,7 +6,7 @@ import javax.sound.midi.MidiUnavailableException;
 import utils.Fraction;
 
 /**
- * The mutable class MusicPlayer is our main data type for the ABC player. It
+ * The mutable class MusicPlayer is our main data type for the ABC main. It
  * can dynamically add notes and lyrics to itself by using a counter
  * currentTicks which represent the current position inside the song.
  */
@@ -16,7 +16,7 @@ public class MusicPlayer {
 	private final int ticksPerBeat;
 
 	/**
-	 * Creates a new instance of Music player with given tempo (beats per
+	 * Creates a new instance of Music main with given tempo (beats per
 	 * minute) and ticks per beat. These values remain unchanged.
 	 * 
 	 * @param tempo
@@ -45,7 +45,7 @@ public class MusicPlayer {
 	/**
 	 * Creates an Instance of Music Player using an existing SequencePlayer;
 	 * 
-	 * @param player
+	 * @param main
 	 *            is a valid SequencePlayer
 	 */
 	public MusicPlayer(SequencePlayer player, int ticks) {
@@ -55,7 +55,7 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * Adds the given MIDI note of given length to the player
+	 * Adds the given MIDI note of given length to the main
 	 * 
 	 * @param note
 	 *            an integer representing the MIDI note.
@@ -79,7 +79,7 @@ public class MusicPlayer {
 	}
 
 	/**
-	 * Add the given lyric to the player
+	 * Add the given lyric to the main
 	 * 
 	 * @param lyric
 	 *            a string that represents the lyric to be added
@@ -98,7 +98,7 @@ public class MusicPlayer {
 	/**
 	 * Check whether an object is equal to this instance of Music Player.
 	 * Players are considered equal if they have the same values of
-	 * currentTicks, ticksPerBeat and equal player attributes.
+	 * currentTicks, ticksPerBeat and equal main attributes.
 	 */
 	public boolean equals(Object that) {
 		if (!(that instanceof MusicPlayer)) {

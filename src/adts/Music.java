@@ -1,4 +1,4 @@
-package player;
+package adts;
 
 /**
  * Interface that represents any music item. MusicSymbol and MusicPart extend

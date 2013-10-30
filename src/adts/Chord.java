@@ -1,4 +1,6 @@
-package player;
+package adts;
+
+import interfaces.MusicSymbol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,7 @@ public class Chord implements MusicSymbol {
         }
 
         for (MusicSymbol note : notes) {
-            // add the note to the player
+            // add the note to the main
             note.addNote(player, new String());
             // Subtract the length to go back
             player.addTime(note.getLength().multiply(-1));

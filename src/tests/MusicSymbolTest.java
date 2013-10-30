@@ -2,22 +2,22 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import interfaces.MusicSymbol;
 
 import java.util.Arrays;
 
 import org.junit.Test;
 
-import player.Chord;
-import player.MusicSymbol;
-import player.Pitch;
-import player.Rest;
+import adts.Chord;
+import adts.Pitch;
+import adts.Rest;
 import utils.Fraction;
 
 /**
  * This is the test suite for equals(), toString(), hashCode(), and
  * calculateTicksPerBeat() for the classes in the MusicSymbol interface. The
- * addNote(player) method is tested in MusicPlayerTest.java as its main role is
- * to modify the player.
+ * addNote(main) method is tested in MusicPlayerTest.java as its main role is
+ * to modify the main.
  * 
  * Moreover, we test the particular methods of the classes that implement the
  * interface: Pitch: multiplyLength(), getLength(), Chord: multiplyLength().

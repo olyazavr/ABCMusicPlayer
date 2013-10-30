@@ -1,4 +1,4 @@
-package player;
+package main;
 
 import grammar.ABCMusicLexer;
 import grammar.ABCMusicParser;
@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import main.AskDialog.AskDialogInterface;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -24,7 +26,7 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import player.AskDialog.AskDialogInterface;
+import adts.MusicPiece;
 import sound.MusicPlayer;
 
 /**
@@ -51,7 +53,7 @@ public class Main {
 		// get the MusicPiece object
 		MusicPiece music = Main.stringToMusicPiece(Main.readFileToString(file));
 
-		// Find the ticks and tempo to give to the midi player
+		// Find the ticks and tempo to give to the midi main
 		int ticksPerBeat = music.calculateTicksPerBeat();
 		int tempo = music.getPlayerTempo(ticksPerBeat);
 
@@ -187,7 +189,7 @@ public class Main {
 			panel.add(comboBox);
 
 			int iResult = JOptionPane.showConfirmDialog(null, panel,
-					"ABC song player", JOptionPane.OK_CANCEL_OPTION,
+					"ABC song main", JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
 			switch (iResult) {
 			case JOptionPane.OK_OPTION:

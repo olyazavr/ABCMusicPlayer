@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+import interfaces.MusicSymbol;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +9,8 @@ import java.util.List;
 
 import lyrics.LyricsLexer;
 import lyrics.LyricsParser;
+import main.LyricsListener;
+import main.Main;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
@@ -18,15 +21,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Test;
 
-import player.Lyric;
-import player.LyricsListener;
-import player.Main;
-import player.Measure;
-import player.MusicPiece;
-import player.MusicSymbol;
-import player.Pitch;
-import player.Signature;
-import player.Voice;
+import adts.Lyric;
+import adts.Measure;
+import adts.MusicPiece;
+import adts.Pitch;
+import adts.Signature;
+import adts.Voice;
 import utils.Fraction;
 
 /**

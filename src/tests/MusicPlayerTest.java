@@ -1,16 +1,20 @@
 package tests;
 
 import static org.junit.Assert.*;
+import interfaces.MusicSymbol;
 
 import java.util.Arrays;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
+import main.*;
+
 import org.junit.Test;
 
-import sound.PlayerPitch;
-import player.*;
+import adts.Chord;
+import adts.Pitch;
+import adts.Rest;
 import sound.*;
 import utils.Fraction;
 

@@ -79,6 +79,16 @@ Main was modified to include a pop up window to select the song to play.
 \bigskip
 \noindent {\textbf{Abstract Syntax Tree}}
 
+MusicSymbol interface represents a music symbol, which can be either a pitch, a rest or a chord. The objects are immutable. The equals, toString, and hashCode methods work recursively and individually different from each class extending Music. Read their documentation for full specs (interface package). \\
+
+Representation MusicSymbol = Chord(notes: List<Pitch>) + Pitch(value: string, octave: int, length: int) + Rest(length: int) \\
+
+MusicPart interface represents any music part. This could be a MusicPiece, a Measure, or a Voice. The objects are immutable. The equals, toString, and hashCode methods work recursively and individually different from each class extending Music. Read their documentation for full specs (interface package). \\ 
+
+Representation MusicPart = MusicPiece(signature: Signature, voices: List<Voice>) + Measure(notes: List<MusicSymbol>, lyrics: Lyric) + Voice(name: String, measures: List<Measure>) \\
+
+Following is a 
+
 \centerline{ \includegraphics{Music.pdf}}
 
 \noindent {\tt Music} is an interface that will represent our ADT. All {\tt Music} objects are immutable. It defines the following method

@@ -1,23 +1,24 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+import interfaces.MusicSymbol;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import main.Main;
+
 import org.junit.Test;
 
-import player.Chord;
-import player.Lyric;
-import player.Main;
-import player.Measure;
-import player.MusicPiece;
-import player.MusicSymbol;
-import player.Pitch;
-import player.Rest;
-import player.Signature;
-import player.Voice;
+import adts.Chord;
+import adts.Lyric;
+import adts.Measure;
+import adts.MusicPiece;
+import adts.Pitch;
+import adts.Rest;
+import adts.Signature;
+import adts.Voice;
 import utils.Fraction;
 
 /**
