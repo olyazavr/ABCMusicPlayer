@@ -18,9 +18,10 @@ import org.junit.Test;
  * Testing strategy: Test first the simple cases, then increasingly more
  * complicated and more prone to parsing error cases. Make sure all tokens are
  * correctly lexed and behave the way they should even with whitespace and
- * newlines. Notes (but not chords or tuplets) should be lexed along with their
- * modifiers. Header lines and comments should be lexed as their own tokens.
- * Test all modifiers!
+ * newlines. Notes should be lexed along with their modifiers. Header lines and
+ * comments should be lexed as their own tokens. Tuplet (2, (3, (4 and chord
+ * brackets are to be lexed as their own tokens, separate from the notes. Test
+ * all modifiers (' ,, ^ ^^ _ __ and durations)!
  * 
  */
 public class LexerTest {
@@ -107,15 +108,16 @@ public class LexerTest {
 
     @Test
     public void strangeLyricsCharactersTest() {
-        // Tests weird characters that have failed the lexer before (ie. -, ')
+        // Tests weird characters that have failed the lexer before (ie. - ' *
+        // ~ _ \- --)
         String input = "X:2167 \n T:Waxie's Dargle \n M:4/4 \n L:1/8 \n Q:1/4=180 \n K:G \n "
                 + "gf|e2dc B2A2|B2G2 E2D2|G2G2 GABc|d4 B2gf| \n"
-                + "w: Sa-ys my aul' wan to your aul' wan\n ";
+                + "w: Sa-ys m\\-y aul' w--an_ to your aul' w~an * \n ";
         verifyLexer(input,
                 new String[] { "X:2167 \n", "T:Waxie's Dargle \n", "M:4/4 \n", "L:1/8 \n", "Q:1/4=180 \n", "K:G \n",
                         "g", "f", "|", "e2", "d", "c", "B2", "A2", "|", "B2", "G2", "E2", "D2", "|", "G2", "G2",
                         "G", "A", "B", "c", "|", "d4", "B2", "g", "f", "|", "\n",
-                        "w: Sa-ys my aul' wan to your aul' wan\n"
+                        "w: Sa-ys m\\-y aul' w--an_ to your aul' w~an * \n"
                 });
     }
 

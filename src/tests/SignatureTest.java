@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import adts.Signature;
 import utils.Fraction;
+import adts.Signature;
 
 /**
  * This is the test suite for Signature's equals(), toString(), hashCode(), and
@@ -20,8 +20,8 @@ import utils.Fraction;
  * representation of the object. hashCode() must return a hashcode that is the
  * same for equal objects.
  * 
- * Partition on the number of voices the signature has (none is not an option),
- * and how fractions are represented in meter, tempo, and length (ie. how is 4/4
+ * Partition on the number of voices the signature has (1 or more), and how
+ * fractions are represented in meter, tempo, and length (ie. how is 4/4
  * simplified, since usually it would appear as an empty string, but that is
  * inappropriate here).
  * 
@@ -35,6 +35,7 @@ public class SignatureTest {
      */
     @Test
     public void equalsTest() {
+        // include one voice or more
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
@@ -52,6 +53,7 @@ public class SignatureTest {
      */
     @Test
     public void hashCodeTest() {
+        // make sure equal objects have same hashcode
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
@@ -66,6 +68,8 @@ public class SignatureTest {
      */
     @Test
     public void toStringTest() {
+        // test one or many voices, as well as the defaults for Signature and
+        // the representation of 4/4 or 1 fractions
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig2 = new Signature("title2", "composer2", new Fraction(4, 4), new Fraction(4, 4),

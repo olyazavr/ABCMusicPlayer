@@ -8,16 +8,16 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import utils.Fraction;
 import adts.Chord;
 import adts.Pitch;
 import adts.Rest;
-import utils.Fraction;
 
 /**
  * This is the test suite for equals(), toString(), hashCode(), and
  * calculateTicksPerBeat() for the classes in the MusicSymbol interface. The
- * addNote(main) method is tested in MusicPlayerTest.java as its main role is
- * to modify the main.
+ * addNote(main) method is tested in MusicPlayerTest.java as its main role is to
+ * modify the main.
  * 
  * Moreover, we test the particular methods of the classes that implement the
  * interface: Pitch: multiplyLength(), getLength(), Chord: multiplyLength().
@@ -29,10 +29,10 @@ import utils.Fraction;
  * same for equal objects.
  * 
  * For Pitch, make sure everything works correctly regardless of how many
- * modifiers there are (partition on that), and same for Rest (it only has
- * duration). For Chord, partition on the number of MusicSymbols it has. Also,
- * make sure duration shows up correctly (ie. 1/1 should be nothing, 1/2 should
- * be /2)
+ * modifiers there are (, ,, ^ ^^ _ __ and duration), and same for Rest (it only
+ * has duration). For Chord, partition on the number of MusicSymbols it has.
+ * Also, make sure duration shows up correctly (ie. 1/1 should be nothing, 1/2
+ * should be /2)
  * 
  */
 
@@ -43,6 +43,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void equalsPitchTest() {
+        // include the different modifiers!
 		Pitch pitch1 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
 		Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
 		Pitch pitch3 = new Pitch(new Fraction(1), 'D', -1, -2);
@@ -59,6 +60,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void equalsRestTest() {
+        // include different durations
 		Rest rest1 = new Rest(new Fraction(1));
 		Rest rest2 = new Rest(new Fraction(1));
 		Rest rest3 = new Rest(new Fraction(2, 3));
@@ -73,6 +75,8 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void equalsChordTest() {
+        // include rests and pitches in chords, as well as testing different
+        // sizes of chords
 		MusicSymbol pitch1 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
 		MusicSymbol pitch2 = new Pitch(new Fraction(1, 2), 'A', 1, 0);
 		MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
@@ -81,7 +85,7 @@ public class MusicSymbolTest {
 
 		Chord chord1 = new Chord(Arrays.asList(pitch1, pitch2, pitch3, rest1));
 		Chord chord2 = new Chord(Arrays.asList(pitch1, pitch1, pitch4, rest1));
-		Chord chord3 = new Chord(Arrays.asList(pitch1, pitch3, pitch4));
+        Chord chord3 = new Chord(Arrays.asList(pitch1));
 
 		assertEquals(chord1, chord1); // reflexive
 		assertEquals(chord1, chord2);
@@ -93,6 +97,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void hashCodePitchTest() {
+        // make sure equal objects have same hashcode
 		Pitch pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
 		Pitch pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
 
@@ -105,6 +110,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void hashCodeRestTest() {
+        // make sure equal objects have same hashcode
 		Rest rest1 = new Rest(new Fraction(1));
 		Rest rest2 = new Rest(new Fraction(1));
 
@@ -117,6 +123,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void hashCodeChordTest() {
+        // make sure equal objects have same hashcode
 		MusicSymbol pitch1 = new Pitch(new Fraction(1), 'A', 1, 0);
 		MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 0);
 		MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 0, -2);
@@ -153,6 +160,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void toStringRestTest() {
+        // different durations
 		Rest rest1 = new Rest(new Fraction(1));
 		Rest rest2 = new Rest(new Fraction(2, 3));
 
@@ -165,6 +173,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void toStringChordTest() {
+        // different modifiers, and different sizes of chord
 		MusicSymbol pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
 		MusicSymbol pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
 		MusicSymbol pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
@@ -185,6 +194,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void getLengthPitchTest() {
+        // test different fractions from the default of 1 to others
 		Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
 		Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
 		Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
@@ -200,6 +210,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void multiplyLengthPitchTest() {
+        // test multiplying by 1 and different fractions
 		Pitch pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
 		Pitch pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
 		Pitch pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);
@@ -220,6 +231,7 @@ public class MusicSymbolTest {
 	 */
 	@Test
 	public void multiplyLengthChordTest() {
+        // test multiplying by 1 and different fractions
 		MusicSymbol pitch1 = new Pitch(new Fraction(2, 3), 'D', 1, -2);
 		MusicSymbol pitch2 = new Pitch(new Fraction(1, 2), 'A', 2, 1);
 		MusicSymbol pitch3 = new Pitch(new Fraction(1), 'C', -1, 0);

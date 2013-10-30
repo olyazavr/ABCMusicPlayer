@@ -11,6 +11,7 @@ import main.Main;
 
 import org.junit.Test;
 
+import utils.Fraction;
 import adts.Chord;
 import adts.Lyric;
 import adts.Measure;
@@ -19,7 +20,6 @@ import adts.Pitch;
 import adts.Rest;
 import adts.Signature;
 import adts.Voice;
-import utils.Fraction;
 
 /**
  * Tests the Parser, ensures that it returns the right objects. Tests basic and
@@ -30,9 +30,9 @@ import utils.Fraction;
  * Testing strategy: Test first the simple cases, then increasingly more
  * complicated and more prone to parsing error cases. Make sure all objects
  * consist of the right objects/components and in the right order. Test all the
- * modifiers, all symbols, all repeats, and all kinds of strange lyrics. Make
- * sure accidentals carry over from within the measure and the key (and neutrals
- * stop this).
+ * modifiers (, ,, ' ^ ^^ _ __), all symbols (|]), all repeats (|: :| [1 [2),
+ * and all kinds of strange lyrics (* - \\- ~ - -- _). Make sure accidentals
+ * carry over from within the measure and the key (and neutrals stop this).
  * 
  */
 public class ParserTest {
@@ -61,7 +61,7 @@ public class ParserTest {
 
     @Test
     public void extendedHeaderOneMeasureTest() {
-        // tests the full possible header and alternative way to write header
+        // tests the full possible header and alternative way to write tempo
         String input = "X: 1 \r\n T:Piece No.1 \r\n C: Me \r\n M:4/4 \r\n L:1/4 \r\n Q:140 \r\n K:C "
                 + "\r\n C C C3/4 D/4 E \r\n";
 
@@ -85,10 +85,11 @@ public class ParserTest {
     @Test
     public void lyricsMultMeasuresTest() {
         // Tests lyrics and multiple measures. Also test that accidentals from
-        // the key carry over to the notes.
+        // the key carry over to the notes. (Lyrics are more intensely tested in
+        // LyricsLexer and LyricsParser tests)
         String input = "X:1 \r\n T:Alphabet Song \r\n C:Traditional Kid's Song \r\n M:4/4 \r\n L:1/4 \r\n Q:1/4=100 \r\n K:D \r\n "
                 + "  A A G F | F F E2|A       A  G  G | F F E2| \r\n "
-                + "w:Q R S *   T U V  W~(dou-ble u) | X Y Z \r\n ";
+                + "w:Q R S *   T U_  W~(dou-ble u) | X--Z \r\n ";
 
         // measure 1
         MusicSymbol pitch = new Pitch(new Fraction(1), 'A', 0, 0);
@@ -101,7 +102,7 @@ public class ParserTest {
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'F', 0, 1);
         List<MusicSymbol> notes2 = Arrays.asList(pitch2, new Pitch(new Fraction(1), 'F', 0, 1), new Pitch(
                 new Fraction(2), 'E', 0, 0));
-        List<String> syllables2 = Arrays.asList("T", "U", "V");
+        List<String> syllables2 = Arrays.asList("T", "U", "");
         Measure measure2 = new Measure(notes2, new Lyric(syllables2));
 
         // measure 3
@@ -115,7 +116,7 @@ public class ParserTest {
         MusicSymbol pitch4 = new Pitch(new Fraction(1), 'F', 0, 1);
         List<MusicSymbol> notes4 = Arrays.asList(pitch4, new Pitch(new Fraction(1), 'F', 0, 1), new Pitch(
                 new Fraction(2), 'E', 0, 0));
-        List<String> syllables4 = Arrays.asList("X", "Y", "Z");
+        List<String> syllables4 = Arrays.asList("X-", "", "Z");
         Measure measure4 = new Measure(notes4, new Lyric(syllables4));
 
         List<Measure> measures = Arrays.asList(measure1, measure2, measure3, measure4);
@@ -131,9 +132,9 @@ public class ParserTest {
 
     @Test
     public void octavesAccidentalsTest() {
-        // Test modifiers of notes. Make sure accidentals carry over in measures
-        // and neutrals work the way we need them to. Also test defaults in
-        // signature.
+        // Test modifiers of notes (, ,, ' ^ ^^ _ __). Make sure accidentals
+        // carry over in measures and neutrals work the way we need them to.
+        // Also test defaults in signature.
         String input = "X: 1 \r\n T:Bagatelle No.25 in A, WoO.59 \r\n C:Ludwig van Beethoven "
                 + "\r\n M:1/8 \r\n Q:1/8=140 \r\n K:Am \r\n "
                 + "\r\n ^^E,,E,,^G, z z2|__b e' b/4 z =b \r\n ";

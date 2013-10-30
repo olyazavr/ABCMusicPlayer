@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import utils.Fraction;
 import adts.Chord;
 import adts.Lyric;
 import adts.Measure;
@@ -17,14 +18,10 @@ import adts.Pitch;
 import adts.Rest;
 import adts.Signature;
 import adts.Voice;
-import utils.Fraction;
 
 /**
- * This is the test suite for equals(), toString(), hashCode(), addNotes(), and
- * calculateTicksPerBeat() for the classes in the MusicPart interface.
- * 
- * Moreover, we test the particular methods of the classes that implement the
- * interface: MusicPiece: getPlayerTempo().
+ * This is the test suite for equals(), toString(), and hashCode() for the
+ * classes in the MusicPart interface (other methods are in the no_didit tests).
  * 
  * Testing strategy: test each method and make sure it is true to its spec for
  * every valid type of input. equals() must return true on equal objects, and
@@ -32,10 +29,11 @@ import utils.Fraction;
  * representation of the object. hashCode() must return a hashcode that is the
  * same for equal objects.
  * 
- * Partition on complexity and modifiers, make sure things that have lists can
- * handle the lists being with only one object, none, or more than one (some
- * things can't have none, however). Also, make sure duration shows up correctly
- * (ie. 1/1 should be nothing, 1/2 should be /2)
+ * Partition on complexity and modifiers, make sure things that Measures can
+ * have 1 or any number of MusicSymbols, Voices can have 1 or any number of
+ * measures, and MusicPieces can have 1 and any number of Voices. Also, make
+ * sure duration shows up correctly (ie. 1/1 should be nothing, 1/2 should be
+ * /2). Test the different modifiers of notes (' , ,, ^ ^^ _ __)
  * 
  */
 
@@ -46,9 +44,11 @@ public class MusicPartTest {
      */
     @Test
     public void equalsMeasureTest() {
+        // include measures with one and multiple pitches (also syllables in
+        // lyrics)
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
-        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
+        MusicSymbol pitch2 = new Pitch(new Fraction(2, 3), 'A', 1, 1);
+        MusicSymbol pitch3 = new Pitch(new Fraction(4), 'D', 1, -2);
         MusicSymbol rest1 = new Rest(new Fraction(1));
 
         Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
@@ -57,7 +57,7 @@ public class MusicPartTest {
 
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
         Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric2);
-        Measure measure3 = new Measure(Arrays.asList(pitch3, pitch2, rest1), lyric3);
+        Measure measure3 = new Measure(Arrays.asList(pitch3), lyric3);
         // check order as well
         Measure measure4 = new Measure(Arrays.asList(pitch2, pitch1, rest1), lyric1);
 
@@ -72,13 +72,14 @@ public class MusicPartTest {
      */
     @Test
     public void equalsVoiceTest() {
+        // include voices with one and multiple measures
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
-        MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
-        MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
+        MusicSymbol pitch2 = new Pitch(new Fraction(2, 3), 'A', 1, 1);
+        MusicSymbol pitch3 = new Pitch(new Fraction(4), 'D', 1, -2);
         MusicSymbol rest1 = new Rest(new Fraction(1));
 
-        Lyric lyric1 = new Lyric(Arrays.asList("A!!", "B123"));
-        Lyric lyric2 = new Lyric(Arrays.asList("A!!", "B123"));
+        Lyric lyric1 = new Lyric(Arrays.asList("A!!"));
+        Lyric lyric2 = new Lyric(Arrays.asList("A!!"));
 
         Measure measure1 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric1);
         Measure measure2 = new Measure(Arrays.asList(pitch1, pitch2, rest1), lyric2);
@@ -86,7 +87,7 @@ public class MusicPartTest {
 
         Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure1));
         Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure2));
-        Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure3));
+        Voice voice3 = new Voice("name2", Arrays.asList(measure3));
 
         assertEquals(voice1, voice1); // reflexive
         assertEquals(voice1, voice2);
@@ -98,6 +99,7 @@ public class MusicPartTest {
      */
     @Test
     public void equalsMusicPieceTest() {
+        // include a MusicPiece with one and multiple voices
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
@@ -119,11 +121,11 @@ public class MusicPartTest {
 
         Voice voice1 = new Voice("name1", Arrays.asList(measure1, measure1));
         Voice voice2 = new Voice("name1", Arrays.asList(measure1, measure2));
-        Voice voice3 = new Voice("name2", Arrays.asList(measure1, measure3));
+        Voice voice3 = new Voice("name2", Arrays.asList(measure3));
 
         MusicPiece music1 = new MusicPiece(sig1, Arrays.asList(voice1, voice2, voice3));
         MusicPiece music2 = new MusicPiece(sig2, Arrays.asList(voice2, voice1, voice3));
-        MusicPiece music3 = new MusicPiece(sig3, Arrays.asList(voice3, voice2, voice3));
+        MusicPiece music3 = new MusicPiece(sig3, Arrays.asList(voice3));
 
         assertEquals(music1, music1); // reflexive
         assertEquals(music1, music2);
@@ -135,6 +137,7 @@ public class MusicPartTest {
      */
     @Test
     public void hashCodeMeasureTest() {
+        // make sure equal objects have same hashcode
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1), 'A', 1, 1);
         MusicSymbol rest1 = new Rest(new Fraction(2, 3));
@@ -156,6 +159,7 @@ public class MusicPartTest {
      */
     @Test
     public void hashCodeVoiceTest() {
+        // make sure equal objects have same hashcode
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
@@ -181,6 +185,7 @@ public class MusicPartTest {
      */
     @Test
     public void hashCodeMusicPieceTest() {
+        // make sure equal objects have same hashcode
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig2 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
@@ -214,6 +219,7 @@ public class MusicPartTest {
      */
     @Test
     public void toStringMeasureTest() {
+        // include both just notes and pitches as well as a chord
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol rest1 = new Rest(new Fraction(1));
@@ -232,6 +238,7 @@ public class MusicPartTest {
      */
     @Test
     public void toStringVoiceTest() {
+        // include voices with one and multiple measures
         MusicSymbol pitch1 = new Pitch(new Fraction(1), 'B', 2, 0);
         MusicSymbol pitch2 = new Pitch(new Fraction(1, 4), 'A', 1, 1);
         MusicSymbol pitch3 = new Pitch(new Fraction(1), 'D', 1, -2);
@@ -254,6 +261,8 @@ public class MusicPartTest {
      */
     @Test
     public void toStringMusicPieceTest() {
+        // include MusicPieces with one and multiple voices, also test defaults
+        // in Signature and how 4/4 (usually just a "" but modified here) prints
         Signature sig1 = new Signature("title1", "composer1", new Fraction(1, 2), new Fraction(1, 2),
                 new Fraction(1, 8), "C", Arrays.asList("one"));
         Signature sig2 = new Signature("title1", "composer1", new Fraction(4, 4), new Fraction(4, 4),
