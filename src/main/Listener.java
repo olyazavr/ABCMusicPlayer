@@ -237,6 +237,7 @@ public class Listener extends ABCMusicBaseListener {
         musicSymbolPerMeasure.clear();
         // this is held only for a single line
         rangeRepeatedMeasures.clear();
+        rangeOneRepeatedMeasures.clear();
     }
 
     /**
