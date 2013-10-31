@@ -183,9 +183,11 @@ It has the following methods:
 \item { \tt play() } plays the notes and lyrics added by calling {\tt SequencePlayer}'s {\tt play} method. 
 \end{itemize}
 
-\medskip
+\bigskip
 
-\noindent {\large \bf Parsing }
+\noindent { \large \bf Parsing }
+
+\bigskip
 
 \begin{itemize}
 \item {\bf Lexer}: The lexer is designed such that all of the header lines (ie. title, composer, etc) are each lexed as one token, as are all lyric and comment lines. Notes are lexed together with their modifiers (accidentals, octaves, duration) as one token. Duplet, triplet, and quadruplet parenthesis and digits are lexed as a single token (apart from their notes). Chord brackets are lexed separately from their notes. Pipes, repeats, and end of measure symbols are lexed as their own tokens. All whitespace except for newlines (/n/r) is skipped.
@@ -221,24 +223,13 @@ When exiting a duplet, triplet, or quadruplet, notes inside are popped, and thei
 When exiting a note or rest, we extract the needed information from the context and add a Pitch or Rest object to the stack. 
 
 
-\item {\bf Tests}:
-\begin{itemize}
-\item Lexer: Test different inputs and make sure tokens are broken up correctly. 
-Examples: Simple header only, extended header, header and body, lyrics, music that includes chords, tuplets, repeats, music that has comments, music with all different modifiers
-\item Parser: Test different inputs and expect fully-formed MusicPiece objects to be returned. 
-Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures, all kinds of notes and modifiers
-\item ADT tests: test the methods of our ADTs
-Examples: equals, toString, hashCode, calculateTicksPerBeat, multiplyDuration, multiplyDuration, getLength, addNote, addNotes, etc.
-\item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
-Examples: pass in all of the sample\_abc files to be played, they contain the varying inputs that we want (simple measures, measures with comments, multiple voices, repeated sections, chords, tuplets, rests).
 \end{itemize}
 
-\end{itemize}
+\bigskip
 
-\newpage
+\noindent {\large \bf Parsing Lyrics}
 
-\newpage
-\centerline{{\large \bf Parsing Lyrics}}
+\bigskip
 
 \noindent{\textbf {General idea}}
 The lyrics parsing is designed to be simple and flexible and at the same time robust and capable of parsing everything deemed a good input. 
@@ -286,29 +277,32 @@ lyric and will throw an exception\/fail silently with an unexpected outcome
 \item {\bf Listener}: The lyrics listener is very simple as well. The lyrics object is composed of an ArrayList of ArrayLists of Strings, where each String is a ``syllable''. So, when entering a new Measure, we add an empty ArrayList to the main ArrayList. The only other event is exiting a Syllable. In this case, we consider every valid input and do a second ``parsing'' accordingly. This is actually the pretty-print that we implement for our frontend. It converts things like two-word syllables joined by ``~'' into two words joined by whitespaces.
 
 The end product is an ArrayList<ArrayList<String>>, not null, and processed enough to use a literal toString() method to print to the user's console.
-
-\item {\bf Tests}:
-\begin{itemize}
-\item Lexer:
-\begin{itemize}
-\item Tests the LyricsLexer, ensures tokens are what they should be. Tests all kinds of lyrics.
-
-\item Testing space:
-
-\begin{itemize} 
-\item We assume valid inputs. We create tests which lex one token at a time. Once every token is tested for, we introduce multiple tokens in the same input stream. A stream with all tokens is the upperbound while a stream with one token is the lowerbound.
 \end{itemize}
-
-\item Testing stragey:
+\bigskip
+\noindent {\large \bf Tests}
 
 \begin{itemize}
-\item Test each token individually. Test multiple tokens in complex combinations.
-\end{itemize}
+\item Lexer: Test different inputs and make sure tokens are broken up correctly. 
+Examples: Simple header only, extended header, header and body, lyrics, music that includes chords, tuplets, repeats, music that has comments, music with all different modifiers
+\item Parser: Test different inputs and expect fully-formed MusicPiece objects to be returned. 
+Examples: Just a Signature, Pitches, Rests, Chords, Lyrics, multiple Voices, repeated measures, all kinds of notes and modifiers
+
+\item Lyrics lexer: test the LyricsLexer, ensures tokens are what they should be. Tests all kinds of lyrics. We assume valid inputs. We create tests which lex one token at a time. Once every token is tested for, we introduce multiple tokens in the same input stream. A stream with all tokens is the upperbound while a stream with one token is the lowerbound. Testing strategy: test each token individually, test multiple tokens in complex combinations.
+
+\item ADT tests: test the methods of our ADTs
+Examples: equals, toString, hashCode, calculateTicksPerBeat, multiplyDuration, multiplyDuration, getLength, addNote, addNotes, etc.
+
+\item MusicPlayer and ADT's addNote tests: test MusicPlayer's equals, addTime, addNote methods  and Music's addNote and addNotes. 
+equals tests check for empty/non empty MusicPlayers. addTime test check for different fraction inputs : bigger than 1, smaller than 1, equal. for addNote we inpute different MIDI notes with lengths described above. For ADT's addNote we also use different Pitches, Rests, Chords, etc.
+
+\item Play: Testing the whole system, making sure that a file will be read in correctly, then lexed, parsed, and played.
+Examples: pass in all of the sample\_abc files to be played, they contain the varying inputs that we want (simple measures, measures with comments, multiple voices, repeated sections, chords, tuplets, rests).
 \end{itemize}
 
-\end{itemize}
 
-\end{itemize}
+
+
+
 
 \newpage
 
