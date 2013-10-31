@@ -84,35 +84,56 @@ The file implements a simple JFrame UI which makes it easier for the user to pla
 \item Run main and click on the song (it gets uploaded automatically)
 \end{itemize}
 
-\noindent {\textbf{Abstract Syntax Tree}}
+\noindent {\textbf{Abstract Data Types}}
 
-MusicSymbol interface represents a music symbol, which can be either a pitch, a rest or a chord. The objects are immutable. The equals, toString, and hashCode methods work recursively and individually different from each class extending Music. Read their documentation for full specs (interface package). \\
+\bigskip
+ {\tt Music} is an interface that will represent our ADT. All {\tt Music} objects are immutable. 
 
-Representation MusicSymbol $=$ Chord($notes:$ List$<$Pitch$>$) + Pitch($value:$ string, $octave:$ int, $length:$ int) + Rest($length:$ int) \\
+ {\tt MusicPart} is an interface that extends {\tt Music} and represents any music part. This could be a {tt MusicPiece}, a {\tt Measure}, or a {\tt Voice} . 
 
-MusicPart interface represents any music part. This could be a MusicPiece, a Measure, or a Voice. The objects are immutable. The equals, toString, and hashCode methods work recursively and individually different from each class extending Music. Read their documentation for full specs (interface package). \\ 
+ {\tt MusicSymbol} is another interface that extends {\tt Music} and represents  either a {\tt Pitch}, a {\tt Rest} or a {\tt Chord}.
 
-Representation MusicPart = MusicPiece($signature:$ Signature, $voices:$ List$<$Voice$>$) + Measure($notes:$ List$<$MusicSymbol$>$, $lyrics:$ Lyric) + Voice($name:$ String, $measures:$ List<Measure>) \\
+The representation of our ADT is as follows:
+
+
+\bigskip
+\noindent  Music=MusicPart+MusicSymbol
+\medskip
+
+      \noindent MusicPart=MusicPiece($voices$: List$<$Voice$>$, $signature$: Signature) +
+ \\ \phantom{MusicPart=}Voice($measures$: List$<$Measure$>$) +
+ \\ \phantom{MusicPart=}Measure($notes$: List$<$MusicSymbol$>$, $lyrics$: Lyric)
+
+\medskip
+
+      \noindent MusicSymbol=Chord($notes$: List$<$MusicSymbol$>$, $length$: Fraction) +
+ \\ \phantom{MusicSymbol=}Pitch($length$: Fraction, $value$: char, $octave$: int, $accidental$: int) +
+ \\ \phantom{MusicSymbol=}Rest($length$: Fraction)
+
+\medskip
 
 \newpage
 
-\noindent{\textbf{Dependency Diagram}}
-\bigskip
 
 Following is the diagram which underlies our abstract datatypes. 
 
-\centerline{ \includegraphics{Music.pdf}}
+\centerline{ \includegraphics{Music_revised.pdf}}
 
-\noindent {\tt Music} is an interface that will represent our ADT. All {\tt Music} objects are immutable. It defines the following method
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+All {\tt Music} objects have equals, toString, and hashCode methods  that work recursively and individually different from each class extending {\tt Music}. Read their documentation for full specs (interface package).
+{\tt Music} interface also defines the following method
 
 \begin{itemize} 
 
 \item { \tt calculateTicksPerBeat} is an auxiliar method needed to determine the number of ticks per beat for the player such that any notelength can be represented as an integer number of ticks. The method is called recursively.
 \end{itemize}
 
-\medskip 
 
-\noindent {\tt MusicPart} is an interface that extends {\tt Music} and represents either a {\tt MusicPiece} or {\tt Voice}.  It defines a method
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\smallskip
+\noindent {\tt MusicPart} interface  defines the method method
 \begin{itemize} 
 \item { \tt addNotes} which takes an instance of  {\tt MusicPlayer} (described later) and adds to it all notes and lyrics found in the current {\tt MusicPart}  . It is called recursively.
 \end{itemize}
@@ -121,12 +142,12 @@ Following is the diagram which underlies our abstract datatypes.
 \begin{itemize} 
 \item { \tt MusicPiece} represents a final piece of music.   It has a {\tt signature} attribute which contains all the header information and {\tt List<Voice> voices} attribute which represents a list of different voices contained in this piece.
 \item {\tt Voice}  represents a single voice in a piece of music. It has a {\tt List<Measure> measures } attribute which represents the sequence of measures the voice is made of.
-\item {\tt Measure}  represents a single measure in a voice. It has a {\tt List<MusicSymbol>notes } attribute which represents the sequence of notes contained in the measure and a  {\tt List<Syllable> lyrics } attribute that represents the lyrics that accompain the measure.
+\item {\tt Measure}  represents a single measure in a voice. It has a {\tt List<MusicSymbol>notes } attribute which represents the sequence of notes contained in the measure and a  {\tt List<Lyric> lyrics } attribute that represents the lyrics that accompain the measure.
 \end{itemize}
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
 
-\bigskip
-
-\noindent {\tt MusicSymbol} is another interface that extends {\tt Music} and represents either a {\tt Pitch}, a {\tt Rest} or a {\tt Chord}. It defines a method
+\smallskip
+\noindent {\tt MusicSymbol} is  interface defines the  method
 \begin{itemize} 
 \item { \tt addNote} which takes an instance of  {\tt MusicPlayer} and a lyric corresponding to the current symbol and modifies the player by adding notes and lyric to it. 
 \end{itemize}
@@ -137,12 +158,17 @@ Following is the diagram which underlies our abstract datatypes.
 \item {\tt Chord} represents a chord of several pitches and stores them in the {\tt List<Pitch>} attribute.
 \end{itemize}
 
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
 These three basic music symbols let us implement any "musical expression" defined in the 6.005 subset. Any other structures like tuplets, triplets, repeats, etc. are converted to these basic music symbols during the ParseTree walk.  
 
 We also use an immutable class {\tt Signature} inside MusicPiece that has all header information stored in its attributes and a mutable class {\tt Lyric} which represents a list of lyrics used for each measure.
 
-\bigskip
-Another important class is a mutable {\tt MusicPlayer} which has two attributes 
+
+\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+
+\medskip
+Another important class is a mutable {\tt MusicPlayer} which has three attributes 
 \begin{itemize} 
 \item { \tt player} that represents an instance of the {\tt SequencePlayer}. It collects the notes and lyrics of the song.
 \item { \tt ticksPerBeat} which represents the number of ticks per beat in the {\tt player}
@@ -150,15 +176,16 @@ Another important class is a mutable {\tt MusicPlayer} which has two attributes
 \end{itemize}
 It has the following methods:
 \begin{itemize} 
-\item { \tt addNote (int note,Faction length)} that takes a converted Midi note and inserts it in the {\tt player} at the {\tt currentTick} position.
+\item { \tt addNote (int note,Faction length)} that takes a converted Midi note and inserts it in the {\tt player} at the {\tt currentTick} position, moving the pointer to the tick the note finishes at.
 \item { \tt addLyric (String Lyric)} that takes a syllable and adds it to the {\tt LyricListener} at the {\tt currentTicks} position.
-\item { \tt addTime Fraction length)} increases the {\tt currentTick} by the length of the note.
+\item { \tt addTime (Fraction length)} increases the {\tt currentTick} by the length of the note.
 \item { \tt resetTime() } resets the {\tt currentTicks} to 0. This is used when starting a new voice.
-\item { \tt play() } plays the notes and lyrics added.
+\item { \tt play() } plays the notes and lyrics added by calling {\tt SequencePlayer}'s {\tt play} method. 
 \end{itemize}
 
+\medskip
 
-\centerline{{\large \bf Parsing }}
+\noindent {\large \bf Parsing }
 
 \begin{itemize}
 \item {\bf Lexer}: The lexer is designed such that all of the header lines (ie. title, composer, etc) are each lexed as one token, as are all lyric and comment lines. Notes are lexed together with their modifiers (accidentals, octaves, duration) as one token. Duplet, triplet, and quadruplet parenthesis and digits are lexed as a single token (apart from their notes). Chord brackets are lexed separately from their notes. Pipes, repeats, and end of measure symbols are lexed as their own tokens. All whitespace except for newlines (/n/r) is skipped.
