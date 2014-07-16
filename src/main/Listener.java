@@ -272,7 +272,7 @@ public class Listener extends ABCMusicBaseListener {
         // initialize scale
         scale = new Scales();
 
-        String[] lines = ctx.getText().split("\r\n");
+        String[] lines = ctx.getText().split(System.lineSeparator());
         String t = "";
         String c = "Unknown";
         Fraction m = new Fraction(4, 4);
